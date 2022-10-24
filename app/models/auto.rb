@@ -1,0 +1,3 @@
+class Auto < ApplicationRecord
+
+end
