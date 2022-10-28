@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   resources :autos
   resources :mapas
+  resources :usuarios
 
   root "mapas#show"
 end
