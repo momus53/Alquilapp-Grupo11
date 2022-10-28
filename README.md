@@ -1,7 +1,10 @@
 # Alquilapp-Grupo11
 
 Si estas leyendo esto sos del grupo 11 jeje
- Soy del 11 creo
+ Somos 11, somos Legion. VIVA 11 !!
+
+tuto - insertar imagenes Ruby :
+https://guias.makeitreal.camp/ruby-on-rails-i/carga-de-imagenes
 
 COLOR PRINCIPAL: #FEBD59
 https://color.adobe.com/es/create/color-wheel
