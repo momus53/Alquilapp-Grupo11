@@ -10,12 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_10_24_212325) do
+ActiveRecord::Schema[7.0].define(version: 2022_10_28_212931) do
   create_table "autos", force: :cascade do |t|
     t.integer "nroA"
     t.string "color"
     t.string "patente"
     t.boolean "en_uso"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "usuarios", force: :cascade do |t|
+    t.string "nombre"
+    t.string "apellido"
+    t.string "nivel"
+    t.float "monto_actual"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

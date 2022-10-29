@@ -1,0 +1,3 @@
+class Viaje < ApplicationRecord
+
+end

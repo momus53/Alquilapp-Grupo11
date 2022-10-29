@@ -1,0 +1,2 @@
+class InformesController < ApplicationController
+end
