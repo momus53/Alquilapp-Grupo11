@@ -1,5 +1,7 @@
 # Alquilapp-Grupo11
 
+Efectivamente era del 11
+
 Si estas leyendo esto sos del grupo 11 jeje
  Somos 11, somos Legion. VIVA 11 !!
 
