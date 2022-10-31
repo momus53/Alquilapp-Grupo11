@@ -111,12 +111,13 @@
                 <div class="w-100"></div>
                 <div class="col">En uso:</div>
                 <div class="col"><%= vehiculo.en_uso %></div>
+                <img src="https://www.mitsubishi-motors.com.pe/blog/wp-content/uploads/2019/08/mitsubishi-motors-beneficios-tener-auto-propio.jpg" alt="...">
               </div>
             </div>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#escanearQR">Escanear QR</button>
           </div>
         </div>
       </div>
@@ -124,6 +125,40 @@
   </div>
   <%end%>
 <!-- -->
+
+<!-- Modal EscanearQR -->
+  <div class="modal fade" id="escanearQR" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <video autoplay="true" id="prev" class="p-1 border" style="width:100%;"></video>
+          <script>
+            let video = document.querySelector("#prev");
+
+            if(navigator.mediaDevices.getUserMedia){
+              navigator.mediaDevices.getUserMedia({video: true})
+                .then(function(stream){
+                video.srcObject = stream;
+                }) 
+              .catch(function(error){
+                console.log("algo salio mal");
+              })
+            }else{
+              console.log("getUserMEdia");
+            }
+          </script>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
 <!-- Modal 3  test iterativo 
   <% @autos.each do |vehiculo| %>
