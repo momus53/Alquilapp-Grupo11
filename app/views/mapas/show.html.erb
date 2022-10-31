@@ -117,7 +117,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#escanearQR">Escanear QR</button>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#escanearQR" onclick="iniciarVideo()">Escanear QR</button>
           </div>
         </div>
       </div>
@@ -136,67 +136,42 @@
         </div>
         <div class="modal-body">
           <video autoplay="true" id="prev" class="p-1 border" style="width:100%;"></video>
-          <script>
-            let video = document.querySelector("#prev");
-
-            if(navigator.mediaDevices.getUserMedia){
-              navigator.mediaDevices.getUserMedia({video: true})
-                .then(function(stream){
-                video.srcObject = stream;
-                }) 
-              .catch(function(error){
-                console.log("algo salio mal");
-              })
-            }else{
-              console.log("getUserMEdia");
-            }
-          </script>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+          <button type="button" class="btn btn-primary" onclick="leerQR()">Leer QR</button>
         </div>
       </div>
     </div>
   </div>
 
-<!-- Modal 3  test iterativo 
-  <% @autos.each do |vehiculo| %>
-    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal2">
-      Soy MODAL3 <%=  vehiculo.nroA %> ITERA
-    </button>
 
-    <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h1 class="modal-title fs-5" id="exampleModalLabel">Soy <%=  vehiculo.nroA %></h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            Soy <%=  vehiculo.id %></div>
-            <div class="container">
-              <div class="row">
-                <div class="col">Numero:</div>
-                <div class="col"><%=  vehiculo.nroA %></div>
-                <div class="w-100"></div>
-                <div class="col">Color:</div>
-                <div class="col"><%=  vehiculo.color  %></div>
-                <div class="w-100"></div>
-                <div class="col">Patente:</div>
-                <div class="col"><%=  vehiculo.patente  %></div>
-                <div class="w-100"></div>
-                <div class="col">En uso:</div>
-                <div class="col"><%=  vehiculo.en_uso %></div>
-              </div>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  <%end%>
-  -->
+  <script src="https://raw.githubusercontent.com/cozmo/jsQR/master/dist/jsQR.js"> </script>
+  <script>
+    function leerQR() {
+      console.log("AAAAAAAAAA")
+      const code = jsQR(video.data, video.width, video.height);
+      if (code) {
+        console.log("Found QR code", code);
+      }
+    }
+  </script>
+
+  <script>
+    function iniciarVideo() {
+      
+      let video = document.querySelector("#prev");
+
+      if(navigator.mediaDevices.getUserMedia){
+      navigator.mediaDevices.getUserMedia({video: true})
+        .then(function(stream){
+        video.srcObject = stream;
+        }) 
+        .catch(function(error){
+        console.log("algo salio mal");
+        })
+      }else{
+      console.log("getUserMEdia");
+      }
+    }
+  </script>
