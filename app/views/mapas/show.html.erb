@@ -85,11 +85,11 @@
 <!-- MODAL 2 -->
   <% @autos.each do |vehiculo| %>
   <div>
-    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal2">
+    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#t<%=vehiculo.id.to_s%>">
       Quien soy? MODAL2 <%=  vehiculo.nroA %> ITERA
     </button>
 
-    <div class="modal fade" id="<%vehiculo.id.to_s%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="t<%=vehiculo.id.to_s%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
