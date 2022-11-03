@@ -1,7 +1,7 @@
 <br>
 <br>
 <br>
-
+<%= javascript_include_tag "jsQR.js", "data-turbolinks-track" => true  %>
 <!-- ESTO ES EL BOTON DE NAVEGADOR Y LA BURGER -->
   <nav class="navbar navbar-dark bg-dark fixed-top">
     <div class="container-fluid">
@@ -128,50 +128,87 @@
 
 <!-- Modal EscanearQR -->
   <div class="modal fade" id="escanearQR" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-dialog-centered ">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div class="modal-body">
-          <video autoplay="true" id="prev" class="p-1 border" style="width:100%;"></video>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-          <button type="button" class="btn btn-primary" onclick="leerQR()">Leer QR</button>
+        <div class="modal-body" style="padding: 0">
+          <div id="loadingMessage" hidden="">⌛ Loading video...</div>
+          <canvas id="canvas" class="p-1 border" style="width:100%"></canvas>
+          <div id="output">
+            <div id="outputMessage">No QR code detected.</div>
+              <div hidden=""><b>Data:</b> <span id="outputData"></span></div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 
 
-  <script src="https://raw.githubusercontent.com/cozmo/jsQR/master/dist/jsQR.js"> </script>
-  <script>
-    function leerQR() {
-      console.log("AAAAAAAAAA")
-      const code = jsQR(video.data, video.width, video.height);
-      if (code) {
-        console.log("Found QR code", code);
-      }
+
+
+<script>
+    var video = document.createElement("video");
+    var canvasElement = document.getElementById("canvas");
+    var canvas = canvasElement.getContext("2d");
+    var loadingMessage = document.getElementById("loadingMessage");
+    var outputContainer = document.getElementById("output");
+    var outputMessage = document.getElementById("outputMessage");
+    var outputData = document.getElementById("outputData");
+
+    function drawLine(begin, end, color) {
+      canvas.beginPath();
+      canvas.moveTo(begin.x, begin.y);
+      canvas.lineTo(end.x, end.y);
+      canvas.lineWidth = 4;
+      canvas.strokeStyle = color;
+      canvas.stroke();
     }
-  </script>
 
-  <script>
-    function iniciarVideo() {
-      
-      let video = document.querySelector("#prev");
+    function iniciarVideo(){
+    // Use facingMode: environment to attemt to get the front camera on phones
+    navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } }).then(function(stream) {
+      video.srcObject = stream;
+      video.setAttribute("playsinline", true); // required to tell iOS safari we don't want fullscreen
+      video.play();
+      requestAnimationFrame(tick);
+    });
+    }
 
-      if(navigator.mediaDevices.getUserMedia){
-      navigator.mediaDevices.getUserMedia({video: true})
-        .then(function(stream){
-        video.srcObject = stream;
-        }) 
-        .catch(function(error){
-        console.log("algo salio mal");
-        })
+    function tick() {
+      loadingMessage.innerText = "⌛ Loading video..."
+      if (video.readyState === video.HAVE_ENOUGH_DATA) {
+        loadingMessage.hidden = true;
+        canvasElement.hidden = false;
+        outputContainer.hidden = false;
+
+        canvasElement.height = video.videoHeight;
+        canvasElement.width = video.videoWidth;
+        canvas.drawImage(video, 0, 0, canvasElement.width, canvasElement.height);
+        var imageData = canvas.getImageData(0, 0, canvasElement.width, canvasElement.height);
+        var code = jsQR(imageData.data, imageData.width, imageData.height, {
+          inversionAttempts: "dontInvert",
+        });
+        if (code) {
+          drawLine(code.location.topLeftCorner, code.location.topRightCorner, "#FF3B58");
+          drawLine(code.location.topRightCorner, code.location.bottomRightCorner, "#FF3B58");
+          drawLine(code.location.bottomRightCorner, code.location.bottomLeftCorner, "#FF3B58");
+          drawLine(code.location.bottomLeftCorner, code.location.topLeftCorner, "#FF3B58");
+          outputMessage.hidden = true;
+          outputData.parentElement.hidden = false;
+          outputData.innerText = code.data;
+          console.log("reconozco!");
+          location.href = code.data;
+        } else {
+          outputMessage.hidden = false;
+          outputData.parentElement.hidden = true;
+        }
+      }
+      if (code) {
+        console.log("ya lei")
       }else{
-      console.log("getUserMEdia");
+        requestAnimationFrame(tick);
       }
     }
   </script>
