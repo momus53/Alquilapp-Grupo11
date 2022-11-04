@@ -1,0 +1,3 @@
+class Mapa < ApplicationRecord
+
+end

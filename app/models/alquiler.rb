@@ -1,0 +1,3 @@
+class Alquiler < ApplicationRecord
+
+end

@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   resources :autos
   resources :mapas
   resources :usuarios
+  resources :alquilers
 
   root "mapas#show"
 end
