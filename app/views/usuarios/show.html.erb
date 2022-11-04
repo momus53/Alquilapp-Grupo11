@@ -45,14 +45,15 @@
                     <form class="row g-3 needs-validation" novalidate>
                         <div class="col-md-4">
                             <label for="validationCustom01" class="form-label">Nùmero de tarjeta</label>
-                            <input type="number" min="1000000000000000" max="9999999999999999" class="form-control" id="validationCustom01" required>
+                            <input type="text" pattern="[0-9]{15,16}" class="form-control" id="validationCustom01" required>
                             <div class="invalid-feedback">
                                 Ingrese un numero de tarjeta valido.
                             </div>
                         </div>
                         <div class="col-md-4">
                             <label for="validationCustom02" class="form-label">Fecha de vto.</label>
-                            <input type="month" class="form-control" id="validationCustom02" required>
+                            <%time = Time.new%>
+                            <input type="month" min=<%=time.strftime("%Y-%m")%> class="form-control" id="validationCustom02" required>
                             <div class="invalid-feedback">
                                 Ingrese una fecha de vencimiento valida.
                             </div>
@@ -60,7 +61,7 @@
                     <div class="col-md-4">
                         <label for="validationCustomUsername" class="form-label">CVV</label>
                         <div class="input-group has-validation">
-                            <input type="number" min="0" max="999" class="form-control" id="validationCustomUsername" aria-describedby="inputGroupPrepend" required>
+                            <input type="text" pattern="[0-9]{3,4}" placeholder="123" class="form-control" id="validationCustomUsername" aria-describedby="inputGroupPrepend" required>
                             <div class="invalid-feedback">
                                 Ingrese el codigo de seguridad de su tarjeta.
                             </div>
