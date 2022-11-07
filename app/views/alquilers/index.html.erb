@@ -1,0 +1,172 @@
+<%= javascript_include_tag "jsQR.js", "data-turbolinks-track" => true  %>
+
+<!--ALERTA PARA CUANDO EL QR ES INVALIDO-->
+<div id="alertaQR" hidden="" class="container text-center">
+  <div class="alert alert-danger row p-2 " role="alert">
+    <div class="col-10">
+      <strong>ERROR!</strong> el QR que estas intentando leer no es uno de los nuestros!
+    </div>
+    <div class="col">
+      <button type="button" class="btn-close" aria-label="Close" onclick=ocultarAlerta()></button>
+    </div>
+  </div>
+</div>
+
+<div class="centrarReloj">
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col"><span id="minutos" class="display-1 "></span></div>
+
+        </div>
+        <div class="row d-flex justify-content-center">
+            <p class="display-6">min | seg</p>
+        </div>
+        <div class="row p-4 d-flex justify-content-center">
+            <button type="button" class="btn btn-danger btn-lg" data-bs-toggle="modal" data-bs-target="#instrucciones">Terminar alquiler</button>
+        </div>
+    </div>
+</div>
+
+
+<!--Modal de escanear QR -->
+    <div class="modal fade" id="instrucciones" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row p-2"><h4>Procura apagar el motor del auto antes de bajarte y cerrar las puertas.<h4></div>
+                    <div class="row p-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor" class="bi bi-cone-striped" viewBox="0 0 16 16">
+                        <path d="m9.97 4.88.953 3.811C10.159 8.878 9.14 9 8 9c-1.14 0-2.158-.122-2.923-.309L6.03 4.88C6.635 4.957 7.3 5 8 5s1.365-.043 1.97-.12zm-.245-.978L8.97.88C8.718-.13 7.282-.13 7.03.88L6.275 3.9C6.8 3.965 7.382 4 8 4c.618 0 1.2-.036 1.725-.098zm4.396 8.613a.5.5 0 0 1 .037.96l-6 2a.5.5 0 0 1-.316 0l-6-2a.5.5 0 0 1 .037-.96l2.391-.598.565-2.257c.862.212 1.964.339 3.165.339s2.303-.127 3.165-.339l.565 2.257 2.391.598z"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="row m-3 modal-footer justify-content-center">
+                    <button class="btn btn-primary" data-bs-target="#escanearQR" data-bs-toggle="modal" onclick="finalizarAlquiler()">Listo</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="escanearQR" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered ">
+        <div class="modal-content">
+            <div class="modal-header"><h2 class="m-0">Escanea el QR del auto</h2>
+            <button id="modal_QR" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" style="padding: 0">
+            <div id="loadingMessage" hidden="">⌛ Loading video...</div>
+            <canvas id="canvas" class="p-1 border" style="width:100%"></canvas>
+            <div id="output">
+                <div id="outputMessage">No QR code detected.</div>
+                <div hidden=""><b>Data:</b> <span id="outputData"></span></div>
+            </div>
+            </div>
+        </div>
+        </div>
+    </div>
+<!--QR -->
+    <script>
+        var video = document.createElement("video");
+        var canvasElement = document.getElementById("canvas");
+        var canvas = canvasElement.getContext("2d");
+        var loadingMessage = document.getElementById("loadingMessage");
+        var outputContainer = document.getElementById("output");
+        var outputMessage = document.getElementById("outputMessage");
+        var outputData = document.getElementById("outputData");
+        var check_num = false;
+
+    function finalizarAlquiler(){
+            //checkeo de mierdas
+            iniciarVideo();
+    }
+
+        function ocultarAlerta(){
+        alertaQR.hidden = true;
+        }
+
+        function drawLine(begin, end, color) {
+        canvas.beginPath();
+        canvas.moveTo(begin.x, begin.y);
+        canvas.lineTo(end.x, end.y);
+        canvas.lineWidth = 4;
+        canvas.strokeStyle = color;
+        canvas.stroke();
+        }
+
+        function iniciarVideo(){
+        // Use facingMode: environment to attemt to get the front camera on phones
+        navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } }).then(function(stream) {
+        video.srcObject = stream;
+        video.setAttribute("playsinline", true); // required to tell iOS safari we don't want fullscreen
+        video.play();
+        requestAnimationFrame(tick);
+        });
+        }
+
+        function tick() {
+        loadingMessage.innerText = "⌛ Loading video..."
+        if (video.readyState === video.HAVE_ENOUGH_DATA) {
+            loadingMessage.hidden = true;
+            canvasElement.hidden = false;
+            outputContainer.hidden = false;
+
+            canvasElement.height = video.videoHeight;
+            canvasElement.width = video.videoWidth;
+            canvas.drawImage(video, 0, 0, canvasElement.width, canvasElement.height);
+            var imageData = canvas.getImageData(0, 0, canvasElement.width, canvasElement.height);
+            var code = jsQR(imageData.data, imageData.width, imageData.height, {
+            inversionAttempts: "dontInvert",
+            });
+            if (code) {
+            drawLine(code.location.topLeftCorner, code.location.topRightCorner, "#FF3B58");
+            drawLine(code.location.topRightCorner, code.location.bottomRightCorner, "#FF3B58");
+            drawLine(code.location.bottomRightCorner, code.location.bottomLeftCorner, "#FF3B58");
+            drawLine(code.location.bottomLeftCorner, code.location.topLeftCorner, "#FF3B58");
+            outputMessage.hidden = true;
+            outputData.parentElement.hidden = false;
+            outputData.innerText = code.data;
+            console.log("reconozco!");
+
+            <% @autos.each do |vehiculo| %>
+                if(code.data === "Numero_De_Auto:<%=vehiculo.nroA.to_s%>"){
+                    check_num = true;
+                    location.href = "/"
+                }  
+            <%end%>
+            if(!check_num){
+                alertaQR.hidden = false;
+            }
+            } else {
+            outputMessage.hidden = false;
+            outputData.parentElement.hidden = true;
+            }
+        }
+        if (code) {
+            console.log("ya lei")
+        }else{
+            requestAnimationFrame(tick);
+        }
+        }
+    </script>
+<!--TIMER-->
+    <script>
+    const tiempoInicial = 60;
+    let tiempo = tiempoInicial * 60;
+    const countDowmEl = document.getElementById("minutos");
+
+    setInterval(updateCountDown, 1000);
+
+    function updateCountDown(){
+        const minutos = Math.floor(tiempo/60);
+        let segundos = tiempo % 60;
+
+        segundos = segundos < 10 ? "0" + segundos : segundos;
+
+        countDowmEl.innerHTML = `${minutos}:${segundos}`;
+        tiempo--;
+    }
+
+    </script>
