@@ -1,12 +1,29 @@
 <h1>VENTANA ALQUILER</h1>
 
-<label for="customRange3" class="form-label">Eliga la cantidad de tiempo que desea alquilar este vehiculo:</label>
-<input id="barra" type="range" class="form-range" min="1" max="300" step="15" id="customRange3">
 <h2 id="valorR"></h2>
+<label for="customRange3" class="form-label">Eliga la cantidad de tiempo que desea alquilar este vehiculo:</label>
+<input id="barra" type="range" class="form-range" value="8" min="1" max="96" oninput="slider()">
+<output> Desliza y actualiza cantidad de </output> HS
 
+<div class="row p-2">
+    <div class="col card text-bg-dark mb-1 text-center"> 
+        <div class="card-body mb-3">
+            <h1 id="muestraPrecio" style="margin-bottom: 0"> $ARS= 0</h1>
+        </div>
+    </div>
+</div>
+<a class="btn btn-danger btn-lg" href="/"> Volver</a>
+<button type="button" class="btn btn-primary" onclick="contratar()">CONTRATAR</button>
 
 <script>
     let params = new URLSearchParams(document.location.search);
     let auto = params.get("auto"); 
-    valorR.innerText=auto;
+    valorR.innerText="El vehiculo a alquilar es el N°" + auto;
+    function slider() {
+        barra.nextElementSibling.value = (barra.value/4)
+        muestraPrecio.innerText="$ARS= "+ ((barra.value/4)*700+800)
+    }
+    function contratar(){
+        console.log("Anda pana")
+    }
 </script>
