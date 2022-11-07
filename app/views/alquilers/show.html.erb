@@ -6,5 +6,7 @@
 
 
 <script>
-    valorR.innerText=barra.value
+    let params = new URLSearchParams(document.location.search);
+    let auto = params.get("auto"); 
+    valorR.innerText=auto;
 </script>

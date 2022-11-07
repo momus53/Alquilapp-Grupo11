@@ -33,71 +33,34 @@
   </nav>
 <br>
 
-<!-- MODALES DE LOS AUTOS -->
-
-<!-- MODAL 1 -->
-
-  <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal1">
-    auto 1
-  </button>
-
-  <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          Esto dependeria del auto que toque
-          <!-- Esto deberia hacerce por cada uno imagino un for each de autos -->
-          <!-- Porque no se sino como mostrar alguno si y otro no -->
-          <table class="table table-bordered table-striped">
-            <thead>
-                <tr class="btn-primary">
-                <th>Nro</th>
-                <th>Color</th>
-                <th>Patente</th>
-                <th>Modelo</th>
-              </tr>
-            </thead>
-            <tbody>
-                <tr>
-                <td> Aca va nro auto? </td>
-                <td> Rojo obvio </td>
-                <td> AA000AA </td>
-                <td>Golcito turbo</td>
-                </tr>
-              </tbody>
-          </table>
-
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
-        </div>
-      </div>
+<div id="alertaQR" hidden="" class="container text-center">
+  <div class="alert alert-danger row p-2 " role="alert">
+    <div class="col-10">
+      <strong>ERROR!</strong> el QR que estas intentando leer no es uno de los nuestros!
+    </div>
+    <div class="col">
+      <button type="button" class="btn-close" aria-label="Close" onclick=ocultarAlerta()></button>
     </div>
   </div>
+</div>
 
-<!-- -->
+<!-- MODALES DE LOS AUTOS -->
 
-<!-- MODAL 2 -->
+<!-- MODAL DEFINITIVO -->
   <% @autos.each do |vehiculo| %>
   <div>
     <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#t<%=vehiculo.id.to_s%>">
-      Quien soy? MODAL2 <%=  vehiculo.nroA %> ITERA
+      AUTO: <%=vehiculo.nroA %>
     </button>
 
     <div class="modal fade" id="t<%=vehiculo.id.to_s%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
-            <h1 class="modal-title fs-5" id="exampleModalLabel">Auto 2</h1>
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Informacion detallada</h1>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            El auto es <%=  vehiculo.nroA %>
             <div class="container">
               <div class="row">
                 <div class="col">Numero:</div>
@@ -116,7 +79,7 @@
             </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Volver</button>
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#escanearQR" onclick="iniciarVideo()">Escanear QR</button>
           </div>
         </div>
@@ -131,7 +94,7 @@
     <div class="modal-dialog modal-dialog-centered ">
       <div class="modal-content">
         <div class="modal-header">
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <button id="modal_QR" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body" style="padding: 0">
           <div id="loadingMessage" hidden="">⌛ Loading video...</div>
@@ -156,6 +119,12 @@
     var outputContainer = document.getElementById("output");
     var outputMessage = document.getElementById("outputMessage");
     var outputData = document.getElementById("outputData");
+    var check_num = false;
+
+
+    function ocultarAlerta(){
+      alertaQR.hidden = true;
+    }
 
     function drawLine(begin, end, color) {
       canvas.beginPath();
@@ -199,7 +168,18 @@
           outputData.parentElement.hidden = false;
           outputData.innerText = code.data;
           console.log("reconozco!");
-          location.href = code.data;
+
+          <% @autos.each do |vehiculo| %>
+            if(code.data === "Numero_De_Auto:<%=vehiculo.nroA.to_s%>"){
+                check_num = true;
+                let url = new URL(location.href+"alquilers/show");
+                url.searchParams.set("auto",<%=vehiculo.nroA.to_s%>);
+                location.href = url
+            }  
+          <%end%>
+          if(!check_num){
+            alertaQR.hidden = false;
+          }
         } else {
           outputMessage.hidden = false;
           outputData.parentElement.hidden = true;
