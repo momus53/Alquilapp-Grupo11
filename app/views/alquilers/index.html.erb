@@ -14,12 +14,18 @@
 
 <div class="centrarReloj">
     <div class="container-fluid">
-        <div class="row justify-content-center">
-            <div class="col"><span id="minutos" class="display-1 "></span></div>
-
+        <div class="row justify-content-center m-4">
+            <span class="display-4">Tiempo restante de alquiler:</span>
         </div>
-        <div class="row d-flex justify-content-center">
-            <p class="display-6">min | seg</p>
+        <div class="card text-bg-warning">
+            <div class="card-body">
+                <div class="row justify-content-center">
+                    <div class="col"><span id="minutos" class="display-1 ">00:00</span></div>
+                </div>
+                <div class="row d-flex justify-content-center">
+                    <p class="display-6">min | seg</p>
+                </div>
+            </div>
         </div>
         <div class="row p-4 d-flex justify-content-center">
             <button type="button" class="btn btn-danger btn-lg" data-bs-toggle="modal" data-bs-target="#instrucciones">Terminar alquiler</button>
