@@ -15,9 +15,9 @@
 <div class="centrarReloj">
     <div class="container-fluid">
         <div class="row justify-content-center m-4">
-            <span class="display-4">Tiempo restante de alquiler:</span>
+            <span id="textoTiempo" class="display-4">Tiempo restante de alquiler:</span>
         </div>
-        <div class="card text-bg-warning">
+        <div id="cartaTiempo" class="card text-bg-warning">
             <div class="card-body">
                 <div class="row justify-content-center">
                     <div class="col"><span id="minutos" class="display-1 ">00:00</span></div>
@@ -159,9 +159,13 @@
     </script>
 <!--TIMER-->
     <script>
-    const tiempoInicial = 60;
+    const tiempoInicial = 1;
     let tiempo = tiempoInicial * 60;
+
+    const texto = document.getElementById("textoTiempo");
+    const carta = document.getElementById("cartaTiempo");
     const countDowmEl = document.getElementById("minutos");
+    let exedido = false;
 
     setInterval(updateCountDown, 1000);
 
@@ -170,9 +174,20 @@
         let segundos = tiempo % 60;
 
         segundos = segundos < 10 ? "0" + segundos : segundos;
-
         countDowmEl.innerHTML = `${minutos}:${segundos}`;
-        tiempo--;
-    }
 
+        if(tiempo >= 0 && !exedido){
+            tiempo--;
+        }
+
+        if(tiempo == -1){
+            texto.innerText = "Tiempo exedido:"
+            carta.className = "card text-bg-danger"
+            exedido = true;
+        }
+
+        if(exedido){
+            tiempo++;
+        }
+    }
     </script>
