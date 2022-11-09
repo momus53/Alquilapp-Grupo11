@@ -1,0 +1,42 @@
+<!-- MODAL DEFINITIVO -->
+  <% @informe.each do |i| %>
+  <div>
+    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#t<%=vehiculo.id.to_s%>">
+      AUTO: <%=vehiculo.nroA %>
+    </button>
+
+    <div class="modal fade" id="t<%=vehiculo.id.to_s%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Informacion detallada</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="container">
+              <div class="row">
+                <div class="col">Numero:</div>
+                <div class="col"><%=  vehiculo.nroA %></div>
+                <div class="w-100"></div>
+                <div class="col">Color:</div>
+                <div class="col"><%=  vehiculo.color  %></div>
+                <div class="w-100"></div>
+                <div class="col">Patente:</div>
+                <div class="col"><%=  vehiculo.patente  %></div>
+                <div class="w-100"></div>
+                <div class="col">En uso:</div>
+                <div class="col"><%= vehiculo.en_uso %></div>
+                <img src="https://www.mitsubishi-motors.com.pe/blog/wp-content/uploads/2019/08/mitsubishi-motors-beneficios-tener-auto-propio.jpg" alt="...">
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Volver</button>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#escanearQR" onclick="iniciarVideo()">Escanear QR</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <%end%>
+<!-- -->
