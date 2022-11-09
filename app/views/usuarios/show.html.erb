@@ -44,37 +44,37 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-                    <form class="row g-3 needs-validation" novalidate>
+                    <form id="formulario" class="row g-3 needs-validation" novalidate>
                         <div class="col-md-4">
-                            <label for="validationCustom01" class="form-label">Nùmero de tarjeta <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-credit-card" viewBox="0 0 16 16">
+                            <label for="ntarjeta" class="form-label">Nùmero de tarjeta <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-credit-card" viewBox="0 0 16 16">
                             <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v1h14V4a1 1 0 0 0-1-1H2zm13 4H1v5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V7z"/>
                             <path d="M2 10a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-1z"/>
                             </svg></label>
-                            <input type="text" pattern="[0-9]{15,16}" class="form-control" id="validationCustom01" required>
+                            <input type="text" pattern="[0-9]{15,16}" class="form-control" id="ntarjeta" required>
                             <div class="invalid-feedback">
                                 Ingrese un numero de tarjeta valido.
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <label for="validationCustom02" class="form-label">Fecha de vto.</label>
+                            <label for="vtoid" class="form-label">Fecha de vto.</label>
                             <%time = Time.new%>
-                            <input type="month" min=<%=time.strftime("%Y-%m")%> class="form-control" id="validationCustom02" required>
+                            <input type="month" min=<%=time.strftime("%Y-%m")%> class="form-control" id="vtoid" required>
                             <div class="invalid-feedback">
                                 Ingrese una fecha de vencimiento valida.
                             </div>
                         </div>
                     <div class="col-md-4">
-                        <label for="validationCustomUsername" class="form-label">CVV</label>
+                        <label for="cvvid" class="form-label">CVV</label>
                         <div class="input-group has-validation">
-                            <input type="text" pattern="[0-9]{3,4}" placeholder="123" class="form-control" id="validationCustomUsername" aria-describedby="inputGroupPrepend" required>
+                            <input type="text" pattern="[0-9]{3,4}" placeholder="123" class="form-control" id="cvvid" aria-describedby="inputGroupPrepend" required>
                             <div class="invalid-feedback">
                                 Ingrese el codigo de seguridad de su tarjeta.
                             </div>
                         </div>
                     </div>
                     <div class="col-md-3">
-                        <label for="validationCustom04" class="form-label">País</label>
-                        <select class="form-select" id="validationCustom04" required>
+                        <label for="paisid" class="form-label">País</label>
+                        <select class="form-select" id="paisid" required>
                             <option selected disabled value=""> . . . </option>
                             <option value="Afghanistan">Afghanistan</option>
                             <option value="Åland Islands">Åland Islands</option>
@@ -337,16 +337,16 @@
 
                     <div class="col-12">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="invalidCheck" required>
                             <label class="form-check-label" for="invalidCheck">
                             Acepto los terminos y condiciones
                             </label>
+                            <input class="form-check-input" type="checkbox" id="invalidCheck" required>
                             <div class="invalid-feedback">
                                 Debe aceptar los terminos antes de seguir.
                             </div>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-primary">Acreditar</button>
+                    <button type="submit" class="btn btn-primary" onclick="validarTransaccion()">Acreditar</button>
                     </form>
 
             <div class="container text-center p-2">
@@ -370,10 +370,55 @@
             event.preventDefault()
             event.stopPropagation()
             }
-    
             form.classList.add('was-validated')
         }, false)
         })
     })()
 </script>
 
+<script>
+
+    const nroT = document.getElementById("ntarjeta");
+    const cvv = document.getElementById("cvvid");
+    const pais = document.getElementById("paisid");
+    const monto = document.getElementById("monto");
+    const vto = document.getElementById("vtoid");
+    const terms = document.getElementById("invalidCheck");
+    
+
+    const f = document.getElementById("formulario");
+
+    function validarTransaccion(){
+        let lista=[];
+
+        if(nroT.value.length == 15 || nroT.value.length == 16 ){
+            lista.push(nroT.value);
+        }
+
+        if(cvv.value.length == 3 || cvv.value.length == 4 ){
+            lista.push(cvv.value);
+        }
+
+        if(pais.value != ""){
+            lista.push(pais.value);
+        }
+
+        if(monto.value >= 1){
+            lista.push(monto.value);
+        }
+
+        if(vto.value != ""){
+            lista.push(vto.value);
+        }
+        if(terms.checked){
+            lista.push(terms.checked);
+        }
+        if(lista.length == 6){
+            //checkeo que todo esto este bien y paso los datos a la API
+           console.log(lista);
+
+        }
+        
+
+    }
+</script>
