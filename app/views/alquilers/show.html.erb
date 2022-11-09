@@ -20,10 +20,45 @@
     let auto = params.get("auto"); 
     valorR.innerText="El vehiculo a alquilar es el N°" + auto;
     function slider() {
-        barra.nextElementSibling.value = (barra.value/4)
-        muestraPrecio.innerText="$ARS= "+ ((barra.value/4)*700+800)
+        barra.nextElementSibling.value = (barra.value/4);
+        muestraPrecio.innerText="$ARS= "+ ((barra.value/4)*50);
     }
-    function contratar(){
-        console.log("Anda pana")
+    function contratar(){  // Params (Nro auto, horas, usuario, valor)
+        let monto= <%= @usuarios.first().monto_actual %>;
+        let check=chequea(Number(auto), monto , (barra.value/4) ); // Num de error
+        switch (check){
+        case 0:
+            console.log("El auto no esta ocupado y hay saldo");
+            return true;
+            break;
+        case 1:
+            console.log("El auto esta en uso");
+            return false;
+            break;
+        case 2:
+            console.log("No hay saldo");        
+            return false;
+            break;
+        case 3:
+            console.log("Uso de auto reincidente");        
+            return false;
+            break;
+        default: 
+            console.log("chequea dio negativo o mas de 2 ni idea pa soy de boca");
+            return false;
+        }   
+    }
+    function chequea(numAuto,monto,horas){ // Devuelve 0 si todo ok
+        console.log(numAuto, auto);
+        if (<% @autos.find_by(nroA:%> auto <%).en_uso %>) { //@autos.find_by(nroA: numAuto).en_uso
+            return 1;
+         }
+        if ((monto) < (horas*50)){ // @precio.find("normal")
+            return 2;
+        }
+        if (false){
+            return 3; // Aca iria que uso el auto hace -3hs
+        }
+        return 0;
     }
 </script>
