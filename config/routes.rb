@@ -7,4 +7,7 @@ Rails.application.routes.draw do
   resources :alquilers
 
   root "mapas#show"
+#  root "informe#new"
+#  root "informe#show"
+#  root "informe#index"
 end
