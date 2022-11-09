@@ -3,4 +3,8 @@ class AlquilersController < ApplicationController
       @autos = Auto.all
       @usuarios = Usuario.all
     end
+
+    def index
+      @autos = Auto.all
+    end
   end

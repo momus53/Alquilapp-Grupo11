@@ -24,10 +24,12 @@
         <div class="col"><%= @usuario.nivel%></div>
     </div>
     <br>
-    <div class="row p-2">
-        <div class="col"> <a class="btn btn-danger" href="/"> Volver</a> </div>
+    <div class="row p-2 fixed-bottom">
         <div class="col"> 
-            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Ingresar Dinero</button>
+            <a class="btn btn-danger btn-lg" href="/"> Volver</a>
+        </div>
+        <div class="col"> 
+            <button type="button" class="btn btn-success btn-lg" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Cargar saldo</button>
         </div>
     </div>
 </div>
@@ -44,7 +46,10 @@
         <div class="modal-body">
                     <form class="row g-3 needs-validation" novalidate>
                         <div class="col-md-4">
-                            <label for="validationCustom01" class="form-label">Nùmero de tarjeta</label>
+                            <label for="validationCustom01" class="form-label">Nùmero de tarjeta <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-credit-card" viewBox="0 0 16 16">
+                            <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v1h14V4a1 1 0 0 0-1-1H2zm13 4H1v5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V7z"/>
+                            <path d="M2 10a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-1z"/>
+                            </svg></label>
                             <input type="text" pattern="[0-9]{15,16}" class="form-control" id="validationCustom01" required>
                             <div class="invalid-feedback">
                                 Ingrese un numero de tarjeta valido.
