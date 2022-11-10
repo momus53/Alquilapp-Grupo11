@@ -7,4 +7,6 @@ Rails.application.routes.draw do
   resources :alquilers
 
   root "mapas#show"
+ get '/informes', to: 'informes#index'	# muestra todos los informes
+ get '/informes/new', to: 'informes#new'	# crea un nuevo informe
 end

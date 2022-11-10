@@ -12,6 +12,8 @@ gem "hirb"
 #bootstrap
 gem 'bootstrap', '~> 5.2.2'
 
+gem 'httparty'
+
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem "sprockets-rails"
 
