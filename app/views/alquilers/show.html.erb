@@ -12,34 +12,51 @@
             </div>
         </div>
     </div>
-    <a class="btn btn-danger btn-lg" href="/"> Volver</a>
-    <button type="button" class="btn btn-primary" onclick="contratar()">CONTRATAR</button>
+    <div class="row">
+        <div class="col">
+            <button type="button" class="btn btn-primary" onclick="contratar()">Contratar</button>
+        </div>
+
+        <div class="col">
+            <a href="/informes/new" type="button" class="btn btn-warning">Informar</a>
+        </div>
+
+        <div class="col">
+            <a class="btn btn-danger" href="/"> Volver</a>
+        </div>
+    </div>
 </div>
+
 <script>
-    let params = new URLSearchParams(document.location.search);
-    let auto = params.get("auto"); 
-    valorR.innerText="El vehiculo a alquilar es el N°" + auto;
+    const params2 = new URLSearchParams(document.location.search);
+    let auto_in = params2.get("auto"); 
+    valorR.innerText="El vehiculo a alquilar es el N°" + auto_in;
+
     function slider() {
         barra.nextElementSibling.value = (barra.value/4);
         muestraPrecio.innerText="$ARS= "+ ((barra.value/4)*50);
     }
     function contratar(){  // Params (Nro auto, horas, usuario, valor)
         let monto= <%= @usuarios.first().monto_actual %>;
-        let check=chequea(Number(auto), monto , (barra.value/4) ); // Num de error
+        let check=chequea(Number(auto_in), monto , (barra.value/4) ); // Num de error
         switch (check){
-        case 0:
-            console.log("El auto no esta ocupado y hay saldo");
+        case 1:
+            console.log("El auto no esta ocupado y hay saldo "+location.host);
+            let url = new URL(window.location.origin + "/alquilers");
+            url.searchParams.set("auto",auto_in);
+            url.searchParams.set("mins",(barra.value/4)*60);
+            location.href = url
             return true;
             break;
-        case 1:
+        case 2:
             console.log("El auto esta en uso");
             return false;
             break;
-        case 2:
+        case 3:
             console.log("No hay saldo");        
             return false;
             break;
-        case 3:
+        case 4:
             console.log("Uso de auto reincidente");        
             return false;
             break;

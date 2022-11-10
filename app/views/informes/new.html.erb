@@ -68,7 +68,7 @@
 	     <button class="btn btn-primary" type="submit">Enviar Informe</button>
 	  </div>
 	  <div class="container text-center">
-	     <button type="button" class="btn btn-secondary" >Cancelar</button>
+	     <button type="button" class="btn btn-secondary" onclick="volver()">Cancelar</button>
 	  </div>
 </div>
 
@@ -90,6 +90,11 @@
         }, false)
         })
     })()
+
+	function volver(){
+		window.history.back(1);
+	}
+
 </script>
 
 

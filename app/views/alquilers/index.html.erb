@@ -4,7 +4,7 @@
 <div id="alertaQR" hidden="" class="container text-center">
   <div class="alert alert-danger row p-2 " role="alert">
     <div class="col-10">
-      <strong>ERROR!</strong> el QR que estas intentando leer no es uno de los nuestros!
+      <strong>ERROR!</strong> el QR que estas intentando leer es incorrecto!
     </div>
     <div class="col">
       <button type="button" class="btn-close" aria-label="Close" onclick=ocultarAlerta()></button>
@@ -35,7 +35,7 @@
 
 
 <!--Modal de escanear QR -->
-    <div class="modal fade" id="instrucciones" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+    <div class="modal fade" id="instrucciones" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
@@ -56,7 +56,7 @@
         </div>
     </div>
 
-    <div class="modal fade" id="escanearQR" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="escanearQR" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered ">
         <div class="modal-content">
             <div class="modal-header"><h2 class="m-0">Escanea el QR del auto</h2>
@@ -83,6 +83,10 @@
         var outputMessage = document.getElementById("outputMessage");
         var outputData = document.getElementById("outputData");
         var check_num = false;
+
+        let params = new URLSearchParams(document.location.search);
+        let auto_in = params.get("auto");
+        let mins_in = params.get("mins");
 
     function finalizarAlquiler(){
             //checkeo de mierdas
@@ -127,24 +131,22 @@
             inversionAttempts: "dontInvert",
             });
             if (code) {
-            drawLine(code.location.topLeftCorner, code.location.topRightCorner, "#FF3B58");
-            drawLine(code.location.topRightCorner, code.location.bottomRightCorner, "#FF3B58");
-            drawLine(code.location.bottomRightCorner, code.location.bottomLeftCorner, "#FF3B58");
-            drawLine(code.location.bottomLeftCorner, code.location.topLeftCorner, "#FF3B58");
-            outputMessage.hidden = true;
-            outputData.parentElement.hidden = false;
-            outputData.innerText = code.data;
-            console.log("reconozco!");
+                drawLine(code.location.topLeftCorner, code.location.topRightCorner, "#FF3B58");
+                drawLine(code.location.topRightCorner, code.location.bottomRightCorner, "#FF3B58");
+                drawLine(code.location.bottomRightCorner, code.location.bottomLeftCorner, "#FF3B58");
+                drawLine(code.location.bottomLeftCorner, code.location.topLeftCorner, "#FF3B58");
+                outputMessage.hidden = true;
+                outputData.parentElement.hidden = false;
+                outputData.innerText = code.data;
+                console.log("reconozco!");
 
-            <% @autos.each do |vehiculo| %>
-                if(code.data === "Numero_De_Auto:<%=vehiculo.nroA.to_s%>"){
+                if(code.data === "Numero_De_Auto:"+auto_in){
                     check_num = true;
                     location.href = "/"
                 }  
-            <%end%>
-            if(!check_num){
-                alertaQR.hidden = false;
-            }
+                if(!check_num){
+                    alertaQR.hidden = false;
+                }
             } else {
             outputMessage.hidden = false;
             outputData.parentElement.hidden = true;
@@ -160,7 +162,7 @@
     </script>
 <!--TIMER-->
     <script>
-    const tiempoInicial = 1;
+    const tiempoInicial = mins_in;
     let tiempo = tiempoInicial * 60;
 
     const texto = document.getElementById("textoTiempo");
