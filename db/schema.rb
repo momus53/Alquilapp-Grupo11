@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_11_09_142612) do
+ActiveRecord::Schema[7.0].define(version: 2022_11_10_040144) do
   create_table "autos", force: :cascade do |t|
     t.integer "nroA"
     t.string "color"
@@ -26,6 +26,16 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_09_142612) do
     t.string "piezas_involucradas"
     t.boolean "validado"
     t.datetime "fecha_validado"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "travels", force: :cascade do |t|
+    t.time "start"
+    t.time "ends"
+    t.time "exedido"
+    t.time "contratado"
+    t.time "multado"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
