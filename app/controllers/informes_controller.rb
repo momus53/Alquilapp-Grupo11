@@ -5,4 +5,5 @@ class InformesController < ApplicationController
     def new
         @informe = Informe.new
     end
+    
 end
