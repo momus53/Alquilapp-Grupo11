@@ -75,7 +75,7 @@
                 <div class="w-100"></div>
                 <div class="col">En uso:</div>
                 <div class="col"><%= vehiculo.en_uso %></div>
-                <img src="https://www.mitsubishi-motors.com.pe/blog/wp-content/uploads/2019/08/mitsubishi-motors-beneficios-tener-auto-propio.jpg" alt="...">
+                <div><%= image_tag("auto"+vehiculo.color.to_s+".jpeg",:height => "280", :width => "420") %> </div>
               </div>
             </div>
           </div>

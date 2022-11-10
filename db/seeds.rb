@@ -14,11 +14,11 @@ Informe.destroy_all
 #ActiveRecord::Base.connection.execute("ALTER SEQUENCE usuarios_id_seq RESTART with 1")
 
 auto1 = Auto.create(nroA: 1, color: "Rojo", patente: "NNN 666" , en_uso: true)
-auto2 = Auto.create(nroA: 3, color: "Verde", patente: "ALO 544" , en_uso: true)
+auto2 = Auto.create(nroA: 3, color: "Azul", patente: "ALO 544" , en_uso: true)
 auto3 = Auto.create(nroA: 4, color: "Rojo", patente: "ADW 112" , en_uso: false)
 auto4 = Auto.create(nroA: 2, color: "Azul", patente: "LO 487 FR" , en_uso: false)
 auto5 = Auto.create(nroA: 5, color: "Blanco", patente: "AS 065 QW" , en_uso: true)
-auto5 = Auto.create(nroA: 6, color: "plateado", patente: "RTM 8983AR" , en_uso: false)
+auto5 = Auto.create(nroA: 6, color: "Blanco", patente: "RTM 8983AR" , en_uso: false)
 
 user1 = Usuario.create(nombre: "Alan", apellido: "Pichot", monto_actual: 170.8, nivel: "Supervisor")
 user2 = Usuario.create(nombre: "Sandro", apellido: "Mareco", monto_actual: 1889.0, nivel: "Usuario")
@@ -31,5 +31,5 @@ inf2 = Informe.create(titulo: "espejito roto", descripcion: "el espejo derecho e
 inf3 = Informe.create(titulo: "le falta 1 espejo, puerta golpeada", descripcion: "tiene un golpe del lado del conductor, le falta el espejo izquierdo, y la puerta no cierra bien", piezas_involucradas: 2 , validado: true, fecha_validado: DateTime.new(2022, 11, 9, 22, 35, 0))
 inf4 = Informe.create(titulo: "golpe en el vidrio frontal", descripcion: "el vidrio frontal esta astillado, tiene un golpe", piezas_involucradas: 1 , validado: false)
 
-tra1= Travel.create(start: null, ends: null, exedido: null, contratado: null, multado: null)
+tra1= Travel.create()
 
