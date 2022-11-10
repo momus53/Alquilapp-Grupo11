@@ -75,21 +75,25 @@
                 <div class="w-100"></div>
                 <div class="col">En uso:</div>
                 <div class="col"><%= vehiculo.en_uso %></div>
-                <img src="https://www.mitsubishi-motors.com.pe/blog/wp-content/uploads/2019/08/mitsubishi-motors-beneficios-tener-auto-propio.jpg" alt="...">
+                <div><%= image_tag("auto"+vehiculo.color.to_s+".jpeg",:height => "280", :width => "420") %> </div>
               </div>
             </div>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Volver</button>
-            <button id="<%=vehiculo.nroA %>" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#escanearQR" onclick="iniciarVideo()" disabled>Escanear QR</button>
+            <% if (vehiculo.en_uso) %>
+            <button type="button" disabled class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#escanearQR" onclick="iniciarVideo()">Escanear QR</button>
+            <% else %>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#escanearQR" onclick="iniciarVideo()">Escanear QR</button>
+            <% end %>
           </div>
         </div>
       </div>
     </div>
   </div>
-  <%end%>
+<%end%>
+<button type="button" id="pieModal2" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#escanearQR" onclick="iniciarVideo()">Escanear QR</button>
 <!-- -->
-
 <!-- Modal EscanearQR -->
   <div class="modal fade" id="escanearQR" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered ">

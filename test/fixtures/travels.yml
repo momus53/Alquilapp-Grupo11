@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  start: 2022-11-10 01:01:44
+  ends: 2022-11-10 01:01:44
+  exedido: 2022-11-10 01:01:44
+  contratado: 2022-11-10 01:01:44
+  multado: 2022-11-10 01:01:44
+
+two:
+  start: 2022-11-10 01:01:44
+  ends: 2022-11-10 01:01:44
+  exedido: 2022-11-10 01:01:44
+  contratado: 2022-11-10 01:01:44
+  multado: 2022-11-10 01:01:44
