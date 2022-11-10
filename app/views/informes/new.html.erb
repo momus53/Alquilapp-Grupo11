@@ -1,48 +1,96 @@
 <! nuevo informe >
-
-	<!-- titulo del informe-->
-<div class="mb-3" >
-  <label for="formGroupExampleInput" class="form-label">titulo del informe</label>
-  <input type="text" class="form-control" id="formGroupExampleInput" placeholder="titulo corto y descriptivo de la situacion">
-</div>
-
-	<!-- area de texto-->
-<div class="mb-3">
-  <label for="formGroupExampleInput2" class="form-label">descripcion</label>
-  <textarea class="form-control" id="exampleFormControlTextarea1" rows="4" placeholder="descripcion en golpes, daños o detalles en el auto" ></textarea>
-</div>
-
-	<!-- imagen ejemplo piezas -->
-<%= image_tag("auto-partes.jpeg",:height => "280") %>
-
-	<!-- selector de piezas deslizable-->
-<div class="input-group mb-3">
-  <button class="btn btn-outline-secondary" type="button">Pieza n° :</button>
-  <select class="form-select" id="inputGroupSelect03" aria-label="Example select with button addon">
-		<option selected></option>
-		<% for j in 1..20 %>
-		<option value=<%= j %>> <%= j %> </option>
-		<% end %>
-	</select>
-</div>
-
-	<!-- checkbox terminos y condiciones  -->
-<div class="col-12" class="form-check">
-	<div class="mb-3 form-check">
-		<input type="checkbox" class="form-check-input" id="exampleCheck1">
-		<label class="form-check-label" for="invalidCheck">Acepto los terminos y condiciones</label>
-		<input class="form-check-input" type="checkbox" id="invalidCheck" required>
-                  <div class="invalid-feedback">
-                  Debe aceptar los terminos antes de seguir.
-                  </div>
+<div class="align-content-md-center"  >
+	
+		<!-- alterta  con boton de cerrar-->
+	<div class="alert alert-danger alert-dismissible fade show container-md mb-3" > 
+		<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="red" class="bi bi-exclamation-octagon" viewBox="0 0 16 16">
+		<path d="M4.54.146A.5.5 0 0 1 4.893 0h6.214a.5.5 0 0 1 .353.146l4.394 4.394a.5.5 0 0 1 .146.353v6.214a.5.5 0 0 1-.146.353l-4.394 4.394a.5.5 0 0 1-.353.146H4.893a.5.5 0 0 1-.353-.146L.146 11.46A.5.5 0 0 1 0 11.107V4.893a.5.5 0 0 1 .146-.353L4.54.146zM5.1 1 1 5.1v5.8L5.1 15h5.8l4.1-4.1V5.1L10.9 1H5.1z"/>
+		<path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
+		</svg>
+		<em>alerta: este informe se presume verdadero y con incumbencia al auto espesificado, de no ser asi se tomara las medidas necesarias</em>
+		<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 	</div>
+	
+			<!-- titulo del informe-->	
+	<form class="needs-validation row g-3" novalidate>
+		<div class="mb-3" >
+		  <h3 for="validationCustom01" class="validationTextarea text-md-center w-100 p-2 " >Titulo Del Informe</h3>
+		   <input type="text" class="form-control" id="validationTextarea" placeholder="titulo corto y descriptivo de la situacion" required>
+		</div>
+
+			<!-- area de texto-->
+		<div class="needs-validation mb-3" novalidate>
+		  <label for="validationCustom02" class="validationTextarea text-md-center w-100 p-2 " >Descripcion</label>
+		  <textarea class="form-control" id="validationCustom02 " rows="4" placeholder="descripcion en golpes, daños o detalles en el auto" required></textarea>
+		  <div class="invalid-feedback">Agregue Descripcion</div>
+		</div>
+
+			<!-- imagen ejemplo piezas -->
+		<img class="sticky-md-top  p-1">
+		<%= image_tag("auto-partes.jpeg",:height => "280",:width => "420") %>
+		</img>
+			<!-- selector de piezas deslizable-->
+		<div class="input-group mb-3">
+		  <button class="btn btn-outline-secondary" type="button" disabled >Pieza n° :</button>
+		  <select class="form-select" id="inputGroupSelect03" required aria-label="select example">
+				<option selected></option>
+				<% for j in 1..20 %>
+				<option value=<%= j %>> <%= j %> </option>
+				<% end %>
+		  </select>
+		  <div class="invalid-feedback">seleccione a que pieza se refiere el informe</div>
+		</div>
+		<!-- checkbox estoy deacuerdo con la politica de informes  -->
+		<div class="col-12" class="form-check">
+		<div class="mb-3 form-check">
+			<input class="form-check-input" type="checkbox" id="invalidCheck" required>
+			<label class="form-check-label" for="invalidCheck">Estoy de acuerdo con la politica de informes</label>
+		         <div class="invalid-feedback">
+		         Debe aceptar la politica de informes antes de seguir.
+		         </div>
+		</div>
+
+
+		<!-- checkbox terminos y condiciones  -->
+	<div class="col-12" >
+		<div class="form-check mb-3">
+			<input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
+			<label class="form-check-label" for="invalidCheck">Acepto los terminos y condiciones</label>
+		         <div class="invalid-feedback">
+		         Debe aceptar los terminos antes de seguir.
+		         </div>
+		</div>
+	</div>
+</form>
+
+		<!-- boton enviar informe  -->
+	  <div class="container text-center">
+	     <button class="btn btn-primary" type="submit">Enviar Informe</button>
+	  </div>
+	  <div class="container text-center">
+	     <button type="button" class="btn btn-secondary" >Cancelar</button>
+	  </div>
 </div>
 
-	<!-- boton enviar informe  -->
-  <div class="col-auto">
-    <button type="submit" class="btn btn-primary mb-3">Enviar Informe</button>
-  </div>
-
+<script>
+    (() => {
+        'use strict'
+    
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        const forms = document.querySelectorAll('.needs-validation')
+    
+        // Loop over them and prevent submission
+        Array.from(forms).forEach(form => {
+        form.addEventListener('submit', event => {
+            if (!form.checkValidity()) {
+            event.preventDefault()
+            event.stopPropagation()
+            }
+            form.classList.add('was-validated')
+        }, false)
+        })
+    })()
+</script>
 
 
 <!--  div>
