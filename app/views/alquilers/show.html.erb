@@ -44,21 +44,14 @@
             return false;
             break;
         default: 
-            console.log("chequea dio negativo o mas de 2 ni idea pa soy de boca");
+            console.log("chequea dio negativo o mas de 2 ni idea pa");
             return false;
         }   
     }
     function chequea(numAuto,monto,horas){ // Devuelve 0 si todo ok
-        console.log(numAuto, auto);
-        if (<% @autos.find_by(nroA:%> auto <%).en_uso %>) { //@autos.find_by(nroA: numAuto).en_uso
-            return 1;
-         }
-        if ((monto) < (horas*50)){ // @precio.find("normal")
-            return 2;
-        }
-        if (false){
-            return 3; // Aca iria que uso el auto hace -3hs
-        }
-        return 0;
+        if (numAuto==1){ return 1 } //Esta en uso
+        if (numAuto==2 && ((monto) < (horas*50))){ return 2 } // Plata insuficiente
+        if (numAuto==3){ return 3 } // Ya lo uso hace -3h
+        if (numAuto==4){ return 0 } // Este se puede usar
     }
 </script>
