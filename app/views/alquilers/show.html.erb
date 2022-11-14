@@ -34,13 +34,13 @@
 
     function slider() {
         barra.nextElementSibling.value = (barra.value/4);
-        muestraPrecio.innerText="$ARS= "+ ((barra.value/4)*50);
+        muestraPrecio.innerText="$ARS= "+ ((barra.value/4)*1250);
     }
     function contratar(){  // Params (Nro auto, horas, usuario, valor)
         let monto= <%= @usuarios.first().monto_actual %>;
         let check=chequea(Number(auto_in), monto , (barra.value/4) ); // Num de error
         switch (check){
-        case 1:
+        case 0:
             console.log("El auto no esta ocupado y hay saldo "+location.host);
             let url = new URL(window.location.origin + "/alquilers");
             url.searchParams.set("auto",auto_in);
@@ -48,26 +48,26 @@
             location.href = url
             return true;
             break;
+        case 1:
+            window.alert("El Auto esta en uso");
+            return false;
+            break;
         case 2:
-            console.log("El auto esta en uso");
+            window.alert("Saldo Insuficiente");        
             return false;
             break;
         case 3:
-            console.log("No hay saldo");        
-            return false;
-            break;
-        case 4:
-            console.log("Uso de auto reincidente");        
+            window.alert("No se puede utilizar el mismo auto en menos de 3hs");        
             return false;
             break;
         default: 
-            console.log("chequea dio negativo o mas de 2 ni idea pa");
+            window.alert("chequea dio negativo o mas de 2 ni idea pa");
             return false;
         }   
     }
     function chequea(numAuto,monto,horas){ // Devuelve 0 si todo ok
         if (numAuto==1){ return 1 } //Esta en uso
-        if (numAuto==2 && ((monto) < (horas*50))){ return 2 } // Plata insuficiente
+        if (numAuto==2 && ((monto) < (horas*1250))){ return 2 } // Plata insuficiente
         if (numAuto==3){ return 3 } // Ya lo uso hace -3h
         if (numAuto==4){ return 0 } // Este se puede usar
     }
