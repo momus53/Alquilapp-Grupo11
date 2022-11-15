@@ -14,7 +14,7 @@ Informe.destroy_all
 #ActiveRecord::Base.connection.execute("ALTER SEQUENCE usuarios_id_seq RESTART with 1")
 
 auto1 = Auto.create(nroA: 1, color: "Rojo", patente: "NNN 666" , en_uso: true)
-auto2 = Auto.create(nroA: 3, color: "Azul", patente: "ALO 544" , en_uso: true)
+auto2 = Auto.create(nroA: 3, color: "Azul", patente: "ALO 544" , en_uso: false)
 auto3 = Auto.create(nroA: 4, color: "Rojo", patente: "ADW 112" , en_uso: false)
 auto4 = Auto.create(nroA: 2, color: "Azul", patente: "LO 487 FR" , en_uso: false)
 auto5 = Auto.create(nroA: 5, color: "Blanco", patente: "AS 065 QW" , en_uso: true)
