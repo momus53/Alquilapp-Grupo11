@@ -1,13 +1,13 @@
 <! nuevo informe >
 <div class="align-content-md-center"  >
-	
+
 		<!-- alterta  con boton de cerrar-->
 	<div class="alert alert-danger alert-dismissible fade show container-md mb-3" > 
 		<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="red" class="bi bi-exclamation-octagon" viewBox="0 0 16 16">
 		<path d="M4.54.146A.5.5 0 0 1 4.893 0h6.214a.5.5 0 0 1 .353.146l4.394 4.394a.5.5 0 0 1 .146.353v6.214a.5.5 0 0 1-.146.353l-4.394 4.394a.5.5 0 0 1-.353.146H4.893a.5.5 0 0 1-.353-.146L.146 11.46A.5.5 0 0 1 0 11.107V4.893a.5.5 0 0 1 .146-.353L4.54.146zM5.1 1 1 5.1v5.8L5.1 15h5.8l4.1-4.1V5.1L10.9 1H5.1z"/>
 		<path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
 		</svg>
-		<em>alerta: este informe se presume verdadero y con incumbencia al auto espesificado con patente <b><%= @auto.patente %></b>, de no ser asi se tomara las medidas necesarias</em>
+		<em>alerta <b><%= $usuario.nombre %></b>: este informe se presume verdadero y con incumbencia al auto especificado con patente <b><%= $auto.patente %></b>, de no ser asi se tomara las medidas necesarias</em>
 		<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 	</div>
 
@@ -20,7 +20,7 @@
 	  <%= image_tag("auto-partes-1.jpeg", :height => "280",:width => "420") %>
 	  <%= image_tag("auto-partes-2.jpg",:height => "220",:width => "420") %>
   </div>
-  <%= f.select :piezas_involucradas, [["1 Capó", 1], ["2 Guardafango", 2],["3 Puerta Delantera", 3],["4 Parabrisas delantero", 4],["5 Silla delantera", 5],["6 Costado", 6],["7 Stop", 7],["8 Tapa baúl", 8],["9 Paragolpes trasero", 9],["10 Panel trasero", 10],["11 Parabrisas trasero", 11],["12 Capota", 12],["13 Consola central", 13],["14 Timón", 14],["15 Tablero de instrumentos", 15],["16 Espejo interior", 16],["17 Espejo exterior", 17],["18 Farola o unidad delantera", 18],["19 Luz antiniebla",19],["20 Paragolpes delantero", 20],["21 Vidrio puerta delantera", 21],["22 Vidrio puerta trasera", 22],["23 Puerta trasera", 23],["24 Vidrio costado", 24],["25 LLanta", 25],["26 Estribo", 26],["27 Rin", 27]], { label: "Selecione Pieza Involucrada", wrapper: { class: 'has-warning', data: { foo: 'bar' } } }, required: true%>
+  <%= f.select :parte_involucrada, [["1 Capó", 1], ["2 Guardafango", 2],["3 Puerta Delantera", 3],["4 Parabrisas delantero", 4],["5 Silla delantera", 5],["6 Costado", 6],["7 Stop", 7],["8 Tapa baúl", 8],["9 Paragolpes trasero", 9],["10 Panel trasero", 10],["11 Parabrisas trasero", 11],["12 Capota", 12],["13 Consola central", 13],["14 Timón", 14],["15 Tablero de instrumentos", 15],["16 Espejo interior", 16],["17 Espejo exterior", 17],["18 Farola o unidad delantera", 18],["19 Luz antiniebla",19],["20 Paragolpes delantero", 20],["21 Vidrio puerta delantera", 21],["22 Vidrio puerta trasera", 22],["23 Puerta trasera", 23],["24 Vidrio costado", 24],["25 LLanta", 25],["26 Estribo", 26],["27 Rin", 27]], { label: "Selecione Pieza Involucrada", wrapper: { class: 'has-warning', data: { foo: 'bar' } } }, required: true%>
 
 
 		<!-- checkbox terminos y condiciones  -->
@@ -31,8 +31,12 @@
 		         <div class="invalid-feedback">
 		         Debe aceptar los terminos antes de seguir.
 		         </div>
-		</div>	
+		</div>
+		
+		<!-- boton formulacio de crear informe  -->	
   <%= f.submit "Crear Informe", class: "btn btn-primary d-flex align-items-center flex-column" %>
+  			
+  			<!-- boton de cancelar operacion  -->
   	  <div class="container text-center p-4">
 	     <button type="button" class="btn btn-secondary" onclick="volver()">Cancelar</button>
 	  </div>

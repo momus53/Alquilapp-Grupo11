@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_11_10_040144) do
+ActiveRecord::Schema[7.0].define(version: 2022_11_17_145254) do
   create_table "autos", force: :cascade do |t|
     t.integer "nroA"
     t.string "color"
@@ -21,13 +21,17 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_10_040144) do
   end
 
   create_table "informes", force: :cascade do |t|
+    t.integer "auto_id"
+    t.integer "usuario_id"
     t.string "titulo"
-    t.string "descripcion"
-    t.string "piezas_involucradas"
-    t.boolean "validado"
+    t.text "descripcion"
+    t.integer "parte_involucrada"
+    t.boolean "validado", default: false
     t.datetime "fecha_validado"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["auto_id"], name: "index_informes_on_auto_id"
+    t.index ["usuario_id"], name: "index_informes_on_usuario_id"
   end
 
   create_table "travels", force: :cascade do |t|
@@ -49,4 +53,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_10_040144) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "informes", "autos"
+  add_foreign_key "informes", "usuarios"
 end

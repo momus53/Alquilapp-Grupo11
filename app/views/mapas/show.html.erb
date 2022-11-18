@@ -84,7 +84,7 @@
                     <%else%>
                       <div class="col" style="color: green">LIBRE</div>
                     <%end%>
-                    <div><%=image_tag("auto"+vehiculo.color.to_s+".jpeg",style: "height:100%;width:100%;" )%> </div>
+                    <div><%=image_tag("auto_"+vehiculo.color.to_s.downcase+".jpeg",style: "height:100%;width:100%;" )%> </div>
                   </div>
                 </div>
               </div>
