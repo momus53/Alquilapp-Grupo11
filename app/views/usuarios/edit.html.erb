@@ -46,35 +46,19 @@
                 </div>
                 <div class="modal-body">
                     <%= bootstrap_form_with model: @usuario, url: usuario_path(@usuario),class:"row g-3 needs-validation", method: :patch, local: true do |f| %>
-                    <!--form id="formulario" class="row g-3 needs-validation" novalidate-->
                         <div class="col-md-4">
-                            <label for="ntarjeta" class="form-label">Nùmero de tarjeta <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-credit-card" viewBox="0 0 16 16">
-                            <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v1h14V4a1 1 0 0 0-1-1H2zm13 4H1v5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V7z"/>
-                            <path d="M2 10a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-1z"/>
-                            </svg></label>
-                            <input type="text" pattern="[0-9]{15,16}" class="form-control" id="ntarjeta" required>
-                            <div class="invalid-feedback">
-                                Ingrese un numero de tarjeta valido.
-                            </div>
+                            <%= f.text_field :num_tarj,label: "Número de tarjeta", label_class: "form-label",pattern: "[0-9]{15,16}" ,required: true %>
                         </div>
+
                         <div class="col-md-4">
-                            <label for="vtoid" class="form-label">Fecha de vto.</label>
-                            <%time = Time.new%>
-                            <input type="month" min=<%=time.strftime("%Y-%m")%> class="form-control" id="vtoid" required>
-                            <div class="invalid-feedback">
-                                Ingrese una fecha de vencimiento valida.
-                            </div>
+                            <%= f.month_field :vto ,type: "month",label: "Fecha de vto.", label_class: "form-label",class: "form-control",required: true %>
                         </div>
+
                         <div class="col-md-4">
-                            <label for="cvvid" class="form-label">CVV</label>
-                            <div class="input-group has-validation">
-                                <input type="text" pattern="[0-9]{3,4}" placeholder="123" class="form-control" id="cvvid" aria-describedby="inputGroupPrepend" required>
-                                <div class="invalid-feedback">
-                                    Ingrese el codigo de seguridad de su tarjeta.
-                                </div>
-                            </div>
+                            <%= f.text_field :cvv,label: "CVV", label_class: "form-label",pattern: "[0-9]{3,4}" ,placeholder: "456",required: true %>
                         </div>
-                        <div class="col-md-3">
+
+                        <div class="col-md-4">
                             <label for="paisid" class="form-label">País</label>
                             <select class="form-select" id="paisid" required>
                                 <option selected disabled value=""> . . . </option>
@@ -329,10 +313,7 @@
                         </div>
 
                         <div class="input-group mb-3">
-                            <%= f.number_field :monto_actual, id:"carga",min: "1" ,class: "form-control",novalidate: true,prepend: "$ARS", label: "Monto"%>
-                            <div class="invalid-feedback">
-                                Debe ingresar un monto distinto de 0.
-                            </div>
+                            <%= f.number_field :monto, id:"carga",min: "1" ,class: "form-control",required: true,prepend: "$ARS", label: "Monto"%>
                         </div>
 
                         <div class="col-12">
@@ -346,13 +327,9 @@
                                 </div>
                             </div>
                         </div>
-                        <!--button type="submit" class="btn btn-primary" onclick="validarTransaccion()">Acreditar</button-->
-
-                        <%= f.submit "Acredito",class: "btn btn-primary"%>
                         
-                    <!--/form-->
+                        <%= f.submit "Acredito",class: "btn btn-primary"%>
                     <% end %>
-
                         <div class="container text-center p-2">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                         </div>
@@ -379,46 +356,4 @@
         }, false)
         })
     })()
-</script>
-
-<script>
-
-    const nroT = document.getElementById("ntarjeta");
-    const cvv = document.getElementById("cvvid");
-    const pais = document.getElementById("paisid");
-    const monto = document.getElementById("monto");
-    const vto = document.getElementById("vtoid");
-    const terms = document.getElementById("invalidCheck");
-
-
-    function validarTransaccion(){
-        let lista=[];
-
-        if(nroT.value.length == 15 || nroT.value.length == 16 ){
-            lista.push(nroT.value);
-        }
-
-        if(cvv.value.length == 3 || cvv.value.length == 4 ){
-            lista.push(cvv.value);
-        }
-
-        if(pais.value != ""){
-            lista.push(pais.value);
-        }
-
-        if(monto.value >= 1){
-            lista.push(monto.value);
-        }
-
-        if(vto.value != ""){
-            lista.push(vto.value);
-        }
-        if(terms.checked){
-            lista.push(terms.checked);
-        }
-        if(lista.length == 6){
-            //checkeo que todo esto este bien y paso los datos a la API
-            console.log(lista);
-        }
-    }
 </script>

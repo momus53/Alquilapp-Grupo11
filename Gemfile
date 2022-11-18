@@ -14,7 +14,7 @@ gem 'bootstrap', '~> 5.2.2'
 gem "bootstrap_form", "~> 5.1"
 
 gem 'httparty'
-
+gem 'json'
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem "sprockets-rails"
 
