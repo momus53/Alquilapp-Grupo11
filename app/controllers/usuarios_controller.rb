@@ -25,7 +25,7 @@ class UsuariosController < ApplicationController
             puts "ERROR:"
             puts res
         end
-        redirect_to edit_usuario_url(@usuario)
+        redirect_to edit_usuario_url(@usuario,mensaje: res.parsed_response["result"])
     end
 
 
