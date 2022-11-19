@@ -6,7 +6,7 @@ class CreateInformes < ActiveRecord::Migration[7.0]
       t.string :titulo
       t.text :descripcion
       t.integer :parte_involucrada
-      t.boolean :validado  , default: :false
+      t.boolean :validado  , :default => false
       t.datetime :fecha_validado
 
       t.timestamps
