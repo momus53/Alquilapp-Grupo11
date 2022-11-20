@@ -1,13 +1,13 @@
 <! nuevo informe >
 
 <% 	if (@informe != nil) and (@auto != nil) and (@usuario!=nil)  %> 
-	
-	
-	
-			<!-- barra de navegacion : tipo Renderizado Parcial-->
-				<%= render "/informes/nav" %>
-	<div id="map" style="height: 70px;"></div>	 
 
+
+			<!-- barra de navegacion : tipo Renderizado Parcial-->
+				<%= render "/mapas/nav" %>
+	<div id="map" style="height: 70px;"></div>	 
+	<% @informe.auto=@auto ; @informe.usuario=@usuario #le ingreso los datos del sistema %>
+	
 	<div class="container-fluid align-content-md-center "  >
 		<div >  </div>
 			<!-- alterta  con boton de cerrar-->
@@ -26,7 +26,10 @@
 
 	  			<!-- inicio formulario  -->
 	<%= bootstrap_form_for(@informe, layout: :horizontal,label_errors: true, inline_errors: true ) do |f| %>
-
+		<div class="d-none" >
+			<%= f.number_field :auto_id %>	<! incluyo al formulario los componentes que se van a enviar>
+			<%= f.number_field :usuario_id%>
+		</div>
 	  			<!-- area de texto para titulo  -->
 	  <%= f.text_field :titulo,  placeholder: "titulo corto y descriptivo de la situacion" , required: true %>
 	  
