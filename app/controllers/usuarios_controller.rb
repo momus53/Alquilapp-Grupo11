@@ -12,11 +12,22 @@ class UsuariosController < ApplicationController
     end
     
     def new
-        @usuario = Usuario.new(params[@usuario])
+            @usuario = Usuario.new
+            @error= params[:error]
     end
     def create
-        @usuario.save
+        @usuario = Usuario.new(usuario_params)
+        @usuario.monto_actual=0
+        @usuario.nivel="Usuario"
+        
+        if @usuario.save 
+            redirect_to "/"
+        else
+            @notice_error = @usuario.errors.objects.first.full_message
+            redirect_to action: "new", error: @notice_error and return
+        end
     end
+
     def update
         @usuario = Usuario.last
         aux = params.require(:usuario).permit(:cvv,:num_tarj,:monto,:vto)
@@ -53,5 +64,9 @@ class UsuariosController < ApplicationController
 
         results = HTTParty.post('https://alquilapp.is.k-pb.com.ar/grupo11/api/pay', options)
         return results
+    end
+    private
+    def usuario_params
+    	params.require(:usuario).permit(:nombre, :apellido, :email, :dni, :pwd)
     end
 end
