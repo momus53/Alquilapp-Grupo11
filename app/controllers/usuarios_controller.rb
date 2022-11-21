@@ -2,7 +2,10 @@ class UsuariosController < ApplicationController
     include HTTParty
     include JSON
 
-
+    def edit
+        @usuario = Usuario.last
+        render :edit
+    end
 
     def show
         @usuario = Usuario.last

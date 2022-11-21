@@ -34,8 +34,3 @@ inf4 = Informe.create(titulo: "golpe en el vidrio frontal", descripcion: "el vid
 
 
 tra1= Travel.create()
-
-
-
-
-

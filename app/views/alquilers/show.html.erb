@@ -35,7 +35,7 @@
         case 0:
             console.log("El auto no esta ocupado y hay saldo "+location.host);
             let url = new URL(window.location.origin + "/alquilers");
-            url.searchParams.set("auto",auto_in);
+            url.searchParams.set("auto",auto);
             url.searchParams.set("mins",(barra.value/4)*60);
             location.href = url
             return true;
