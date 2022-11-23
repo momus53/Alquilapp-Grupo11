@@ -30,6 +30,10 @@
         <div class="row p-4 d-flex justify-content-center">
             <button type="button" class="btn btn-danger btn-lg" data-bs-toggle="modal" data-bs-target="#instrucciones">Terminar alquiler</button>
         </div>
+
+        <button id="botonEx" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" hidden="true">
+            Extender alquiler
+        </button>
     </div>
 </div>
 
@@ -73,6 +77,43 @@
         </div>
         </div>
     </div>
+
+
+    <!-- MODAL EXTENDER -->
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title fs-5" id="staticBackdropLabel">Seleccione el tiempo que desea extender su alquiler:</h5>
+        </div>
+        <div class="modal-body">
+            <div class="card-group">
+                <div class="card text-bg-dark">
+                    <div class="card-body">
+                    <h5 class="card-title">Tiempo a extender</h5>
+                    <input id="dezl" type="range" class="form-range" value="1" min="1" max="96" oninput="actualizarRange()">
+                    <div class="d-flex justify-content-between">
+                        <span id="horas" class="card-text h5"></span><span class="h4"> | </span><span id="precio" class="card-text h5"></span>
+                    </div>
+                    </div>
+                </div>
+                <div class="card text-bg-success">
+                    <div class="card-body">
+                    <h5 class="card-title">Tu billetera</h5>
+                    <span class="card-text h5">AR$ </span><span id="billetera" class="card-text h5"><%=@usuario.monto_actual%></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+            <%= bootstrap_form_tag url: '/alquilers' do |f|  %>
+            <%= f.submit "Extender",type: "button", class: "btn btn-warning",onclick: "extenderAlquiler()"%>
+            <%end%>
+        </div>
+        </div>
+    </div>
+    </div>
 <!--QR -->
     <script>
         var video = document.createElement("video");
@@ -84,14 +125,45 @@
         var outputData = document.getElementById("outputData");
         var check_num = false;
 
+        var bil =<%=@usuario.monto_actual%>;
+
         let params = new URLSearchParams(document.location.search);
         let auto_in = params.get("auto");
         let mins_in = params.get("mins");
+        
+        if(bil >= 0.25*1250){  // mas adelante chequea con la tabla esto
+            botonEx.hidden = false;
+        }
 
-    function finalizarAlquiler(){
+        actualizarRange();
+
+        function actualizarRange() {
+        horas.innerText = (dezl.value/4)+" hs";
+        precio.innerText="$ARS "+ ((dezl.value/4)*1250);
+        }
+
+        function extenderAlquiler(){
+            bil =<%=@usuario.monto_actual%>;
+
+            if((parseInt(tiempoInicial) + (dezl.value/4)*60) > 1440) {  //1440 = 24hs
+                console.log("EXEDE LAS 24HS");
+            }else{
+                if(((dezl.value/4)*1250) > bil ){
+                    console.log("FALTA PLATA");
+                }else{
+                    //sumo a tiempo inicial y a tiempo y resto la plata
+                    console.log("ALQUILER EXTENDIDO");
+                }
+            }
+            
+            
+        }
+
+
+        function finalizarAlquiler(){
             //checkeo de mierdas
-            iniciarVideo();
-    }
+                iniciarVideo();
+        }
 
         function ocultarAlerta(){
         alertaQR.hidden = true;
