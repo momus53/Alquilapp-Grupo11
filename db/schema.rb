@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_11_17_145254) do
+ActiveRecord::Schema[7.0].define(version: 2022_11_25_181423) do
   create_table "autos", force: :cascade do |t|
     t.integer "nroA"
     t.string "color"
@@ -32,6 +32,12 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_17_145254) do
     t.datetime "updated_at", null: false
     t.index ["auto_id"], name: "index_informes_on_auto_id"
     t.index ["usuario_id"], name: "index_informes_on_usuario_id"
+  end
+
+  create_table "partes", force: :cascade do |t|
+    t.string "nombre"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "travels", force: :cascade do |t|
