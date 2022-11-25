@@ -3,8 +3,15 @@
 <% if @informes!= nil and  @usuario!=nil and @partes%>
 
   <%= render "/mapas/nav" %>
-<div id="espacio-nav" style="height: 80px;"></div>
+  <div id="espacio-nav" style="height: 80px;"></div>
 
+  <% if @informes.empty? %>
+    <div class="text-center">
+      <h1> no hay informes </h1>
+      <h1> del auto: <%= @auto.nroA%> </h1>
+      <h1> patente: <%= @auto.patente%> </h1>
+    </div>
+  <% else %>
   <div class=" row row-cols-1 row-cols-lg-2 g-1 ">
     <% @informes.each do |i| %>
       
@@ -70,7 +77,10 @@
         </div>
       </div>
     <% end   #final del each%>
+    
   </div>
+  <% end   #final del informes%>
+
 <div class="fixed-bottom text-center " style="background-color: #FEBD59; height: 50px;">
     <a type="button" class="btn " style="background-color:#73634B; color:#FFFFFF;"
         href=<%="/alquilers/show?nroA="+@auto.nroA.to_s+"&usuario="+ @usuario.id.to_s %> >Volver</a>
