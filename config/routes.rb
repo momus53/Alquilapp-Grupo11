@@ -5,12 +5,10 @@ Rails.application.routes.draw do
   resources :mapas
   resources :usuarios
   resources :alquilers
+  resources :informes
 
   root "mapas#show"
   
   post '/alquilers/devolver', to: 'alquilers#check_auto'
   post '/alquilers/extender', to: 'alquilers#extender'
-
-  get '/informes', to: 'informes#index'	# muestra todos los informes
-  get '/informes/new', to: 'informes#new'	# crea un nuevo informe
 end
