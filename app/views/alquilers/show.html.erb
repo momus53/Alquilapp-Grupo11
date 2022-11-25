@@ -22,7 +22,7 @@
         </div>
 
         <div class="col">
-            <a class="btn btn-danger" href="/"> Volver</a>
+            <button class="btn btn-danger" onclick="irHome()"> Volver</button>
         </div>
     </div>
 </div>
@@ -70,5 +70,9 @@
         if (numAuto==2 && ((monto) < (horas*1250))){ return 2 } // Plata insuficiente
         if (numAuto==3){ return 3 } // Ya lo uso hace -3h
         if (numAuto==4){ return 0 } // Este se puede usar
+    }
+
+    function irHome(){
+        window.location.href = "/";
     }
 </script>

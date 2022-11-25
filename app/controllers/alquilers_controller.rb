@@ -1,7 +1,6 @@
 class AlquilersController < ApplicationController
     include HTTParty
     include JSON
-    helper_method :check_auto
 
 
     def show
@@ -12,6 +11,7 @@ class AlquilersController < ApplicationController
     def index
       @autos = Auto.all
       @usuario = Usuario.last
+      @viaje = Travel.create
       render
     end
 
@@ -22,14 +22,39 @@ class AlquilersController < ApplicationController
 
     def update
         @usuario = Usuario.last
-        puts "HOLAAAAAAA"
        ## aux = params.require(:usuario).permit(:monto)
        ## @usuario.increment!(:monto_actual , -aux[:monto].to_i)
     end
 
+    def extender
+      @usuario = Usuario.last
+      aux = params.permit(:rango)
+      puts aux[:rango]
+    end
+
+
+
     def check_auto
-      puts "AAASDKOASKOAOOOOEKEOKEO"
-      res = post_api_auto("ASD 555")
+      aux = params.permit(:patente)
+      res = post_api_auto(aux[:patente])
+
+      if res.parsed_response.key?("result") and res.parsed_response["result"] == "err_timeout"
+        puts("TIMEOUT")
+      else
+        if res.parsed_response["status"]["door"] == "open" and res.parsed_response["status"]["engine"] == "on"
+          puts("PUERTA ABIERTA Y MOTOR PRENDIDO")
+        else
+          if res.parsed_response["status"]["door"] == "open"
+            puts("PUERTA ABIERTA")
+          else
+            if res.parsed_response["status"]["engine"] == "on"
+              puts("MOTOR PRENDIDO")
+            else
+              puts("TODO OK")
+            end
+          end
+        end
+      end
     end
 
     def post_api_auto(patente)
