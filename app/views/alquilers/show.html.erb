@@ -31,29 +31,32 @@
         </div>
     </div>
 </div>
-
-<script>
-    const params2 = new URLSearchParams(document.location.search);
-    let auto_in = params2.get("auto"); 
-    valorR.innerText="El vehiculo a alquilar es el N°" + auto_in;
-
+  
+<script>  
+    let params = new URLSearchParams(document.location.search);
+    let auto = params.get("auto");
+    let numAuto = Number(auto);
+    
+    valorR.innerText="El vehiculo a alquilar es el N°" + auto;
     function slider() {
         barra.nextElementSibling.value = (barra.value/4);
         muestraPrecio.innerText="$ARS= "+ ((barra.value/4)*1250);
     }
-    function contratar(){  // Params (Nro auto, horas, usuario, valor)
-        let monto= <%= @usuarios.first().monto_actual %>;
-        let check=chequea(Number(auto_in), monto , (barra.value/4) ); // Num de error
+    function contratar(dineroDisp,loUso){  // Params (Nro auto, horas, usuario, valor)
+        //let monto= <%= @usuarios.first().monto_actual %>;
+        let precio= ((barra.value/4)*1250)
+        let check=chequea(Number(auto), dineroDisp, loUso, precio ); // Num de error
         switch (check){
         case 0:
             console.log("El auto no esta ocupado y hay saldo "+location.host);
+            //@usuario.decrement!(:monto_actual , precio)
             let url = new URL(window.location.origin + "/alquilers");
-            url.searchParams.set("auto",auto_in);
+            url.searchParams.set("auto",auto);
             url.searchParams.set("mins",(barra.value/4)*60);
             location.href = url
             return true;
             break;
-        case 1:
+        case 1:// NO EXISTE MAS ESTE CASO SE CHEQUEA AANTES
             window.alert("El Auto esta en uso");
             return false;
             break;
@@ -70,11 +73,12 @@
             return false;
         }   
     }
-    function chequea(numAuto,monto,horas){ // Devuelve 0 si todo ok
-        if (numAuto==1){ return 1 } //Esta en uso
-        if (numAuto==2 && ((monto) < (horas*1250))){ return 2 } // Plata insuficiente
-        if (numAuto==3){ return 3 } // Ya lo uso hace -3h
-        if (numAuto==4){ return 0 } // Este se puede usar
+    function chequea(numAuto,dineroDisp,loUso,precio){ // Devuelve 0 si todo ok
+        if (dineroDisp<precio){ return 2 } // Plata insuficiente
+        
+        if (loUso){ return 3 } // Ya lo uso hace -3h
+    
+        return 0 // Este se puede usar
     }
 
     function irHome(){

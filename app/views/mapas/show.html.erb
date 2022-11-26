@@ -14,7 +14,30 @@
         </svg>
       </button>
     </div>
-
+  <div class="modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Usuario registrado</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+ <script>
+    console.log("Hola pana")
+    if (new URLSearchParams(document.location.search).get("notice") != null){
+      window.alert("Usuario Creado")
+    }
+  </script>
   <div id='map' style='height: 80em;'></div>
 
 
@@ -205,6 +228,7 @@
     function redirigirAlquiler(id_auto){
       let url = new URL(location.href+"alquilers/show");
       url.searchParams.set("auto",id_auto);
+      url.searchParams.set("usuario",2);
       location.href = url
     }
 

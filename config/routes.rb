@@ -8,8 +8,9 @@ Rails.application.routes.draw do
   resources :informes
 
   root "mapas#show"
-  
-  get '/mains/show' , to: 'mains#show'
+  get '/mains/show', to: 'mains#show'
+  delete '/mains/logouts', to: 'logouts#destroy'
+  post '/mains/validar', to: 'mains#validar'
   post '/alquilers/devolver', to: 'alquilers#check_auto'
   post '/alquilers/extender', to: 'alquilers#extender'
 end

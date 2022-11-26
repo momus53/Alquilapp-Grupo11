@@ -64,8 +64,3 @@ parte27 = Parte.create(id:27, nombre:"Rin")
 
 
 tra1= Travel.create()
-
-
-
-
-

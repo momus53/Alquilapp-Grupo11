@@ -1,1 +1,3 @@
 class Main < ApplicationRecord
+
+end
