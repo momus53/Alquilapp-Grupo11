@@ -1,11 +1,17 @@
 class InformesController < ApplicationController
 	
     def index
-    	if params[:nroA] != nil	#si esta definido el auto
+		if params[:usuario] != nil
+			@usuario=Usuario.find(params[:usuario])
+		else
+			@usuario=nil
+		end
+
+		if params[:nroA] != nil	#si esta definido el auto
     		@auto = Auto.find_by(nroA: params[:nroA]) #busca por nroA de auto
     		if @auto!= nil	#si existe ese auto
     			@informes=Informe.where(auto_id: @auto.id) # busca los informes
-				if params[:validado]!="all"
+				if @usuario.nivel.eql?("Usuario")	#si ingresa un usuario
 					@informes=@informes.where(validado: true)#solo deja los informes validados
 				end
 				@partes=Parte.all
@@ -16,13 +22,28 @@ class InformesController < ApplicationController
 			puts "------------- No se selecciono Auto	  --------"
 			@informes = Informe.all	# se muestran todos los informes
       	end
-      	if params[:usuario] != nil
-      		@usuario=Usuario.find(params[:usuario])
-      	else
-      		@usuario=nil
-      	end
+		
+		if params[:notice] !=nil
+			@notice=params[:notice]
+		end
       
     end
+
+	def validar	# valida o invalida un Informe
+		if params[:validar]!= nil and  params[:usuario]!= nil and params[:auto]!= nil and params[:informe_validado_id]!= nil
+			@usuario=Usuario.find(params[:usuario])
+			if @usuario.nivel.eql?("Administrador") or @usuario.nivel.eql?("Supervisor") # si tiene nivel suficiente
+
+				@informe=Informe.find(params[:informe_validado_id])
+					@informe.validado=params[:validar]
+					@informe.fecha_validado=Time.now;
+					@informe.save
+
+			end
+		end
+		redirect_to action: "index", nroA: params[:auto] , usuario: params[:usuario] and return
+	end
+	# formato de link tipico : http://localhost:3000/informes/validar?validar=true&usuario=1&auto=3&usuario_validado=1
     
     # /app/views/informes/new.html.erb 
     def new	
@@ -49,10 +70,12 @@ class InformesController < ApplicationController
 
 		if Usuario.find(@informe.usuario_id).nivel.eql?("Supervisor") #valida automaticamente los informes de Supervisores
 			@informe.validado=true
+			@informe.fecha_validado=Time.now;
 		end
 
 		if Usuario.find(@informe.usuario_id).nivel.eql?("Administrador") #valida automaticamente los informes de administradores
 			@informe.validado=true
+			@informe.fecha_validado=Time.now;
 		end
 
 		puts "------------- se creo el informe  --------"
@@ -61,7 +84,7 @@ class InformesController < ApplicationController
 				#redirect_to root_url (:auto , :usuario , notice: "Informe Creado correctamente.") 
 				#redirect_to alquilers_url
 					puts " ---------- y se guardo ---------"
-					redirect_to action: "index", nroA: @informe.auto.nroA , usuario: @informe.usuario.id and return
+					redirect_to action: "index", nroA: @informe.auto.nroA , usuario: @informe.usuario.id, notice: "Informe Creado Correctamente" and return
 	
 			else
 					puts " ---------- y NO se guardo ---------"

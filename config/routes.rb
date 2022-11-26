@@ -6,6 +6,10 @@ Rails.application.routes.draw do
   resources :usuarios
   resources :alquilers
   resources :informes
+  
+  get '/validar_informe' => 'informes#validar', as: 'validar_informe'
+  #get "/informes/validar" => "informes#validar"
+
 
   root "mapas#show"
 

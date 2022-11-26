@@ -1,6 +1,6 @@
 <! Muestra los Informes >
 
-<% if @informes!= nil and  @usuario!=nil and @partes%>
+<% if @informes!= nil and  @usuario!=nil and @auto!=nil and @partes!=nil %>
 
   <%= render "/mapas/nav" %>
   <div id="espacio-nav" style="height: 80px;"></div>
@@ -12,36 +12,107 @@
       <h1> patente: <%= @auto.patente%> </h1>
     </div>
   <% else %>
-  <div class=" row row-cols-1 row-cols-lg-2 g-1 ">
-    <% @informes.each do |i| %>
-      
-      <button class=" p-2 container-sm "  data-bs-toggle="modal" data-bs-target="#t<%=i.id.to_s%>">
-      <div class="row">
-          <% if i.usuario.nivel=="Usuario"%>
-            <div class="col-sm-2 text-left" style="font-size:medium ; color: #804C11;">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
-              <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
-              </svg>
-              <%= i.usuario.nombre.capitalize%>
-            </div>
-          <% else %>
-            <div class="col-sm-2 align-items-start" style="font-size:medium ; color: #804C11;">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="green" class="bi bi-person-circle" viewBox="0 0 16 16">
-            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
-            <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
-            </svg>
-              <%= i.usuario.nombre.capitalize%>
-            </div>
-          <% end %>
-          <div class="col-sm-8" style="font-weight: bold;">
-            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="witte" class="bi bi-card-text" viewBox="0 0 16 16">
-            <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"/>
-            <path d="M3 5.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zM3 8a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 8zm0 2.5a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5z"/>
-            </svg>
-            <%=i.titulo.capitalize %>
-          </div>
+
+    <% if @notice!=nil %>
+      <div class="alert alert-success alert-dismissible fade show container-md mb-3 text-center " > 
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="green" class="bi bi-check-square-fill" viewBox="0 0 16 16">
+          <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm10.03 4.97a.75.75 0 0 1 .011 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.75.75 0 0 1 1.08-.022z"/>
+        </svg>
+        <em><b><%= @notice %></b></em>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
       </div>
-      </button>
+    <% end %>
+
+  <% @informes.each do |i| %>
+      <div class=" row row-cols-2">
+        <button class=" p-2 container-sm col-sm"  data-bs-toggle="modal" data-bs-target="#t<%=i.id.to_s%>">
+        <div class="row ">
+            <% if i.usuario.nivel=="Usuario"  #si el informe es de un usuario%>
+              <div class="col-sm-2 text-left" style="font-size:medium ; color: #804C11;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
+                <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+                </svg>
+                <%= i.usuario.nombre.capitalize%>
+              </div>
+            <% else     #si el informe no es de un usuario%>
+              <div class="col-sm-2 align-items-start" style="font-size:medium ; color: #804C11;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="green" class="bi bi-person-circle" viewBox="0 0 16 16">
+              <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+              <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+              </svg>
+                <%= i.usuario.nombre.capitalize%>
+              </div>
+            <% end %>
+            <div class="col-sm-8 " style="font-weight: bold; "> <!svg del informe>
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="witte" class="bi bi-card-text" viewBox="0 0 16 16">
+              <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"/>
+              <path d="M3 5.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zM3 8a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 8zm0 2.5a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5z"/>
+              </svg>
+              <%=i.titulo.capitalize %> <! titulo del informe >
+            </div>
+        </div>
+        </button>
+
+      <% if @usuario.nivel.eql?("Administrador") or @usuario.nivel.eql?("Supervisor") #si tiene permiso puede editar las valiciones de los informes%>
+        <div class="col-sm-2" style="width: 100px ; height: 40px">
+            <%if i.validado%>       <! boton de validado activo >
+             <a data-bs-toggle="modal" data-bs-target="#submm<%=i.id.to_s%>" >
+                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40 " fill="green" class="bi bi-toggle-on" viewBox="0 0 16 16">
+                <path d="M5 3a5 5 0 0 0 0 10h6a5 5 0 0 0 0-10H5zm6 9a4 4 0 1 1 0-8 4 4 0 0 1 0 8z"/>
+                </svg>
+              </a>
+            <% else %>  <! boton de validado desactivado >
+            <a data-bs-toggle="modal" data-bs-target="#unsubmm<%=i.id.to_s%>" >
+                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="black" class="bi bi-toggle-off" viewBox="0 0 16 16">
+                <path d="M11 4a4 4 0 0 1 0 8H8a4.992 4.992 0 0 0 2-4 4.992 4.992 0 0 0-2-4h3zm-6 8a4 4 0 1 1 0-8 4 4 0 0 1 0 8zM0 8a5 5 0 0 0 5 5h6a5 5 0 0 0 0-10H5a5 5 0 0 0-5 5z"/>
+                </svg>
+            </a>
+            <% end %> 
+        </div>
+      <% end %>
+      </div>
+
+      <div id="espacio-entre-filas" style="height: 15px;"></div>
+
+
+      <div class="modal" id="submm<%=i.id.to_s%>" tabindex="-1">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Seguro quiere quitarle la validacion a este informe ?</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <p><%=i.titulo%></p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">NO</button>
+              <a type="button" class="btn btn-primary" 
+              href=<%="/validar_informe/?validar=false&usuario="+@usuario.id.to_s+"&auto="+@auto.nroA.to_s+"&informe_validado_id="+i.id.to_s %> >SI</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal" id="unsubmm<%=i.id.to_s%>" tabindex="-1">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Seguro quiere validar a este informe ?</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <p><%=i.titulo%></p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">NO</button>
+              <a type="button" class="btn btn-primary" href=<%="validar_informe/?validar=true&usuario="+@usuario.id.to_s+"&auto="+@auto.nroA.to_s+"&informe_validado_id="+i.id.to_s %>
+               >SI</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
 
       <div class="modal fade" id="t<%=i.id.to_s%>" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" >
@@ -77,8 +148,9 @@
         </div>
       </div>
     <% end   #final del each%>
-    
-  </div>
+  
+  <div id="espacio-buttons-end" style="height: 80px;"></div>
+
   <% end   #final del informes%>
 
 <div class="fixed-bottom text-center " style="background-color: #FEBD59; height: 50px;">
