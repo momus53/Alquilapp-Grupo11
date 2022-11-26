@@ -1,6 +1,6 @@
 <%= javascript_include_tag "jsQR.js", "data-turbolinks-track" => true  %>
 <!-- ESTO ES EL BOTON DE NAVEGADOR Y LA BURGER -->
-  <%= render "/mapas/nav" %>
+    <%= render "/mapas/nav" %>
     <!--Boton scanner -->
     <div class="fixed-bottom text-center">
       <button type="button" id="pieModal2" class="btn btn-warning btn-lg m-3" data-bs-toggle="modal" data-bs-target="#escanearQR" onclick="iniciarVideo()">
@@ -107,14 +107,8 @@
     
 
     mapboxgl.accessToken = 'pk.eyJ1Ijoiam9ha281MyIsImEiOiJjbGFoZGRwMmswNTN5M3dtdDdxcmJvNjI0In0.HkpGo96gEGKAv6kahrlktQ';
-    var map = new mapboxgl.Map({
-      container: 'map',
-      style: 'mapbox://styles/joako53/clau1m5y5000i14n08ig5ro8y',
-      center: [-57.937291,-34.903586],
-      zoom: 15
-    });
-    
-    var geojson = {
+
+    const geojson = {
       'type': 'FeatureCollection',
       'features': [
           { 
@@ -128,22 +122,28 @@
             'geometry': {'type': 'Point','coordinates': [-57.938100,-34.907500]}
           },
           {
-          'type': 'Feature',
-          'properties': {'message': '4','iconSize': [40, 40]},
-          'geometry': {'type': 'Point','coordinates': [-57.935000,-34.903581]}
+            'type': 'Feature',
+            'properties': {'message': '4','iconSize': [40, 40]},
+            'geometry': {'type': 'Point','coordinates': [-57.935000,-34.903581]}
           }
         ]
       };
 
-      for (var marker of geojson.features) {
-      // Create a DOM element for each marker.
-        var el = document.createElement('div');
-       // var width = marker.properties.iconSize[0];
-       // var height = marker.properties.iconSize[1];
+      const map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/joako53/clau1m5y5000i14n08ig5ro8y',
+        center: [-57.937291,-34.903586],
+        zoom: 15
+      });
+
+      for (const marker of geojson.features) {
+        // Create a DOM element for each marker.
+        const el = document.createElement('div');
+        // var width = marker.properties.iconSize[0];
+        // var height = marker.properties.iconSize[1];
         el.className = 'marker';
-        
         el.addEventListener('click', () => {
-        var modalAuto = new bootstrap.Modal(document.getElementById("ma"+marker.properties.message)).show();
+          var modalAuto = new bootstrap.Modal(document.getElementById("ma"+marker.properties.message)).show();
         });
         
         // Add markers to the map.

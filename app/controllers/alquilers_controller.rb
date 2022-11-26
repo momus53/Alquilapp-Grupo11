@@ -5,14 +5,13 @@ class AlquilersController < ApplicationController
 
     def show
       @autos = Auto.all
-      @usuario= Usuario.find(params[:usuario])
+      @usuario= Usuario.last
       @usuarios = Usuario.all
     end
 
     def index
       @autos = Auto.all
       @usuario = Usuario.last
-      @viaje = Travel.create
       render
     end
 
@@ -36,26 +35,32 @@ class AlquilersController < ApplicationController
 
 
     def check_auto
-      aux = params.permit(:patente)
+      aux = params.permit(:patente,:auto,:mins)
       res = post_api_auto(aux[:patente])
 
       if res.parsed_response.key?("result") and res.parsed_response["result"] == "err_timeout"
         puts("TIMEOUT")
+        salida = "TIMEOUT"
       else
         if res.parsed_response["status"]["door"] == "open" and res.parsed_response["status"]["engine"] == "on"
           puts("PUERTA ABIERTA Y MOTOR PRENDIDO")
+          salida = "PUERTA_ABIERTA_Y_MOTOR_PRENDIDO"
         else
           if res.parsed_response["status"]["door"] == "open"
             puts("PUERTA ABIERTA")
+            salida = "PUERTA_ABIERTA"
           else
             if res.parsed_response["status"]["engine"] == "on"
               puts("MOTOR PRENDIDO")
+              salida = "MOTOR_PRENDIDO"
             else
               puts("TODO OK")
+              salida = "TODO_OK"
             end
           end
         end
       end
+      redirect_to alquilers_path(auto: 4,mins: 60,msg: salida)
     end
 
     def post_api_auto(patente)

@@ -9,6 +9,7 @@ Rails.application.routes.draw do
 
   root "mapas#show"
   
+  get '/mains/show' , to: 'mains#show'
   post '/alquilers/devolver', to: 'alquilers#check_auto'
   post '/alquilers/extender', to: 'alquilers#extender'
 end
