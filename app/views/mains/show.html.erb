@@ -7,3 +7,10 @@
 <div class="container text-center p-4">
     <a type="button" class="btn btn-primary" href="/usuarios/new">Registrarse</a>
 </div>
+
+<script>
+    if (new URLSearchParams(document.location.search).get("notice") != null){
+      window.alert(new URLSearchParams(document.location.search).get("notice"))
+      console.log("Hola pana")
+    }
+  </script>
