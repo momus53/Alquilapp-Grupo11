@@ -5,30 +5,30 @@ class AlquilersController < ApplicationController
 
     def show
       @autos = Auto.all
-      @usuario= Usuario.find(params[:usuario])
+      @usuario= Usuario.all.find_by(id: session[:user_id])
       @usuarios = Usuario.all
     end
 
     def index
       @autos = Auto.all
-      @usuario = Usuario.last
+      @usuario = Usuario.all.find_by(id: session[:user_id])
       @viaje = Travel.create
       render
     end
 
     def edit
-      @usuario = Usuario.last
+      @usuario = Usuario.all.find_by(id: session[:user_id])
       render :edit
     end
 
     def update
-        @usuario = Usuario.last
+        @usuario = Usuario.all.find_by(id: session[:user_id])
        ## aux = params.require(:usuario).permit(:monto)
        ## @usuario.increment!(:monto_actual , -aux[:monto].to_i)
     end
 
     def extender
-      @usuario = Usuario.last
+      @usuario = Usuario.all.find_by(id: session[:user_id])
       aux = params.permit(:rango)
       puts aux[:rango]
     end

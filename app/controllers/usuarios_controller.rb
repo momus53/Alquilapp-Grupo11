@@ -3,28 +3,29 @@ class UsuariosController < ApplicationController
     include JSON
    
     def edit
-        @usuario = Usuario.last
+        @usuario = Usuario.all.find_by(id: session[:user_id])
         render :edit
     end
 
     def show
-        @usuario = Usuario.last
+        @usuario = Usuario.all.find_by(id: session[:user_id])
         if @message
             alert(message)
         end
     end
     
     def new
-            @usuario = Usuario.new
-            @error= params[:error]
+        @usuario = Usuario.new
+        @error= params[:error]
     end
+
     def create
         @usuario = Usuario.new(usuario_params)
         @usuario.monto_actual=0
         @usuario.nivel="Usuario"
         
         if @usuario.save
-            redirect_to "/" , flash[:message] "Creado CORRECTAMENTE" and return
+            redirect_to root_path(notice: "Creado CORRECTAMENTE") and return
         else
             @notice_error = @usuario.errors.objects.first.full_message
             redirect_to action: "new", error: @notice_error and return
@@ -32,7 +33,7 @@ class UsuariosController < ApplicationController
     end
 
     def update
-        @usuario = Usuario.last
+        @usuario = Usuario.all.find_by(id: session[:user_id])
         aux = params.require(:usuario).permit(:cvv,:num_tarj,:monto,:vto)
         vence = aux[:vto][5,2] + aux[:vto][2,2]
         res = post_api(@usuario.nombre+" "+@usuario.apellido,aux[:num_tarj].to_i,aux[:cvv].to_i ,vence,aux[:monto].to_i)

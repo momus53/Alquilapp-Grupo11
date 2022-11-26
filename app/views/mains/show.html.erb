@@ -1,0 +1,9 @@
+
+<%= bootstrap_form_tag url: '/mains/validar' do |f| %>
+    <%= f.email_field :email, placeholder: "Email" , required: true%>
+    <%= f.password_field :pwd,  placeholder: "Contraseña" , required: true %>		
+    <%= f.submit "Iniciar Sesion", class: "btn btn-primary d-flex align-items-center flex-column" %>	
+<% end %>
+<div class="container text-center p-4">
+    <a type="button" class="btn btn-primary" href="/usuarios/new">Registrarse</a>
+</div>
