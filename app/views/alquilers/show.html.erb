@@ -17,8 +17,19 @@
             </div>
         </div>
     </div>
-    <a class="btn btn-danger btn-lg" href="/"> Volver</a>
-    <button type="button" class="btn btn-primary" onclick="contratar(<%=@usuario.monto_actual%>,<%=(@usuario.travels.find_by(nroA: 2).created_at.advance(hours: 3)) > Time.now%>)">CONTRATAR</button>
+    <div class="row">
+        <div class="col">
+            <button type="button" class="btn btn-primary" onclick="contratar()">Contratar</button>
+        </div>
+
+        <div class="col">
+            <a href="/informes/new" type="button" class="btn btn-warning">Informar</a>
+        </div>
+
+        <div class="col">
+            <button class="btn btn-danger" onclick="irHome()"> Volver</button>
+        </div>
+    </div>
 </div>
   
 <script>  
@@ -68,5 +79,9 @@
         if (loUso){ return 3 } // Ya lo uso hace -3h
     
         return 0 // Este se puede usar
+    }
+
+    function irHome(){
+        window.location.href = "/";
     }
 </script>

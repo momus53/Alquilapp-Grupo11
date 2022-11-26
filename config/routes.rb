@@ -8,5 +8,7 @@ Rails.application.routes.draw do
   resources :informes
 
   root "mapas#show"
-
+  
+  post '/alquilers/devolver', to: 'alquilers#check_auto'
+  post '/alquilers/extender', to: 'alquilers#extender'
 end

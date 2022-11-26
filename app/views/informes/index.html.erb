@@ -1,61 +1,102 @@
 <! Muestra los Informes >
 
-<% if @informes!= nil and  @usuario!=nil %>
+<% if @informes!= nil and  @usuario!=nil and @partes%>
 
   <%= render "/mapas/nav" %>
-<div id="espacio-nav" style="height: 70px;"></div>   
+  <div id="espacio-nav" style="height: 80px;"></div>
 
-  <div class="container-fluid align-items-center" >
+  <% if @informes.empty? %>
+    <div class="text-center">
+      <h1> no hay informes </h1>
+      <h1> del auto: <%= @auto.nroA%> </h1>
+      <h1> patente: <%= @auto.patente%> </h1>
+    </div>
+  <% else %>
+  <div class=" row row-cols-1 row-cols-lg-2 g-1 ">
     <% @informes.each do |i| %>
-    <div>
-      <button class="rounded-pill  p-1 md-1"  data-bs-toggle="modal" data-bs-target="#t<%=i.id.to_s%>">
-        <%=i.titulo %> 
+      
+      <button class=" p-2 container-sm "  data-bs-toggle="modal" data-bs-target="#t<%=i.id.to_s%>">
+      <div class="row">
+          <% if i.usuario.nivel=="Usuario"%>
+            <div class="col-sm-2 text-left" style="font-size:medium ; color: #804C11;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
+              <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+              </svg>
+              <%= i.usuario.nombre.capitalize%>
+            </div>
+          <% else %>
+            <div class="col-sm-2 align-items-start" style="font-size:medium ; color: #804C11;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="green" class="bi bi-person-circle" viewBox="0 0 16 16">
+            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+            <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+            </svg>
+              <%= i.usuario.nombre.capitalize%>
+            </div>
+          <% end %>
+          <div class="col-sm-8" style="font-weight: bold;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="witte" class="bi bi-card-text" viewBox="0 0 16 16">
+            <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"/>
+            <path d="M3 5.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zM3 8a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 8zm0 2.5a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5z"/>
+            </svg>
+            <%=i.titulo.capitalize %>
+          </div>
+      </div>
       </button>
 
-      <div class="modal fade" id="t<%=i.id.to_s%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
+      <div class="modal fade" id="t<%=i.id.to_s%>" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" >
           <div class="modal-content">
             <div class="modal-header">
-              <h1 class="modal-title fs-5" id="exampleModalLabel">Informe: <%=i.id%> </h1>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              <h1 class="modal-title fs-5" style="font-weight: bold;">
+                <%=i.titulo.capitalize%>
+              </h1>
+              <div class="text-right">
+                <%if(i.validado) %>  <!svg ok>
+                <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" fill="green" class="bi bi-check-circle" viewBox="0 0 16 16">
+                  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                  <path d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z"/>	   <! check svg ok>
+                </svg>
+                <% else %>      <!svg NOT>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" fill="red" class="bi bi-x-circle" viewBox="0 0 16 16">
+                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                    <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                  </svg>
+                <% end %>
+              </div>
             </div>
             <div class="modal-body">
-              <div class="container">
-                <div class="row">
-                  <div class="col">titulo:</div>
-                  <div class="col"><%=  i.titulo %></div>
-                  <div class="w-100"></div>
-                  <div class="col">descripcion:</div>
-                  <div class="col"><%=  i.descripcion  %></div>
-                  <div class="w-100"></div>
-                  <div class="col">parte involucrada:</div>
-                  <div class="col"><%=  i.parte_involucrada  %></div>
-                  <div class="w-100"></div>
-                  <div class="col">validado:</div>
-                  <div  class="col" > <%= i.validado %>  
-                  		<svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" fill="green" class="bi bi-check-circle" viewBox="0 0 16 16">
-                  			<path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                  			<path d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z"/>	   <! check svg ok>
-                			</svg>
-                  </div>
-                </div>
+              <div class="text" style="font-weight: italic;">
+                <%=  i.descripcion  %>
               </div>
             </div>
             <div class="modal-footer">
+              <p class="text-capitalize" >Parte Involucrada : <%= @partes.find(i.parte_involucrada).nombre+"  " %></p>
               <button type="button" class="btn btn-warning" data-bs-dismiss="modal" >Volver</button>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </div>  
-</div> 
+    <% end   #final del each%>
+    
+  </div>
+  <% end   #final del informes%>
 
-  <%end   #final del each%> 
+<div class="fixed-bottom text-center " style="background-color: #FEBD59; height: 50px;">
+    <a type="button" class="btn " style="background-color:#73634B; color:#FFFFFF;"
+        href=<%="/alquilers/show?nroA="+@auto.nroA.to_s+"&usuario="+ @usuario.id.to_s %> >Volver</a>
+    <a type="button" class="btn " style="background-color:#73634B; color:#FFFFFF;" 
+          href="/" >Home</a>
+    <a type="button" class="btn " style="background-color:#73634B; color:#FFFFFF;"
+        href=<%="/informes/new?nroA="+@auto.nroA.to_s+"&usuario="+ @usuario.id.to_s %> > Crear Informe</a>
+</div>
+
+  
   <%else%>
   <h1> ERROR DE PARAMETROS </h1>
-
+    intente con otros parametros:
+    http://localhost:3000/informes?nroA=3&usuario=1&validado=all
   <%end  #final del if paramets %>
+
 
 
 

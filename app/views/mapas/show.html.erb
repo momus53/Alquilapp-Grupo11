@@ -1,7 +1,6 @@
 <%= javascript_include_tag "jsQR.js", "data-turbolinks-track" => true  %>
 <!-- ESTO ES EL BOTON DE NAVEGADOR Y LA BURGER -->
   <%= render "/mapas/nav" %>
-
     <!--Boton scanner -->
     <div class="fixed-bottom text-center">
       <button type="button" id="pieModal2" class="btn btn-warning btn-lg m-3" data-bs-toggle="modal" data-bs-target="#escanearQR" onclick="iniciarVideo()">
@@ -16,16 +15,14 @@
       </button>
     </div>
 
-  <div id="map" style="height: 400px;"></div>
+  <div id='map' style='height: 80em;'></div>
+
+
   <br>
     <!-- MODAL DEFINITIVO -->
     <div class="container">
       <% @autos.each do |vehiculo| %>
       <div>
-        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#ma<%=vehiculo.nroA.to_s%>">
-          AUTO: <%=vehiculo.nroA %>
-        </button>
-
         <div class="modal fade" id="ma<%=vehiculo.nroA.to_s%>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -97,7 +94,7 @@
     </div>
 
 
-
+    
 <script>
     var video = document.createElement("video");
     var canvasElement = document.getElementById("canvas");
@@ -107,8 +104,68 @@
     var outputMessage = document.getElementById("outputMessage");
     var outputData = document.getElementById("outputData");
     var check_num = false;
+    
 
-    const mapa = new Mapkick.Map("map", [{latitude: -34.903586, longitude: -57.937291}]);
+    mapboxgl.accessToken = 'pk.eyJ1Ijoiam9ha281MyIsImEiOiJjbGFoZGRwMmswNTN5M3dtdDdxcmJvNjI0In0.HkpGo96gEGKAv6kahrlktQ';
+    var map = new mapboxgl.Map({
+      container: 'map',
+      style: 'mapbox://styles/joako53/clau1m5y5000i14n08ig5ro8y',
+      center: [-57.937291,-34.903586],
+      zoom: 15
+    });
+    
+    var geojson = {
+      'type': 'FeatureCollection',
+      'features': [
+          { 
+            'type': 'Feature',
+            'properties': {'message': '2','iconSize': [40, 40]},
+            'geometry': {'type': 'Point','coordinates': [-57.937000,-34.903585]}
+          },
+          {
+            'type': 'Feature',
+            'properties': {'message': '6','iconSize': [40, 40]},
+            'geometry': {'type': 'Point','coordinates': [-57.938100,-34.907500]}
+          },
+          {
+          'type': 'Feature',
+          'properties': {'message': '4','iconSize': [40, 40]},
+          'geometry': {'type': 'Point','coordinates': [-57.935000,-34.903581]}
+          }
+        ]
+      };
+
+      for (var marker of geojson.features) {
+      // Create a DOM element for each marker.
+        var el = document.createElement('div');
+       // var width = marker.properties.iconSize[0];
+       // var height = marker.properties.iconSize[1];
+        el.className = 'marker';
+        
+        el.addEventListener('click', () => {
+        var modalAuto = new bootstrap.Modal(document.getElementById("ma"+marker.properties.message)).show();
+        });
+        
+        // Add markers to the map.
+        new mapboxgl.Marker(el)
+        .setLngLat(marker.geometry.coordinates)
+        .addTo(map);
+      }
+      
+      navigator.geolocation.getCurrentPosition(mipos);
+      function mipos(pos){
+        var marker = new mapboxgl.Marker({
+        color: "#FEBD59"
+        })
+      .setLngLat([-57.935000,-34.902500])
+      //.setLngLat([pos.coords.longitude,pos.coords.latitude])
+      .setPopup(new mapboxgl.Popup({ offset: 40 }).setText("Tu ubicacion"))
+      .addTo(map);
+      }
+
+
+
+
 
     function ocultarAlerta(){
       alertaQR.hidden = true;
