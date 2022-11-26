@@ -1,7 +1,7 @@
 class UsuariosController < ApplicationController
     include HTTParty
     include JSON
-
+   
     def edit
         @usuario = Usuario.last
         render :edit
@@ -9,6 +9,9 @@ class UsuariosController < ApplicationController
 
     def show
         @usuario = Usuario.last
+        if @message
+            alert(message)
+        end
     end
     
     def new
@@ -20,8 +23,8 @@ class UsuariosController < ApplicationController
         @usuario.monto_actual=0
         @usuario.nivel="Usuario"
         
-        if @usuario.save 
-            redirect_to "/"
+        if @usuario.save
+            redirect_to "/" , flash[:message] "Creado CORRECTAMENTE" and return
         else
             @notice_error = @usuario.errors.objects.first.full_message
             redirect_to action: "new", error: @notice_error and return
