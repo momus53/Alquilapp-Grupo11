@@ -6,11 +6,14 @@ Rails.application.routes.draw do
   resources :usuarios
   resources :alquilers
   resources :informes
-  
-  get '/validar_informe' => 'informes#validar', as: 'validar_informe'
-  #get "/informes/validar" => "informes#validar"
-
 
   root "mapas#show"
+  get '/iniciar_sesion', to: 'mains#show', as: 'iniciar_sesion' #referencia a iniciar sesion
+  get '/validar_informe', to: 'informes#validar', as: 'validar_informe' # referencia a accion validar informes admin
+  get '/cerrar_seccion', to: 'logouts#destroy', as: 'cerrar_seccion' # referencia a cerrar secion
+  post '/mains/validar', to: 'mains#validar'
+  post '/alquilers/devolver', to: 'alquilers#check_auto'
+  post '/alquilers/extender', to: 'alquilers#extender'
+
 
 end

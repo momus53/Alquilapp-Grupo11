@@ -153,27 +153,17 @@
 
   <% end   #final del informes%>
 
-<div class="fixed-bottom text-center " style="background-color: #FEBD59; height: 50px;">
+  <div class="fixed-bottom text-center " style="background-color: #FEBD59; height: 50px;">
     <a type="button" class="btn " style="background-color:#73634B; color:#FFFFFF;"
-        href=<%="/alquilers/show?nroA="+@auto.nroA.to_s+"&usuario="+ @usuario.id.to_s %> >Volver</a>
+        href=<%="/alquilers/show?auto="+@auto.nroA.to_s %> >Volver</a>
     <a type="button" class="btn " style="background-color:#73634B; color:#FFFFFF;" 
           href="/" >Home</a>
     <a type="button" class="btn " style="background-color:#73634B; color:#FFFFFF;"
-        href=<%="/informes/new?nroA="+@auto.nroA.to_s+"&usuario="+ @usuario.id.to_s %> > Crear Informe</a>
+        href=<%="/informes/new?nroA="+@auto.nroA.to_s %> > Crear Informe</a>
 </div>
 
   
   <%else%>
   <h1> ERROR DE PARAMETROS </h1>
-    intente con otros parametros:
-    http://localhost:3000/informes?nroA=3&usuario=1&validado=all
+    error de parametros:
   <%end  #final del if paramets %>
-
-
-
-
-
-
-
-
-

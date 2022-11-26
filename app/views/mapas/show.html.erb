@@ -1,7 +1,6 @@
 <%= javascript_include_tag "jsQR.js", "data-turbolinks-track" => true  %>
 <!-- ESTO ES EL BOTON DE NAVEGADOR Y LA BURGER -->
   <%= render "/mapas/nav" %>
-
     <!--Boton scanner -->
     <div class="fixed-bottom text-center">
       <button type="button" id="pieModal2" class="btn btn-warning btn-lg m-3" data-bs-toggle="modal" data-bs-target="#escanearQR" onclick="iniciarVideo()">
@@ -15,23 +14,43 @@
         </svg>
       </button>
     </div>
+  <div class="modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Usuario registrado</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+ <script>
+    console.log("Hola pana")
+    if (new URLSearchParams(document.location.search).get("notice") != null){
+      window.alert("Usuario Creado")
+    }
+  </script>
+  <div id='map' style='height: 80em;'></div>
 
-  <div id="map" style="height: 400px;"></div>
+
   <br>
     <!-- MODAL DEFINITIVO -->
     <div class="container">
       <% @autos.each do |vehiculo| %>
       <div>
-        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#t<%=vehiculo.id.to_s%>">
-          AUTO: <%=vehiculo.nroA %>
-        </button>
-
-        <div class="modal fade" id="t<%=vehiculo.id.to_s%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="ma<%=vehiculo.nroA.to_s%>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
               <div class="modal-header">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Informacion detallada</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
                 <div class="container">
@@ -47,17 +66,17 @@
                     <div class="w-100"></div>
                     <div class="col">Estado:</div>
                     <%if vehiculo.en_uso%>
-                      <div class="col" style="color: red">OCUPADO</div>
+                      <div id="<%=vehiculo.nroA %>status" class="col" style="color: red">OCUPADO</div>
                     <%else%>
-                      <div class="col" style="color: green">LIBRE</div>
+                      <div id="<%=vehiculo.nroA %>status" class="col" style="color: green">LIBRE</div>
                     <%end%>
                     <div><%=image_tag("auto_"+vehiculo.color.to_s.downcase+".jpeg",style: "height:100%;width:100%;" )%> </div>
                   </div>
                 </div>
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Volver</button>
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#escanearQR" onclick="iniciarVideo()">Elegir</button>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="ocultarBtnElegir(<%=vehiculo.nroA%>)">Volver</button>
+                <button id="<%=vehiculo.nroA %>btn" type="button" class="btn btn-primary" data-bs-dismiss="modal" hidden="true" onclick="redirigirAlquiler(<%=vehiculo.nroA%>)">Elegir</button>
               </div>
             </div>
           </div>
@@ -66,7 +85,7 @@
       <%end%>
     </div>
   <!--ALERTA PARA CUANDO EL QR ES INVALIDO-->
-  <div id="alertaQR" hidden="" class="container text-center">
+  <div id="alertaQR" hidden="" class="fixed-top container text-center">
     <div class="alert alert-danger row p-2 " role="alert">
       <div class="col-10">
         <strong>ERROR!</strong> el QR que estas intentando leer no es uno de los nuestros!
@@ -98,7 +117,7 @@
     </div>
 
 
-
+    
 <script>
     var video = document.createElement("video");
     var canvasElement = document.getElementById("canvas");
@@ -108,8 +127,68 @@
     var outputMessage = document.getElementById("outputMessage");
     var outputData = document.getElementById("outputData");
     var check_num = false;
+    
 
-    new Mapkick.Map("map", [{latitude: -34.903586, longitude: -57.937291, tooltip: "Tu ubicacion"}]);
+    mapboxgl.accessToken = 'pk.eyJ1Ijoiam9ha281MyIsImEiOiJjbGFoZGRwMmswNTN5M3dtdDdxcmJvNjI0In0.HkpGo96gEGKAv6kahrlktQ';
+    var map = new mapboxgl.Map({
+      container: 'map',
+      style: 'mapbox://styles/joako53/clau1m5y5000i14n08ig5ro8y',
+      center: [-57.937291,-34.903586],
+      zoom: 15
+    });
+    
+    var geojson = {
+      'type': 'FeatureCollection',
+      'features': [
+          { 
+            'type': 'Feature',
+            'properties': {'message': '2','iconSize': [40, 40]},
+            'geometry': {'type': 'Point','coordinates': [-57.937000,-34.903585]}
+          },
+          {
+            'type': 'Feature',
+            'properties': {'message': '6','iconSize': [40, 40]},
+            'geometry': {'type': 'Point','coordinates': [-57.938100,-34.907500]}
+          },
+          {
+          'type': 'Feature',
+          'properties': {'message': '4','iconSize': [40, 40]},
+          'geometry': {'type': 'Point','coordinates': [-57.935000,-34.903581]}
+          }
+        ]
+      };
+
+      for (var marker of geojson.features) {
+      // Create a DOM element for each marker.
+        var el = document.createElement('div');
+       // var width = marker.properties.iconSize[0];
+       // var height = marker.properties.iconSize[1];
+        el.className = 'marker';
+        
+        el.addEventListener('click', () => {
+        var modalAuto = new bootstrap.Modal(document.getElementById("ma"+marker.properties.message)).show();
+        });
+        
+        // Add markers to the map.
+        new mapboxgl.Marker(el)
+        .setLngLat(marker.geometry.coordinates)
+        .addTo(map);
+      }
+      
+      navigator.geolocation.getCurrentPosition(mipos);
+      function mipos(pos){
+        var marker = new mapboxgl.Marker({
+        color: "#FEBD59"
+        })
+      .setLngLat([-57.935000,-34.902500])
+      //.setLngLat([pos.coords.longitude,pos.coords.latitude])
+      .setPopup(new mapboxgl.Popup({ offset: 40 }).setText("Tu ubicacion"))
+      .addTo(map);
+      }
+
+
+
+
 
     function ocultarAlerta(){
       alertaQR.hidden = true;
@@ -133,6 +212,25 @@
       requestAnimationFrame(tick);
     });
     }
+    function mostrarAuto(id_auto){
+        console.log("ma"+id_auto)
+        var myModal = new bootstrap.Modal(document.getElementById("ma"+id_auto));
+        if(document.getElementById(id_auto+"status").innerText == "LIBRE"){
+          document.getElementById(id_auto+"btn").hidden = false;
+        }
+        myModal.show();
+    }
+
+    function ocultarBtnElegir(id_auto){
+      document.getElementById(id_auto+"btn").hidden = true;
+    }
+
+    function redirigirAlquiler(id_auto){
+      let url = new URL(location.href+"alquilers/show");
+      url.searchParams.set("auto",id_auto);
+      url.searchParams.set("usuario",2);
+      location.href = url
+    }
 
     function tick() {
       loadingMessage.innerText = "⌛ Loading video..."
@@ -149,10 +247,10 @@
           inversionAttempts: "dontInvert",
         });
         if (code) {
-          drawLine(code.location.topLeftCorner, code.location.topRightCorner, "#FF3B58");
-          drawLine(code.location.topRightCorner, code.location.bottomRightCorner, "#FF3B58");
-          drawLine(code.location.bottomRightCorner, code.location.bottomLeftCorner, "#FF3B58");
-          drawLine(code.location.bottomLeftCorner, code.location.topLeftCorner, "#FF3B58");
+          drawLine(code.location.topLeftCorner, code.location.topRightCorner, "#FEBD59");
+          drawLine(code.location.topRightCorner, code.location.bottomRightCorner, "#FEBD59");
+          drawLine(code.location.bottomRightCorner, code.location.bottomLeftCorner, "#FEBD59");
+          drawLine(code.location.bottomLeftCorner, code.location.topLeftCorner, "#FEBD59");
           outputMessage.hidden = true;
           outputData.parentElement.hidden = false;
           outputData.innerText = code.data;
@@ -160,10 +258,8 @@
 
           <% @autos.each do |vehiculo| %>
             if(code.data === "Numero_De_Auto:<%=vehiculo.nroA.to_s%>"){
+                mostrarAuto(<%=vehiculo.nroA.to_s%>)
                 check_num = true;
-                let url = new URL(location.href+"alquilers/show");
-                url.searchParams.set("auto",<%=vehiculo.nroA.to_s%>);
-                location.href = url
             }  
           <%end%>
           if(!check_num){
@@ -176,7 +272,8 @@
       }
       if (code) {
         console.log("ya lei")
-        var md = document.getElementById("modal_QR").click();
+        check_num = false;
+        var md = document.getElementById("modal_QR").click();//cierro el modal despues de reconocer el qr
       }else{
         requestAnimationFrame(tick);
       }
