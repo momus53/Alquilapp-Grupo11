@@ -27,7 +27,7 @@
       <div class=" row row-cols-2">
         <button class=" p-2 container-sm col-sm"  data-bs-toggle="modal" data-bs-target="#t<%=i.id.to_s%>">
         <div class="row ">
-            <% if i.usuario.nivel=="Usuario"  #si el informe es de un usuario%>
+            <% if i.usuario.nivel.eql?("Usuario")  #si el informe es de un usuario%>
               <div class="col-sm-2 text-left" style="font-size:medium ; color: #804C11;">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
                 <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>

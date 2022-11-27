@@ -11,7 +11,9 @@ class InformesController < ApplicationController
     		@auto = Auto.find_by(nroA: params[:nroA]) #busca por nroA de auto
     		if @auto!= nil	#si existe ese auto
     			@informes=Informe.where(auto_id: @auto.id) # busca los informes
-				@informes=@informes.where(validado: true)	#solo deja los informes validados
+				if @usuario.nivel.eql?("Usuario") 
+					@informes=@informes.where(validado: true)	#solo deja los informes validados
+				end
 				@partes=Parte.all	# le pasa el nombre de todas las piezas de los autos
     		else
     			@informes= nil	# no hay informes para ese auto

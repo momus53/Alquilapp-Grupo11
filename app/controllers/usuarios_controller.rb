@@ -25,7 +25,7 @@ class UsuariosController < ApplicationController
         @usuario.nivel="Usuario"
         
         if @usuario.save
-            redirect_to mains_show_path(notice: "Creado CORRECTAMENTE") and return
+            redirect_to ( iniciar_sesion_url notice: "Creado CORRECTAMENTE") and return
         else
             @notice_error = @usuario.errors.objects.first.full_message
             redirect_to action: "new", error: @notice_error and return
