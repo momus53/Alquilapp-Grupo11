@@ -5,21 +5,13 @@
 
 <!-- h1 class="container-fluid text-center" > Elija cuanto tiempo quiere alquilar </h1-->
 <div class="container-fluid">
-    <h2 id="valorR"></h2>
+    <h2 id="valorR" class="text-center"></h2>
     <%= bootstrap_form_tag url: '/alquilers/validar' do |f| %>
-        <%= f.range_field :cuartos, hide_label: true, id: "barra", type: "range", class: "form-range", min:"1", max:"96", oninput: "slider()" %>
+        <%= f.range_field :cuartos, hide_label: true, id: "barra", type: "range",value: "1", class: "form-range", min:"1", max:"96", oninput: "slider()" %>
         <%=f.text_field :nroA, hide_label: true, id: "auto", type: "text", hidden: true%>
-        <h2 id=horasTotal> </h2> Cantidad de horas
-        <br>
-        <%= f.primary "Contratar" %>
-	<%end%>
-  
-    <script>
-    function updateTextInput(val) {
-          document.getElementById('textInput').value=val;
-        }
-    </script>
-
+        <div class="text-center">
+            <h2 id=horasTotal> </h2>
+        </div>
     <div class="row  m-2">
         <div class="col card text-bg-dark mb-1 text-center"> 
             <div class="card-body">
@@ -27,29 +19,37 @@
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col">
-            <button type="button" class="btn btn-primary" onclick="contratar()">Contratar</button>
-        </div>
-
-        <div class="col">
-            <a href="/informes/new" type="button" class="btn btn-warning">Informar</a>
-        </div>
-
-        <div class="col">
-            <a class="btn btn-danger" href="/"> Volver</a>
+    <div class="row  m-2">
+        <div class="col card text-bg-success text-center"> 
+            <div class="card-header">
+               <h5>Tu billetera</h5>
+            </div>
+                <div class="card-body">
+                    <h1 id="billetera">$ARS <%=@usuario.monto_actual%></h1>
+                </div>
         </div>
     </div>
-    <h1><%=@usuario.monto_actual%></h1>
+    <div class="row p-4">
+        <%= f.primary "Contratar" ,class: "btn btn-primary btn-lg" %>
+    </div>
+    <%end%>
+    <div class="row ps-3 pe-3 p-1 mt-5">
+        <a href="/informes" type="button" class="btn btn-warning">Ver informes</a>  
+    </div>
+    <div class="row ps-3 pe-3 p-1">
+        <a class="btn btn-danger" href="/"> Cancelar</a>
+    </div>
+    </div>
 </div>
 
 <script>
     const params2 = new URLSearchParams(document.location.search);
     let auto_in = params2.get("auto"); 
-    valorR.innerText="El vehiculo a alquilar es el N°" + auto_in;
-
+    document.getElementById("auto").value = auto_in;
+    valorR.innerText="Por cuanto tiempo queres rentar el auto N°" +auto_in+" ?";
+    slider();
     function slider() {
-        horasTotal.innerText = (barra.value/4);
+        horasTotal.innerText = (barra.value/4) + "Hs.";
         muestraPrecio.innerText="$ARS= "+ ((barra.value/4)*1250);
     }
     function contratar(){  // Params (Nro auto, horas, usuario, valor)

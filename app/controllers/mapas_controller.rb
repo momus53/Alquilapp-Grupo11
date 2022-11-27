@@ -7,12 +7,9 @@ class MapasController < ApplicationController
         if session[:user_id]!=nil
 			@usuario = Usuario.all.find_by(id: session[:user_id])
 		else
-			redirect_to iniciar_sesion_url and return
+			@usuario = nil
 		end
         @autos = Auto.all
-        if session[:user_id]
-            @usuario = Usuario.all.find_by(id: session[:user_id])
-        end
        # arr = Array.new(@autos.where(en_uso: false).length * 3)
 
         #@autos.where(en_uso: false).each do |a|
