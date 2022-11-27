@@ -1,9 +1,13 @@
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bungee+Inline&display=swap');
+</style>
 <! Muestra los Informes >
 
 <% if @informes!= nil and  @usuario!=nil and @auto!=nil and @partes!=nil %>
 
   <%= render "/mapas/nav" %>
-  <div id="espacio-nav" style="height: 80px;"></div>
+  <div id="espacio-nav" style="height: 70px;"></div>
 
   <% if @informes.empty? %>
     <div class="text-center">
@@ -12,6 +16,22 @@
       <h1> patente: <%= @auto.patente%> </h1>
     </div>
   <% else %>
+
+      <! patente del auto seleccionado >
+    <div class="text-end" style="font-family: 'Bungee Inline', cursive; color:#73634B; font-size: 24px; height:32px ; ">
+        <svg width="22" height="22" fill="currentColor" class="bi bi-info-square" viewBox="0 0 16 16">
+        <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+        <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+        </svg>
+      <%=@auto.patente%>
+        <svg width="22" height="22" fill="currentColor" class="bi bi-info-square" viewBox="0 0 16 16">
+        <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+        <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+        </svg>
+    </div>
+
+
+    <div id="espacio-titulo" style="height: 15px;"></div>
 
     <% if @notice!=nil %>
       <div class="alert alert-success alert-dismissible fade show container-md mb-3 text-center " > 
@@ -22,7 +42,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
       </div>
     <% end %>
-
+  
   <% @informes.each do |i| %>
       <div class=" row row-cols-2">
         <button class=" p-2 container-sm col-sm"  data-bs-toggle="modal" data-bs-target="#t<%=i.id.to_s%>">
@@ -50,24 +70,35 @@
               </svg>
               <%=i.titulo.capitalize %> <! titulo del informe >
             </div>
+            <% if @usuario.nivel.eql?("Administrador") or @usuario.nivel.eql?("Supervisor")%>
+              <div class="col align-items-end" style="font-size:small ; color: #804C11;"><%= @partes.find(i.parte_involucrada).nombre+"  " %></div>
+            <% end %>
         </div>
         </button>
 
       <% if @usuario.nivel.eql?("Administrador") or @usuario.nivel.eql?("Supervisor") #si tiene permiso puede editar las valiciones de los informes%>
-        <div class="col-sm-2" style="width: 100px ; height: 40px">
-            <%if i.validado%>       <! boton de validado activo >
+        <div class="col-sm-2" style="width: 80px ; height: 40px">
+            <%if i.validado%>      <! boton de validado activo >
              <a data-bs-toggle="modal" data-bs-target="#submm<%=i.id.to_s%>" >
                 <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40 " fill="green" class="bi bi-toggle-on" viewBox="0 0 16 16">
                 <path d="M5 3a5 5 0 0 0 0 10h6a5 5 0 0 0 0-10H5zm6 9a4 4 0 1 1 0-8 4 4 0 0 1 0 8z"/>
                 </svg>
               </a>
-            <% else %>  <! boton de validado desactivado >
+            <% else %>    <! boton de validado desactivado >
             <a data-bs-toggle="modal" data-bs-target="#unsubmm<%=i.id.to_s%>" >
                 <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="black" class="bi bi-toggle-off" viewBox="0 0 16 16">
                 <path d="M11 4a4 4 0 0 1 0 8H8a4.992 4.992 0 0 0 2-4 4.992 4.992 0 0 0-2-4h3zm-6 8a4 4 0 1 1 0-8 4 4 0 0 1 0 8zM0 8a5 5 0 0 0 5 5h6a5 5 0 0 0 0-10H5a5 5 0 0 0-5 5z"/>
                 </svg>
             </a>
             <% end %> 
+        </div>        <! boton de eliminar >
+        <div class="col-sm-2" style="width: 80px ; height: 40px">
+          <a data-bs-toggle="modal" data-bs-target="#erase<%=i.id.to_s%>" >
+            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="40" fill="red" class="bi bi-trash" viewBox="0 0 16 16">
+              <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+              <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+            </svg>
+          </a>
         </div>
       <% end %>
       </div>
@@ -113,6 +144,24 @@
         </div>
       </div>
 
+      <div class="modal" id="erase<%=i.id.to_s%>" tabindex="-1">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Seguro quiere ELIMINAR a este informe ?</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <p><%=i.titulo%></p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">NO</button>
+              <a type="button" class="btn btn-danger" href=<%="/eliminar_informe/?nroA="+@auto.nroA.to_s+"&informe_a_eliminar_id="+i.id.to_s %>
+               >SI</a>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <div class="modal fade" id="t<%=i.id.to_s%>" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" >

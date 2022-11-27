@@ -6,7 +6,7 @@ class InformesController < ApplicationController
 		else
 			redirect_to iniciar_sesion_url and return
 		end
-
+		@notice = params[:notice]
 		if params[:nroA] != nil	#si esta definido el auto
     		@auto = Auto.find_by(nroA: params[:nroA]) #busca por nroA de auto
     		if @auto!= nil	#si existe ese auto
@@ -23,6 +23,25 @@ class InformesController < ApplicationController
     end
 	
 	
+	# accion lanzada desde /app/views/informes/index.html.erb 
+	# formato de link tipico : http://localhost:3000/informes/eliminar_informe/?auto=3&informe_a_eliminar_id=3
+	def eliminar	# valida o invalida un Informe
+		if session[:user_id]!=nil and params[:nroA]!=nil 
+			@usuario = Usuario.all.find_by(id: session[:user_id])
+			if @usuario.nivel.eql?("Usuario")
+				redirect_to ( root_url notice: "Operacion Privilegiada no permitida") and return
+			else
+				Informe.find(params[:informe_a_eliminar_id]).destroy 
+				redirect_to action: "index", nroA: params[:nroA], notice: "se a eliminado correctamente el informe :"+params[:informe_a_eliminar_id]  and return
+			end
+		else
+			redirect_to iniciar_sesion_url and return
+		end
+		
+
+	end
+
+
 	# accion lanzada desde /app/views/informes/index.html.erb 
 	# formato de link tipico : http://localhost:3000/informes/validar?validar=true&auto=3&usuario_validado=1
 	def validar	# valida o invalida un Informe
@@ -83,7 +102,7 @@ class InformesController < ApplicationController
 				#redirect_to root_url (:auto , :usuario , notice: "Informe Creado correctamente.") 
 				#redirect_to alquilers_url
 					puts " ---------- y se guardo ---------"
-					redirect_to action: "index", nroA: @informe.auto.nroA and return
+					redirect_to action: "index", nroA: @informe.auto.nroA , notice: "el informe se a creado correctamente " and return
 	
 			else
 					puts " ---------- y NO se guardo ---------"

@@ -10,6 +10,8 @@ Rails.application.routes.draw do
   root "mapas#show"
   get '/iniciar_sesion', to: 'mains#show', as: 'iniciar_sesion' #referencia a iniciar sesion
   get '/validar_informe', to: 'informes#validar', as: 'validar_informe' # referencia a accion validar informes admin
+  get '/eliminar_informe', to: 'informes#eliminar', as: 'eliminar_informe' #referencia a la accion de eliminar informe como admin
+  
   get '/cerrar_sesion', to: 'logouts#destroy', as: 'cerrar_sesion' # referencia a cerrar secion
   post '/mains/validar', to: 'mains#validar'
   post '/alquilers/devolver', to: 'alquilers#check_auto'
