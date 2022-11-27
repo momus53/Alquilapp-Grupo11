@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_11_25_181423) do
+ActiveRecord::Schema[7.0].define(version: 2022_11_27_153318) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -76,6 +76,10 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_25_181423) do
     t.time "multado"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "auto_id"
+    t.integer "usuario_id"
+    t.index ["auto_id"], name: "index_travels_on_auto_id"
+    t.index ["usuario_id"], name: "index_travels_on_usuario_id"
   end
 
   create_table "usuarios", force: :cascade do |t|
@@ -94,4 +98,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_25_181423) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "informes", "autos"
   add_foreign_key "informes", "usuarios"
+  add_foreign_key "travels", "autos"
+  add_foreign_key "travels", "usuarios"
 end

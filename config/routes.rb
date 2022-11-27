@@ -10,6 +10,8 @@ Rails.application.routes.draw do
   root "mapas#show"
   get '/mains/show', to: 'mains#show'
   delete '/mains/logouts', to: 'logouts#destroy'
+  post '/alquilers/update', to: 'alquilers#update'
+  post '/alquilers/validar', to: 'alquilers#validar'
   post '/mains/validar', to: 'mains#validar'
   post '/alquilers/devolver', to: 'alquilers#check_auto'
   post '/alquilers/extender', to: 'alquilers#extender'
