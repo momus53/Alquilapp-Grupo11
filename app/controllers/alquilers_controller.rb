@@ -7,6 +7,9 @@ class AlquilersController < ApplicationController
       @autos = Auto.all
       @usuario= Usuario.all.find_by(id: session[:user_id])
       @usuarios = Usuario.all
+      if params[:auto]!=nil
+          @auto=Auto.find_by(nroA: params[:auto] )
+      end
     end
 
     def index

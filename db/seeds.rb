@@ -20,11 +20,11 @@ auto4 = Auto.create(nroA: 2, color: "Azul", patente: "LO 487 FR" , en_uso: false
 auto5 = Auto.create(nroA: 5, color: "Blanco", patente: "AS 065 QW" , en_uso: true)
 auto6 = Auto.create(nroA: 6, color: "Blanco", patente: "RTM 8983AR" , en_uso: false)
 
-user1 = Usuario.create(nombre: "Alan", apellido: "Pichot", monto_actual: 170.8, nivel: "Supervisor")
-user2 = Usuario.create(nombre: "Sandro", apellido: "Mareco", monto_actual: 1889.0, nivel: "Usuario")
-user3 = Usuario.create(nombre: "Fernando", apellido: "Peralta", monto_actual: 0, nivel: "Administrador")
-user3 = Usuario.create(nombre: "Beth", apellido: "Harmon", monto_actual: 0, nivel: "Supervisor")
-user5 = Usuario.create(nombre: "Tomas", apellido: "Sosa", monto_actual: -89.9, nivel: "Usuario")
+user1 = Usuario.create(nombre: "Alan", apellido: "Pichot", monto_actual: 170.8, nivel: "Supervisor",dni:42312315, email: "alan@pro.com")
+user2 = Usuario.create(nombre: "Sandro", apellido: "Mareco", monto_actual: 1889.0, nivel: "Usuario",dni:40312315, email: "sandrr@proCress.com")
+user3 = Usuario.create(nombre: "Fernando", apellido: "Peralta", monto_actual: 0, nivel: "Administrador",dni:49312315, email: "frend@proCress.com")
+user4 = Usuario.create(nombre: "Beth", apellido: "Harmon", monto_actual: 0, nivel: "Supervisor",dni:35312315, email: "beti@proCress.com")
+user5 = Usuario.create(nombre: "Tomas", apellido: "Sosa", monto_actual: -89.9, nivel: "Usuario",dni:33312315, email: "tomiton@proCress.com")
 
 inf1 = Informe.create(titulo: "toque en paragolpe", descripcion: "en el paragolpe trasero tiene un golpe, y le falta un pedazo de plastico", parte_involucrada: 9 , validado: false , auto: auto2 , usuario: user2)
 inf2 = Informe.create(titulo: "espejito roto", descripcion: "el espejo derecho esta golpeado y trabado", parte_involucrada: 17 , validado: false , auto: auto2 , usuario: user2)

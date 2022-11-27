@@ -9,6 +9,9 @@ Rails.application.routes.draw do
 
   root "mapas#show"
   get '/mains/show', to: 'mains#show'
+  get '/validar_informe', to: 'informes#validar', as: 'validar_informe' # referencia a accion validar informes admin
+  get '/eliminar_informe', to: 'informes#eliminar', as: 'eliminar_informe' #referencia a la accion de eliminar informe como admin
+
   delete '/mains/logouts', to: 'logouts#destroy'
   post '/alquilers/update', to: 'alquilers#update'
   post '/alquilers/validar', to: 'alquilers#validar'

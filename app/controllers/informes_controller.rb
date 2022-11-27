@@ -1,46 +1,87 @@
 class InformesController < ApplicationController
 	
     def index
-    	if params[:nroA] != nil	#si esta definido el auto
+		if session[:user_id]!=nil
+			@usuario = Usuario.all.find_by(id: session[:user_id])
+		else
+			redirect_to iniciar_sesion_url and return
+		end
+		@notice = params[:notice]
+		if params[:nroA] != nil	#si esta definido el auto
     		@auto = Auto.find_by(nroA: params[:nroA]) #busca por nroA de auto
     		if @auto!= nil	#si existe ese auto
     			@informes=Informe.where(auto_id: @auto.id) # busca los informes
-				if params[:validado]!="all"
-					@informes=@informes.where(validado: true)#solo deja los informes validados
+				if @usuario.nivel.eql?("Usuario") 
+					@informes=@informes.where(validado: true)	#solo deja los informes validados
 				end
-				@partes=Parte.all
+				@partes=Parte.all	# le pasa el nombre de todas las piezas de los autos
     		else
     			@informes= nil	# no hay informes para ese auto
     		end
-		else
-			puts "------------- No se selecciono Auto	  --------"
-			@informes = Informe.all	# se muestran todos los informes
       	end
-      	if params[:usuario] != nil
-      		@usuario=Usuario.find(params[:usuario])
-      	else
-      		@usuario=nil
-      	end
-      
+
     end
+	
+	
+	# accion lanzada desde /app/views/informes/index.html.erb 
+	# formato de link tipico : http://localhost:3000/informes/eliminar_informe/?auto=3&informe_a_eliminar_id=3
+	def eliminar	# valida o invalida un Informe
+		if session[:user_id]!=nil and params[:nroA]!=nil 
+			@usuario = Usuario.all.find_by(id: session[:user_id])
+			if @usuario.nivel.eql?("Usuario")
+				redirect_to ( root_url notice: "Operacion Privilegiada no permitida") and return
+			else
+				Informe.find(params[:informe_a_eliminar_id]).destroy 
+				redirect_to action: "index", nroA: params[:nroA], notice: "se a eliminado correctamente el informe :"+params[:informe_a_eliminar_id]  and return
+			end
+		else
+			redirect_to iniciar_sesion_url and return
+		end
+		
+
+	end
+
+
+	# accion lanzada desde /app/views/informes/index.html.erb 
+	# formato de link tipico : http://localhost:3000/informes/validar?validar=true&auto=3&usuario_validado=1
+	def validar	# valida o invalida un Informe
+		if session[:user_id]!=nil
+			@usuario = Usuario.all.find_by(id: session[:user_id])
+		else
+			redirect_to iniciar_sesion_url and return
+		end
+
+		if params[:validar]!= nil and params[:auto]!= nil and params[:informe_validado_id]!= nil
+			if @usuario.nivel.eql?("Administrador") or @usuario.nivel.eql?("Supervisor") # si tiene nivel suficiente
+				@informe=Informe.find(params[:informe_validado_id])
+					@informe.validado=params[:validar]
+					@informe.fecha_validado=Time.now;
+					@informe.save
+					puts "---->>>se modifico la validacion de un informe"
+			end
+		end
+		redirect_to action: "index", nroA: params[:auto] and return
+	end
+
+
     
     # /app/views/informes/new.html.erb 
-    def new	
-    	@informe= nil # establesco por defecto un informe nulo
-    	if ( params[:nroA] != nil ) and (params[:usuario] != nil) 
-    		if ( params[:usuario].to_i > 0 )	#si estan los parametros necesarios		
-		 		@auto= Auto.find_by(nroA: params[:nroA]) 	# traigo el auto por nroA seleccionado por parametro
-				@usuario= Usuario.find(params[:usuario]) #traigo el usuario por id seleccionado por parametro
-				if (@auto != nil)	and ( @usuario != nil)	# si existen el auto y el usuario seleccionados
-					@informe = Informe.new(auto: @auto ,usuario: @usuario) # creo el informe
-		 		else
-		 			@notice_error=" no se encontro el usuario, o auto pedido"
-		 		end
-		 	else
-				@notice_error=" numero de usuario no puede ser negativo"
-		 	end
-		 	@notice_error="debe ingresar ambos parametros "
-    	end	
+    def new
+		if session[:user_id]!=nil
+			@usuario = Usuario.all.find_by(id: session[:user_id])
+		else
+			redirect_to iniciar_sesion_url and return
+		end
+		
+		@informe= nil # establesco por defecto un informe nulo
+		if params[:nroA] != nil 
+			@auto= Auto.find_by(nroA: params[:nroA]) 	# traigo el auto por nroA seleccionado por parametro
+			if (@auto != nil)	# si existen el auto y el usuario seleccionados
+				@informe = Informe.new(auto: @auto ,usuario: @usuario) # creo el informe
+			else
+				@notice_error=" debe ingresar numero de auto <nroA:4>"
+			end
+		end
     end
     
     def create
@@ -61,7 +102,7 @@ class InformesController < ApplicationController
 				#redirect_to root_url (:auto , :usuario , notice: "Informe Creado correctamente.") 
 				#redirect_to alquilers_url
 					puts " ---------- y se guardo ---------"
-					redirect_to action: "index", nroA: @informe.auto.nroA , usuario: @informe.usuario.id and return
+					redirect_to action: "index", nroA: @informe.auto.nroA , notice: "el informe se a creado correctamente " and return
 	
 			else
 					puts " ---------- y NO se guardo ---------"
