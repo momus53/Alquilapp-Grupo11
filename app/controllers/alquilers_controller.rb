@@ -20,11 +20,32 @@ class AlquilersController < ApplicationController
       @usuario = Usuario.all.find_by(id: session[:user_id])
       render :edit
     end
+    def validar
+      @usuario = Usuario.all.find_by(id: session[:user_id])
+      aux = params.permit(:cuartos,:nroA)
+      aux2 = Auto.all.find_by(nroA: aux[:nroA])
+      total= (((aux[:cuartos].to_i)/4)*1250)
+      if (total<=@usuario.monto_actual)
+        if ((@usuario.travels.find_by(auto_id: aux2.id).created_at.advance(hours: 1)) < Time.now)
+          puts 'puede alquilar'
+          @usuario.increment!(:monto_actual , -total)
+          redirect_to action: 'index', auto: aux[:nroA].to_s, mins: ((aux[:cuartos].to_i)/4)*60 and return
+        else
+          puts 'lo uso hace poco'
+          redirect_to alquiler_path(auto: aux[:nroA].to_s, id:'show', notice: "Lo uso hace menos de 3 Horas") and return
+        end
+      else
+        puts 'No hay dinero'
+        redirect_to alquiler_path(auto: aux[:nroA].to_s, id:'show', notice: "No Hay Dinero suficiente") and return
+      end
 
+    end
     def update
+      puts '-----------------------------------------------------------'
         @usuario = Usuario.all.find_by(id: session[:user_id])
-       ## aux = params.require(:usuario).permit(:monto)
-       ## @usuario.increment!(:monto_actual , -aux[:monto].to_i)
+        aux = params.permit(:cuartos)
+        total= (((aux[:cuartos].to_i)/4)*1250)
+        @usuario.increment!(:monto_actual , -total)
     end
 
     def extender

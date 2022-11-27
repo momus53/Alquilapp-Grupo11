@@ -6,9 +6,19 @@
 <!-- h1 class="container-fluid text-center" > Elija cuanto tiempo quiere alquilar </h1-->
 <div class="container-fluid">
     <h2 id="valorR"></h2>
-    <label for="customRange3" class="form-label">Eliga la cantidad de tiempo que desea alquilar este vehiculo:</label>
-    <input id="barra" type="range" class="form-range" value="8" min="1" max="96" oninput="slider()">
-    <output> Desliza y actualiza cantidad de </output> HS
+    <%= bootstrap_form_tag url: '/alquilers/validar' do |f| %>
+        <%= f.range_field :cuartos, hide_label: true, id: "barra", type: "range", class: "form-range", min:"1", max:"96", oninput: "slider()" %>
+        <%=f.text_field :nroA, hide_label: true, id: "auto", type: "text", hidden: true%>
+        <h2 id=horasTotal> </h2> Cantidad de horas
+        <br>
+        <%= f.primary "Contratar" %>
+	<%end%>
+  
+    <script>
+    function updateTextInput(val) {
+          document.getElementById('textInput').value=val;
+        }
+    </script>
 
     <div class="row  m-2">
         <div class="col card text-bg-dark mb-1 text-center"> 
@@ -19,10 +29,6 @@
     </div>
     <div class="row">
         <div class="col">
-            <button type="button" class="btn btn-primary" onclick="contratar()">Contratar</button>
-        </div>
-
-        <div class="col">
             <a href="/informes/new" type="button" class="btn btn-warning">Informar</a>
         </div>
 
@@ -30,16 +36,17 @@
             <button class="btn btn-danger" onclick="irHome()"> Volver</button>
         </div>
     </div>
+    <h1><%=@usuario.monto_actual%></h1>
 </div>
   
 <script>  
     let params = new URLSearchParams(document.location.search);
     let auto = params.get("auto");
     let numAuto = Number(auto);
-    
+    document.getElementById('auto').value= auto;
     valorR.innerText="El vehiculo a alquilar es el N°" + auto;
     function slider() {
-        barra.nextElementSibling.value = (barra.value/4);
+        horasTotal.innerText = (barra.value/4);
         muestraPrecio.innerText="$ARS= "+ ((barra.value/4)*1250);
     }
     function contratar(dineroDisp,loUso){  // Params (Nro auto, horas, usuario, valor)
@@ -84,4 +91,8 @@
     function irHome(){
         window.location.href = "/";
     }
+    if (new URLSearchParams(document.location.search).get("notice")!= null){
+        window.alert(new URLSearchParams(document.location.search).get("notice"))
+    }
+
 </script>

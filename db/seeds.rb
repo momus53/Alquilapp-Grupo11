@@ -13,7 +13,7 @@ Informe.destroy_all
 #ActiveRecord::Base.connection.execute("ALTER SEQUENCE autos_id_seq RESTART with 1")
 #ActiveRecord::Base.connection.execute("ALTER SEQUENCE usuarios_id_seq RESTART with 1")
 
-auto1 = Auto.create(id:3, nroA: 1, color: "Rojo", patente: "NNN 666" , en_uso: true)
+auto1 = Auto.create(nroA: 1, color: "Rojo", patente: "NNN 666" , en_uso: true)
 auto2 = Auto.create(nroA: 3, color: "Azul", patente: "ALO 544" , en_uso: false)
 auto3 = Auto.create(nroA: 4, color: "Rojo", patente: "ADW 112" , en_uso: false)
 auto4 = Auto.create(nroA: 2, color: "Azul", patente: "LO 487 FR" , en_uso: false)
@@ -62,5 +62,6 @@ parte27 = Parte.create(id:27, nombre:"Rin")
 
 
 
-
-tra1= Travel.create()
+Time.now
+tra1= Travel.create(start: Time.now.advance(hours: -3), ends: Time.now, auto_id: auto6.id, usuario_id: 1)
+tra2= Travel.create(start: Time.now.advance(hours: -6), ends: Time.now.advance(hours: -3), auto_id: auto3.id, usuario_id: 1)
