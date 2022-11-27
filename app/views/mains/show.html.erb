@@ -1,16 +1,38 @@
+<div class="container-fluid">
+  <div class="col centrarReloj mt-5">
+    <img src="https://cdn.discordapp.com/attachments/1008876096059613304/1012719394327109632/Logo_3.png" height="75em">
+    <div class="mb-3">
+      <h1><strong style="font-family: 'Century Gothic', sans-serif;">Alquilapp</strong></h1>
+    </div>
+    <div class="mt-4" style="color: gray;">
+      <h5>Inicio de sesión</h5>
+    </div>
 
-<%= bootstrap_form_tag url: '/mains/validar' do |f| %>
-    <%= f.email_field :email, placeholder: "Email" , required: true%>
-    <%= f.password_field :pwd,  placeholder: "Contraseña" , required: true %>		
-    <%= f.submit "Iniciar Sesion", class: "btn btn-primary d-flex align-items-center flex-column" %>	
-<% end %>
-<div class="container text-center p-4">
-    <a type="button" class="btn btn-primary" href="/usuarios/new">Registrarse</a>
+    <div>
+      <%= bootstrap_form_tag url: '/mains/validar',class:"row m-1" do |f| %>
+          <%= f.email_field :email, floating: true, label: "Correo electronico", required: true%>
+          <%= f.password_field :pwd, floating: true, label: "Contraseña", required: true %>		
+          <%= f.submit "Iniciar Sesion", class: "btn btn-primary" %>	
+      <% end %>
+    </div> 
+    <div class="mt-5">
+      Es tu primera vez acá?
+    </div>
+    <div class="container row m-2">
+        <a type="button" class="btn btn-success" href="/usuarios/new">Registrarse</a>
+    </div>
+    <div class="container row m-2">
+        <a type="button" class="btn btn-warning" href="/">Omitir</a>
+    </div>
+  </div>
 </div>
 
-<script>
-    if (new URLSearchParams(document.location.search).get("notice") != null){
-      window.alert(new URLSearchParams(document.location.search).get("notice"))
-      console.log("Hola pana")
-    }
+
+
+
+  <script>
+      if (new URLSearchParams(document.location.search).get("notice") != null){
+        window.alert(new URLSearchParams(document.location.search).get("notice"))
+        console.log("Hola pana")
+      }
   </script>
