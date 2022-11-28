@@ -34,7 +34,7 @@
     </div>
     <%end%>
     <div class="row ps-3 pe-3 p-1 mt-5">
-        <a href="/informes" type="button" class="btn btn-warning">Ver informes</a>  
+        <a id="vi" href="" type="button" class="btn btn-warning">Ver Informes</a>  
     </div>
     <div class="row ps-3 pe-3 p-1">
         <a class="btn btn-danger" href="/"> Cancelar</a>
@@ -44,7 +44,9 @@
 
 <script>
     const params2 = new URLSearchParams(document.location.search);
-    let auto_in = params2.get("auto"); 
+    let auto_in = params2.get("auto");
+    direccionInformes = "/informes?nroA="+auto_in;
+    vi.href = direccionInformes;
     document.getElementById("auto").value = auto_in;
     valorR.innerText="Por cuanto tiempo queres rentar el auto N°" +auto_in+" ?";
     slider();

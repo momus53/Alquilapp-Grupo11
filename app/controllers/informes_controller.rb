@@ -87,13 +87,15 @@ class InformesController < ApplicationController
     def create
 		@informe = Informe.new(informe_params )	#crea el nuevo informe con los parametros permitidos
 		@informe.validado=false
-
+		mensaje = "el informe se a creado correctamente, actualmente se encuentra pendiente de verificacion."
 		if Usuario.find(@informe.usuario_id).nivel.eql?("Supervisor") #valida automaticamente los informes de Supervisores
 			@informe.validado=true
+			mensaje = "el informe se a creado y verificado correctamente."
 		end
 
 		if Usuario.find(@informe.usuario_id).nivel.eql?("Administrador") #valida automaticamente los informes de administradores
 			@informe.validado=true
+			mensaje = "el informe se a creado y verificado correctamente."
 		end
 
 		puts "------------- se creo el informe  --------"
@@ -102,8 +104,7 @@ class InformesController < ApplicationController
 				#redirect_to root_url (:auto , :usuario , notice: "Informe Creado correctamente.") 
 				#redirect_to alquilers_url
 					puts " ---------- y se guardo ---------"
-					redirect_to action: "index", nroA: @informe.auto.nroA , notice: "el informe se a creado correctamente " and return
-	
+					redirect_to action: "index", nroA: @informe.auto.nroA , notice: mensaje and return
 			else
 					puts " ---------- y NO se guardo ---------"
 					flash[:notice] = "Lo que podia fallar, Fallo! "

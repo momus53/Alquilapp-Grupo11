@@ -13,7 +13,8 @@ class AlquilersController < ApplicationController
     end
 
     def index
-      @autos = Auto.all
+      auxiliar = params.permit(:auto)
+      @auto = Auto.all.find_by(nroA: auxiliar[:auto])
       @usuario = Usuario.all.find_by(id: session[:user_id])
       @viaje = Travel.create
       render
@@ -64,6 +65,7 @@ class AlquilersController < ApplicationController
     def check_auto
       aux = params.permit(:patente,:auto,:mins)
       res = post_api_auto(aux[:patente])
+      auto = Auto.all.find_by(patente: aux[:patente]).nroA
 
       if res.parsed_response.key?("result") and res.parsed_response["result"] == "err_timeout"
         puts("TIMEOUT")
@@ -87,7 +89,7 @@ class AlquilersController < ApplicationController
           end
         end
       end
-      redirect_to alquilers_path(auto: 4,mins: 60,msg: salida)
+      redirect_to alquilers_path(auto: auto,mins: 60,msg: salida)
     end
 
     def post_api_auto(patente)

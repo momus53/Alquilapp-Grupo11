@@ -1,7 +1,7 @@
 <! nuevo informe >
 
 <% 	if (@informe != nil) and (@auto != nil) and (@usuario!=nil)  %> 
-
+<div class="container fluid">
 
 			<!-- barra de navegacion : tipo Renderizado Parcial-->
 				<%= render "/mapas/nav" %>
@@ -63,9 +63,9 @@
 			  <button type="button" class="btn btn-secondary" onclick="volver()">Cancelar</button>
 		  </div>
 	  </div>
-</div>
+	</div>
 	<% end %>
-	
+</div>
 <% else %>	 
   <li>ha ocurrido un error :</li>
   <li> -> <%=  @notice_error %> </li>
