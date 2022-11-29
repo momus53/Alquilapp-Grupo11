@@ -44,7 +44,7 @@ class UsuariosController < ApplicationController
                         @usuarios=@usuarios.order(:dni)
                     end
                     if @ord.eql?("fecha_nacimiento")
-                        @usuarios=@usuarios.order(:fecha_nacimiento) #editar y remplazar por la fecha de nacimiento
+                        @usuarios=@usuarios.order(:fecha_nacimiento)
                     end
                 end
             else
@@ -133,11 +133,19 @@ class UsuariosController < ApplicationController
     
     def new
         @usuario = Usuario.new
-        @error= params[:error]
+        @usuario.nombre=params[:nombre]
+        @usuario.apellido=params[:apellido]
+        @usuario.email=params[:email]
+        @usuario.dni=params[:dni]
     end
 
+    #archivo de vista en /app/views/usuarios/
+    #crea y guarda usuario con los parametros ingresados en la planilla
     def create
         @usuario = Usuario.new(usuario_params)
+        if not @usuario.pwd.eql?(@usuario.nivel) #chapusa atomica.... cargo en NIVEL, la confirmacion de contraseña
+            redirect_to action: "new", error: "Debe ingresar 2 veces la contraseña identicas" ,nombre: @usuario.nombre , apellido: @usuario.apellido, email: @usuario.email ,dni: @usuario.dni and return
+        end
         @usuario.monto_actual=0
         @usuario.nivel="Usuario"
         
@@ -188,6 +196,6 @@ class UsuariosController < ApplicationController
     end
     private
     def usuario_params
-    	params.require(:usuario).permit(:nombre, :apellido, :email, :dni, :pwd)
+    	params.require(:usuario).permit(:nombre, :apellido, :email, :dni, :pwd,:nivel , :fecha_nacimiento)
     end
 end
