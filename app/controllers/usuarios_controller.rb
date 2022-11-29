@@ -8,7 +8,7 @@ class UsuariosController < ApplicationController
     def index
         if session[:user_id]!=nil
 			@usuario = Usuario.all.find(session[:user_id])
-            if @usuario.nivel.eql?("Administrador")
+            if @usuario.nivel.eql?("Administrador") or @usuario.nivel.eql?("Supervisor")
                 
                 @usuarios= Usuario.all #le cargo todos los usuarios
                 @niv= params[:nivel]
@@ -44,11 +44,11 @@ class UsuariosController < ApplicationController
                         @usuarios=@usuarios.order(:dni)
                     end
                     if @ord.eql?("fecha_nacimiento")
-                        @usuarios=@usuarios.order(:created_at) #editar y remplazar por la fecha de nacimiento
+                        @usuarios=@usuarios.order(:fecha_nacimiento) #editar y remplazar por la fecha de nacimiento
                     end
                 end
             else
-                redirect_to root_url and return   #si el usuario no tiene el nivel necesario lo redirijo al mapa
+                redirect_to root_url, notice:"no tiene el nivel suficiente para esta accion" and return   #si el usuario no tiene el nivel necesario lo redirijo al mapa
             end
 		else
 			redirect_to mains_show_url and return   #si no tiene secion iniciada redirigo a iniciar secion

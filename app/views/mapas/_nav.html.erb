@@ -16,37 +16,61 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="offcanvas offcanvas-end" style="background-color: #FEBD59;" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
-        <div class="offcanvas-header">    <!-- SVG imagen logoUser -->
-          <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
-          <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
-          <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
-          </svg>
+        <div class="offcanvas-header">    
           <%if session[:user_id]%>
-            <h2><%=@usuario.nombre%> <%=@usuario.apellido%></h2>
-          <%else%>
+            <% if @usuario.nivel.eql?("Usuario")%><!-- SVG imagen logoUsuario -->
+              <svg width="32" height="32" fill="#804C11" class="bi bi-person-fill" viewBox="0 0 16 16" >
+              <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
+              </svg>
+              <h2><%= @usuario.nombre.capitalize + ", " + @usuario.apellido.capitalize %></h2>
+            <%end%>
+            <% if @usuario.nivel.eql?("Supervisor")%><!-- SVG imagen logoSupervisor -->
+              <svg width="40" height="40" fill="#2EA36A" class="bi bi-person-circle" viewBox="0 0 16 16" >
+              <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+              <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+              </svg>
+              <h2><%= @usuario.nombre.capitalize + ", " + @usuario.apellido.capitalize %></h2>
+            <%end%>
+            <% if @usuario.nivel.eql?("Administrador")%><!-- SVG imagen logoSupervisor -->
+              <svg width="40" height="40" fill="#9E52EB" class="bi bi-person-square" viewBox="0 0 16 16" >
+              <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+              <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm12 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1v-1c0-1-1-4-6-4s-6 3-6 4v1a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12z" />
+              </svg>
+              <h2><%= @usuario.nombre.capitalize + ", " + @usuario.apellido.capitalize %></h2>
+            <%end%>
+          <%else%>  <!-- si no tiene cuenta iniciada -->
+            <!-- SVG imagen logoIncognito -->
+            <svg width="40" height="40" fill="black" class="bi bi-person" viewBox="0 0 16 16">
+            <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
+            </svg>
             <h2>Usuario sin registrar</h2>
           <%end%>
           <button type="button" style="color: #73634B;" class="btn-close btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
           <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+
             <%if session[:user_id]%>
-            <li class="nav-item">                         <! boton/link ver perfil>
-              <a class="nav-link active" aria-current="page" href="/usuarios/show/edit">Mi Perfil</a>
-            </li>
-            <li class="nav-item">                         <! boton/link ver GIT >
-              <a class="nav-link" href="https://github.com/momus53/Alquilapp-Grupo11">Acerca de nosotros</a>
-            </li>
-            <li class="nav-item">                         <! boton/Log out >
-              <a type="button" class="nav-link" data-bs-toggle="modal" data-bs-target="#ModalCerrarSesion">Cerrar sesión</a> 
-            </li>
+              <li class="nav-item">                         <! boton/link ver perfil>
+                <a class="nav-link active" aria-current="page" href="/usuarios/show/edit">Mi Perfil</a>
+              </li> 
+                                                            <! boton/link ver lista de usuarios>
+                <%if @usuario.nivel.eql?("Administrador") or @usuario.nivel.eql?("Supervisor")%>
+                  <a class="nav-link active" aria-current="page" href="/usuarios">Lista de usuarios</a>
+                <%end%>
+              <li class="nav-item">                         <! boton/link ver GIT >
+                <a class="nav-link" href="https://github.com/momus53/Alquilapp-Grupo11">Acerca de nosotros</a>
+              </li>
+              <li class="nav-item">                         <! boton/Log out >
+                <a type="button" class="nav-link" data-bs-toggle="modal" data-bs-target="#ModalCerrarSesion">Cerrar sesión</a> 
+              </li>
             <%else%>
-            <li class="nav-item">                         <! boton/link Iniciar sesion>
-              <a class="nav-link active" aria-current="page" href="/mains/show">Iniciar Sesion</a>
-            </li>
-            <li class="nav-item">                         <! boton/link ver GIT >
-              <a class="nav-link" href="https://github.com/momus53/Alquilapp-Grupo11">Acerca de nosotros</a>
-            </li>
+              <li class="nav-item">                         <! boton/link Iniciar sesion>
+                <a class="nav-link active" aria-current="page" href="/mains/show">Iniciar Sesion</a>
+              </li>
+              <li class="nav-item">                         <! boton/link ver GIT >
+                <a class="nav-link" href="https://github.com/momus53/Alquilapp-Grupo11">Acerca de nosotros</a>
+              </li>
             <%end%>
           </ul>
         </div>

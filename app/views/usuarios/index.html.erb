@@ -1,86 +1,92 @@
 
 <! vista del aministrador de gestion de usuarios >
 <% if @usuario!= nil and  @usuarios!=nil %>
+
     <! se reciben las variables @ord y @niv que contienen el orden y el nivel actual>
 
-  <%= render "/mapas/nav" %>
-  <div id="espacio-nav" style="height: 60px;"></div>
+    <%= render "/mapas/nav" %>
+    <div id="espacio-nav" style="height: 60px;"></div>
 
-  <div class="row " style="background-color: #FFC859;"> <! botonera superior filtrar por nivel >
-    <div class="col-sm-2 text-left" style="vertical-align;">
-      <h5>Filtrar por nivel:</h5>
-    </div>
-    <a class="col-sm-2 text-center btn btn-outline-primary" style="font-size:medium ; color: #000000;"
-    href=<%="/usuarios?ordenar="+@ord.to_s%> >
-        <svg width="32" height="32" fill="currentColor" class="bi bi-people-fill" viewBox="0 0 16 16">
-        <path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H7zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
-        <path fill-rule="evenodd" d="M5.216 14A2.238 2.238 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.325 6.325 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1h4.216z" />
-        <path d="M4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/>
-        </svg>
-      Todos
-    </a>
-    <a class="col-sm-2 text-center btn btn-outline-primary" style="font-size:medium ; color: #804C11;"
-    href=<%="/usuarios?nivel=Usuario&ordenar="+@ord.to_s%> >
-        <svg width="32" height="32" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16" >
-        <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
-        </svg>
-        Usuario
-    </a>
-    <a class="col-sm-2 text-center btn btn-outline-primary" style="font-size:medium ; color: #2EA36A;"
-    href=<%="/usuarios?nivel=Supervisor&ordenar="+@ord.to_s%> >
-        <svg width="32" height="32" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16" >
-        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
-        <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
-        </svg>
-        Supervisor
-    </a>
-    <a class="col-sm-2 text-center btn btn-outline-primary" style="font-size:medium ; color: #9E52EB;"
-    href=<%="/usuarios?nivel=Administrador&ordenar="+@ord.to_s%> >
-        <svg width="32" height="32" fill="currentColor" class="bi bi-person-square" viewBox="0 0 16 16" >
-        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
-        <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm12 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1v-1c0-1-1-4-6-4s-6 3-6 4v1a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12z" />
-        </svg>
-        Administrador
-    </a>
-  </div>
-  <div id="espacio-filtrer" style="height: 5px;"></div>    
-
-    <div class="row " style="background-color: #FFC859; "> <! botonera superior Ordenar por: >
-        <div class="col-sm-2 text-left" style="vertical-align;">
-            <h5>Ordenar por:</h5>
+    <div class="row" style="background-color: #FFC859; "> <! botonera superior filtrar por nivel >
+        <div class="btn-group col-sm-5" role="group">
+            <button id="btnGroupDrop1" type="button" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                <%= "Filtrar por: "+@niv.to_s  %>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1"  style="background-color: #FFC859; ">
+                <a class="col-sm-2 text-center btn btn-outline-primary" style="font-size:medium ; color: #000000;"
+                href=<%="/usuarios?ordenar="+@ord.to_s%> >
+                    <svg width="32" height="32" fill="currentColor" class="bi bi-people-fill" viewBox="0 0 16 16">
+                    <path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H7zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
+                    <path fill-rule="evenodd" d="M5.216 14A2.238 2.238 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.325 6.325 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1h4.216z" />
+                    <path d="M4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/>
+                    </svg>
+                    Todos
+                </a>
+                <a class="col-sm-2 text-center btn btn-outline-primary" style="font-size:medium ; color: #804C11;"
+                href=<%="/usuarios?nivel=Usuario&ordenar="+@ord.to_s%> >
+                    <svg width="32" height="32" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16" >
+                    <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
+                    </svg>
+                    Usuario
+                </a>
+                <a class="col-sm-2 text-center btn btn-outline-primary" style="font-size:medium ;width: 100px; color: #2EA36A;"
+                href=<%="/usuarios?nivel=Supervisor&ordenar="+@ord.to_s%> >
+                    <svg width="32" height="32" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16" >
+                    <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+                    <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+                    </svg>
+                    Supervisor
+                </a>
+                <a class="col-sm-2 text-center btn btn-outline-primary" style="font-size:medium ;width: 120px; color: #9E52EB;"
+                href=<%="/usuarios?nivel=Administrador&ordenar="+@ord.to_s%> >
+                    <svg width="32" height="32" fill="currentColor" class="bi bi-person-square" viewBox="0 0 16 16" >
+                    <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+                    <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm12 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1v-1c0-1-1-4-6-4s-6 3-6 4v1a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12z" />
+                    </svg>
+                    Administrador
+                </a>
+            </ul>
         </div>
-        <a class="col-sm-2 text-center btn btn-outline-primary"  style="font-size:medium ; width: 90px; color: #000000;" 
-        href=<%="/usuarios?ordenar=nombre&nivel="+@niv.to_s%> >
-            Nombre
-        </a>
-        <a class="col-sm-2 text-center btn btn-outline-primary"  style="font-size:medium ; width: 100px; color: #000000;" 
-        href=<%="/usuarios?ordenar=apellido&nivel="+@niv.to_s%> >
-            Apellido
-        </a>
-        <a class="col-sm-2 text-center btn btn-outline-primary"  style="font-size:medium ; width: 60px; color: #000000;" 
-        href=<%="/usuarios?ordenar=dni&nivel="+@niv.to_s%> >
-            DNI
-        </a>
-        <a class="col-sm-2 text-center btn btn-outline-primary"  style="font-size:medium ; width: 70px; color: #000000;" 
-        href=<%="/usuarios?ordenar=email&nivel="+@niv.to_s%> >
-            Mail
-        </a>
-        <a class="col-sm-2 text-center btn btn-outline-primary"  style="font-size:medium ; width: 80px; color: #000000;" 
-        href=<%="/usuarios?ordenar=nivel&nivel="+@niv.to_s%> >
-            Nivel
-        </a>
-        <a class="col-sm-2 text-center btn btn-outline-primary"  style="font-size:medium ; width: 160px; color: #000000;" 
-        href=<%="/usuarios?ordenar=monto&nivel="+@niv.to_s%> >
-            Monto disponible
-        </a>
-        <a class="col-sm-2 text-center btn btn-outline-primary"  style="font-size:medium ; width: 200px; color: #000000;" 
-        href=<%="/usuarios?ordenar=fecha_nacimiento&nivel="+@niv.to_s%> >
-            Fecha de Nacimiento
-        </a>
+        <div class="btn-group col-sm-5" role="group">    <! botonera superior Ordenar por: >
+            <button id="btnGroupDrop1" type="button" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                <%= "Ordenar por: "+@ord.to_s.capitalize  %>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1"  style="background-color: #FFC859; ">
+                <a class="col-sm-2 text-center btn btn-outline-primary"  style="font-size:medium ; width: 90px; color: #000000;" 
+                href=<%="/usuarios?ordenar=nombre&nivel="+@niv.to_s%> >
+                    Nombre
+                </a>
+                <a class="col-sm-2 text-center btn btn-outline-primary"  style="font-size:medium ; width: 100px; color: #000000;" 
+                href=<%="/usuarios?ordenar=apellido&nivel="+@niv.to_s%> >
+                    Apellido
+                </a>
+                <a class="col-sm-2 text-center btn btn-outline-primary"  style="font-size:medium ; width: 60px; color: #000000;" 
+                href=<%="/usuarios?ordenar=dni&nivel="+@niv.to_s%> >
+                    DNI
+                </a>
+                <a class="col-sm-2 text-center btn btn-outline-primary"  style="font-size:medium ; width: 70px; color: #000000;" 
+                href=<%="/usuarios?ordenar=email&nivel="+@niv.to_s%> >
+                    Mail
+                </a>
+                <a class="col-sm-2 text-center btn btn-outline-primary"  style="font-size:medium ; width: 80px; color: #000000;" 
+                href=<%="/usuarios?ordenar=nivel&nivel="+@niv.to_s%> >
+                    Nivel
+                </a>
+                <a class="col-sm-2 text-center btn btn-outline-primary"  style="font-size:medium ; width: 160px; color: #000000;" 
+                href=<%="/usuarios?ordenar=monto&nivel="+@niv.to_s%> >
+                    Monto disponible
+                </a>
+                <a class="col-sm-2 text-center btn btn-outline-primary"  style="font-size:medium ; width:200 ; color: #000000;" 
+                href=<%="/usuarios?ordenar=fecha_nacimiento&nivel="+@niv.to_s%> >
+                    Fecha de Nacimiento
+                </a>
+            </ul>
+        </div>
     </div>
-  <div id="espacio-filtrer" style="height: 15px;"></div>
 
-    <% if @notice!=params[:notice] %>
+    <div id="espacio-filtrer" style="height: 15px;"></div>
+
+    <% if @notice!=params[:notice] %>   <!notificacion de alerta correcta que llega por parametro>
         <div class="alert alert-success alert-dismissible fade show container-md mb-3 text-center " > 
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="green" class="bi bi-check-square-fill" viewBox="0 0 16 16">
                 <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm10.03 4.97a.75.75 0 0 1 .011 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.75.75 0 0 1 1.08-.022z"/>
@@ -90,129 +96,129 @@
         </div>
     <% end %>
 
-  <% if @usuarios.empty? %>
+    <% if @usuarios.empty? %>
     <h1>no hay usuarios disponibles</h1>
-  <% end %>
+    <% end %>
 
-  <% @usuarios.each do |i| %>
+    <% @usuarios.each do |i| %>
 
-    <button class=" p-2 container-fluid " data-bs-toggle="modal" data-bs-target="#t<%=i.id.to_s%>" >
-      <div class="row ">
-        <div class="col-sm-2 text-left" style="font-size:medium ; color: #000000;">
-            <%= i.nivel.capitalize %>
-        </div>
-        <div class="col-sm-7 " style="font-weight: bold; ">
-            <% if i.nivel.eql?("Usuario")  #si el usuario es nivel Usuario %>
-            <span style="color: #804C11;">
-                <svg
-                width="32" height="32" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16" >
-                <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"
-                />
-                </svg>
-            </span>
-            <% end %>
-            <% if i.nivel.eql?("Supervisor") #si el usuario es nivel Supervisor %>
-            <span style="font-size:medium ; color: #2EA36A;">
-                <svg width="32" height="32" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16" >
-                <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
-                <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
-                </svg>
-            </span>
-            <% end %>
-            <% if i.nivel.eql?("Administrador")  #si el usuario es nivel Usuario %>
-            <span style="font-size:medium ; color: #9E52EB;">
-                <svg width="32" height="32" fill="currentColor" class="bi bi-person-square" viewBox="0 0 16 16" >
-                <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
-                <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm12 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1v-1c0-1-1-4-6-4s-6 3-6 4v1a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12z"/>
-                </svg>
-            </span>
-            <% end %>
-
-            <%= i.nombre.capitalize + ", "+i.apellido.capitalize %>
-            <! nombre completo del usuario >
-        </div>
-        <div class="col-sm-3 text-rigth" style="font-size:medium ; color: #000000;">
-            <%= i.dni.to_s + " - " +i.email.to_s%>
-        </div>
-    </button>
-
-    <div id="espacio-entre-usuarios" style="height: 15px;"></div>
-
-    <div class="modal fade" id="t<%=i.id.to_s%>" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-        <div class="modal-content">
-            <div class="modal-header">
-            <h1 class="modal-title fs-5" style="font-weight: bold;">
-                <%= i.nombre.capitalize + ", " +i.apellido.to_s + " - "+i.nivel.to_s  %>
-            </h1>
-            </div>
-            <div class="modal-body row container-fluid">  <!cuerpo del modal principal... botones accion importantes>
-                <div class="text col-sm-6" style="font-weight: italic;">
-                    <%= "dni: "+i.dni.to_s %> <br>
-                    <%= "email: "+i.email.to_s %> <br>
-                    <%= "fecha de nacimiento: "+i.created_at.strftime( "%d-%m-%Y") %> <br>
-                    <% if i.nivel.eql?("Usuario") %>
-                        <%="dinero disponible: $"+i.monto_actual.to_s%> <br>
-                        <%="cantidad de viajes:"+i.travels.count.to_s %> <br>
-                        <% if i.travels.count > 0%>
-                            <% if i.travels.last.ends==nil %> 
-                                tiene un Viaje activo<br>
-                            <%else%>
-                                no tiene viajes activos<br>
-                            <%end%>
-                        <%end%>
-                    <%end%>
-                    <%= "identificador interno: "+i.id.to_s%>
+        <button class=" p-2 container-fluid " data-bs-toggle="modal" data-bs-target="#t<%=i.id.to_s%>" >
+            <div class="row ">
+                <div class="col-sm" style="font-size:medium ; color: #000000;">
+                    <%if i.id==@usuario.id%>
+                        <%= "* "+i.nivel.capitalize %>
+                    <%else%>
+                        <%= i.nivel.capitalize %>
+                    <%end%>   
                 </div>
-                <% if i.id != @usuario.id %>
-                    <a type="button" class="btn btn-outline-danger col-sm-3"
-                    href=<%="/eliminar_usuario?usuario_id="+i.id.to_s%> >
-                        <svg width="28" height="28" fill="red" class="bi bi-person-x" viewBox="0 0 16 16"> 
-                        <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H1s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C9.516 10.68 8.289 10 6 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
-                        <path fill-rule="evenodd" d="M12.146 5.146a.5.5 0 0 1 .708 0L14 6.293l1.146-1.147a.5.5 0 0 1 .708.708L14.707 7l1.147 1.146a.5.5 0 0 1-.708.708L14 7.707l-1.146 1.147a.5.5 0 0 1-.708-.708L13.293 7l-1.147-1.146a.5.5 0 0 1 0-.708z"/>
+                <div class="col-sm-7 " style="font-weight: bold; ">
+                    <% if i.nivel.eql?("Usuario")  #si el usuario es nivel Usuario %>
+                    <span style="color: #804C11;">
+                        <svg
+                        width="32" height="32" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16" >
+                        <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"
+                        />
                         </svg>
-                        Eliminar
-                    </a>
-                <% end %>
-                <% if i.nivel.eql?("Usuario")%>
-                    <a type="button" class="btn btn-outline-success col-sm-3" 
-                    href=<%="/ascender_usuario?usuario_id="+i.id.to_s%> >
-                        <svg width="22" height="22" fill="green" class="bi bi-person-lines-fill" viewBox="0 0 16 16">
-                        <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-5 6s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zM11 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1h-4zm2 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1h-2zm0 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1h-2z"/>
+                    </span>
+                    <% end %>
+                    <% if i.nivel.eql?("Supervisor") #si el usuario es nivel Supervisor %>
+                    <span style="font-size:medium ; color: #2EA36A;">
+                        <svg width="32" height="32" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16" >
+                        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+                        <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
                         </svg>
-                        Ascender
-                    </a>
-                <% end %>
-                <% if i.nivel.eql?("Supervisor")%>
-                    <a type="button" class="btn btn-outline-dark col-sm-3" 
-                    href=<%="/descender_usuario?usuario_id="+i.id.to_s%> >
-                        <svg width="22" height="22" fill="black" class="bi bi-person-lines-fill" viewBox="0 0 16 16">
-                        <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-5 6s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zM11 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1h-4zm2 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1h-2zm0 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1h-2z"/>
+                    </span>
+                    <% end %>
+                    <% if i.nivel.eql?("Administrador")  #si el usuario es nivel Administrador %>
+                    <span style="font-size:medium ; color: #9E52EB;">
+                        <svg width="32" height="32" fill="currentColor" class="bi bi-person-square" viewBox="0 0 16 16" >
+                        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+                        <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm12 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1v-1c0-1-1-4-6-4s-6 3-6 4v1a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12z"/>
                         </svg>
-                        Descender
-                    </a>
-                <% end %>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Volver</button>
-            </div>
-        </div>
-      </div>
-    </div>
+                    </span>
+                    <% end %>
 
-  <% end %>
-  <!final del each de usuarios> 
+                    <%= i.nombre.capitalize + ", "+i.apellido.capitalize %>
+                    <! nombre completo del usuario >
+                </div>
+                <div class="col-sm-3 text-rigth" style="font-size:medium ; color: #000000;">
+                    <%= i.dni.to_s + " - " +i.email.to_s%>
+                </div>
+            </div>
+        </button>
+
+        <div id="espacio-entre-usuarios" style="height: 15px;"></div>
+
+        <%if @usuario.nivel.eql?("Administrador")%>    <! modal ver detalles del usuario>
+            <div class="modal fade" id="t<%=i.id.to_s%>" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <h1 class="modal-title fs-5" style="font-weight: bold;">
+                            <%= i.nombre.capitalize + ", " +i.apellido.to_s + " - "+i.nivel.to_s  %>
+                        </h1>
+                        </div>
+                        <div class="modal-body row container-fluid">  <!cuerpo del modal principal... botones accion importantes>
+                            <div class="text col-sm-6" style="font-weight: italic;">
+                                <%= "dni: "+i.dni.to_s %> <br>
+                                <%= "email: "+i.email.to_s %> <br>
+                                <%= "fecha de nacimiento: "+i.fecha_nacimiento.strftime( "%d-%m-%Y") %> <br>
+                                <% if i.nivel.eql?("Usuario") %>
+                                    <%="dinero disponible: $"+i.monto_actual.to_s%> <br>
+                                    <%="cantidad de viajes:"+i.travels.count.to_s %> <br>
+                                    <% if i.travels.count > 0%>
+                                        <% if i.travels.last.ends==nil %> 
+                                            tiene un Viaje activo<br>
+                                        <%else%>
+                                            no tiene viajes activos<br>
+                                        <%end%>
+                                    <%end%>
+                                <%end%>
+                                <%= "identificador interno: "+i.id.to_s%>
+                            </div>
+                            <% if not i.nivel.eql?("Administrador") %>
+                                <a type="button" class="btn btn-outline-danger col-sm-2"
+                                href=<%="/eliminar_usuario?usuario_id="+i.id.to_s%> >
+                                    <svg width="28" height="28" fill="red" class="bi bi-person-x" viewBox="0 0 16 16"> 
+                                    <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H1s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C9.516 10.68 8.289 10 6 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
+                                    <path fill-rule="evenodd" d="M12.146 5.146a.5.5 0 0 1 .708 0L14 6.293l1.146-1.147a.5.5 0 0 1 .708.708L14.707 7l1.147 1.146a.5.5 0 0 1-.708.708L14 7.707l-1.146 1.147a.5.5 0 0 1-.708-.708L13.293 7l-1.147-1.146a.5.5 0 0 1 0-.708z"/>
+                                    </svg>
+                                    Eliminar
+                                </a>
+                            <% end %>
+                            <% if i.nivel.eql?("Usuario")%>
+                                <a type="button" class="btn btn-outline-success col-sm-3" 
+                                href=<%="/ascender_usuario?usuario_id="+i.id.to_s%> >
+                                    <svg width="22" height="22" fill="green" class="bi bi-person-lines-fill" viewBox="0 0 16 16">
+                                    <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-5 6s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zM11 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1h-4zm2 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1h-2zm0 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1h-2z"/>
+                                    </svg>
+                                    Ascender
+                                </a>
+                            <% end %>
+                            <% if i.nivel.eql?("Supervisor")%>
+                                <a type="button" class="btn btn-outline-dark col-sm-3" 
+                                href=<%="/descender_usuario?usuario_id="+i.id.to_s%> >
+                                    <svg width="22" height="22" fill="black" class="bi bi-person-lines-fill" viewBox="0 0 16 16">
+                                    <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-5 6s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zM11 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1h-4zm2 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1h-2zm0 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1h-2z"/>
+                                    </svg>
+                                    Descender
+                                </a>
+                            <% end %>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Volver</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <% end %><!fina modal ver caracteristicas de un usuario>
+    <% end %> <!final del each de usuarios> 
 
 <% else %>
   <h1>
     ERROR DE PARAMETROS
   </h1>
-  error de parametros: auto
-  <%= @auto %><br>
-  user
-  <%= @usuario.nombre %><br>
-  inf
-  <%= @informes %><br>
-  parte
-  <%= @partes %><br>
+  error de parametros:
+  user : <%= @usuario.to_s %><br>
+  list.usuarios : <%= @usuarios.to_s %><br>
 <% end %>
