@@ -2,6 +2,123 @@ class UsuariosController < ApplicationController
     include HTTParty
     include JSON
    
+
+    #archivo de vista en /app/views/index.html.erb
+    #vista del administrador , gestion de usuarios
+    def index
+        if session[:user_id]!=nil
+			@usuario = Usuario.all.find(session[:user_id])
+            if @usuario.nivel.eql?("Administrador")
+                
+                @usuarios= Usuario.all #le cargo todos los usuarios
+                @niv= params[:nivel]
+                if @niv!=nil  #filtro por nivel requerido
+                    if @niv.eql?("Usuario")
+                        @usuarios=@usuarios.where(nivel: :"Usuario")
+                    end
+                    if @niv.eql?("Supervisor")
+                        @usuarios=@usuarios.where(nivel: :"Supervisor")
+                    end
+                    if @niv.eql?("Administrador")
+                        @usuarios=@usuarios.where(nivel: :"Administrador")
+                    end
+                end
+                @ord= params[:ordenar] # ordenar por
+                if @ord!=nil
+                    if @ord.eql?("nivel")
+                        @usuarios=@usuarios.order(:nivel)
+                    end
+                    if @ord.eql?("nombre")
+                        @usuarios=@usuarios.order(:nombre)
+                    end
+                    if @ord.eql?("apellido")
+                        @usuarios=@usuarios.order(:apellido)
+                    end
+                    if @ord.eql?("email")
+                        @usuarios=@usuarios.order(:email)
+                    end
+                    if @ord.eql?("monto")
+                        @usuarios=@usuarios.order(:monto_actual)
+                    end
+                    if @ord.eql?("dni")
+                        @usuarios=@usuarios.order(:dni)
+                    end
+                    if @ord.eql?("fecha_nacimiento")
+                        @usuarios=@usuarios.order(:created_at) #editar y remplazar por la fecha de nacimiento
+                    end
+                end
+            else
+                redirect_to root_url and return   #si el usuario no tiene el nivel necesario lo redirijo al mapa
+            end
+		else
+			redirect_to mains_show_url and return   #si no tiene secion iniciada redirigo a iniciar secion
+		end
+    end
+
+
+    #se llama desde el archivo de vista en /app/views/index.html.erb
+    #metodo para subir de nivel a Supervisor
+    def ascender       
+        if session[:user_id]!=nil#tiene que estar loggeado
+            @usuario = Usuario.all.find(session[:user_id])
+            if @usuario.nivel.eql?("Administrador")#tiene que ser administrador loggeado
+                @usua=Usuario.find(params[:usuario_id])#busca el usuario a ascender
+                @usua.nivel="Supervisor"#Asciende el usuario a Supervisor
+                if @usua.save
+                    redirect_to action: "index", notice: "se Ascendio correctamente a "+@usua.nombre  and return
+                else
+                    render :index
+                end
+            else
+                redirect_to root_url and return   #si el usuario no tiene el nivel necesario lo redirijo al mapa
+            end
+		else
+			redirect_to mains_show_url and return   #si no tiene secion iniciada redirigo a iniciar secion
+		end
+    end
+
+    #se llama desde el archivo de vista en /app/views/index.html.erb
+    #metodo para bajar a nivel a Usuario
+    def descender       
+        if session[:user_id]!=nil#tiene que estar loggeado
+            @usuario = Usuario.all.find(session[:user_id])
+            if @usuario.nivel.eql?("Administrador")#tiene que ser administrador loggeado
+                @usua=Usuario.find(params[:usuario_id])#busca el usuario a ascender
+                @usua.nivel="Usuario"#Asciende el usuario a Supervisor
+                if @usua.save
+                    redirect_to action: "index", notice: "se degrado correctamente a "+@usua.nombre  and return
+                else
+                    render :index
+                end
+            else
+                redirect_to root_url and return   #si el usuario no tiene el nivel necesario lo redirijo al mapa
+            end
+		else
+			redirect_to mains_show_url and return   #si no tiene secion iniciada redirigo a iniciar secion
+		end
+    end
+
+    #se llama desde el archivo de vista en /app/views/index.html.erb
+    #metodo para eliminar un Usuario o Supervisor o Administrador
+    def eliminar       
+        if session[:user_id]!=nil #tiene que estar loggeado
+            @usuario = Usuario.all.find( session[:user_id])
+            if @usuario.nivel.eql?("Administrador") #tiene que ser administrador loggeado
+                if @usuario.id != params[:usuario_id]
+                    @usua=Usuario.find(params[:usuario_id]).nombre
+                    Usuario.find(params[:usuario_id]).destroy
+                    redirect_to action: "index", notice: "se Eliminado correctamente a "+@usua  and return
+                else
+                    redirect_to action: "index", notice: "No se puede eliminar a si mismo"  and return
+                end
+            else
+                redirect_to root_url and return   #si el usuario no tiene el nivel necesario lo redirijo al mapa
+            end
+		else
+			redirect_to mains_show_url and return   #si no tiene secion iniciada redirigo a iniciar secion
+		end
+    end
+
     def edit
         @usuario = Usuario.all.find_by(id: session[:user_id])
         render :edit

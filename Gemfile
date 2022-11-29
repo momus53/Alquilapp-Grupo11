@@ -9,6 +9,7 @@ gem "rails", "~> 7.0.4"
 # xddd EL HIRB
 gem "hirb"
 
+
 #bootstrap
 gem 'bootstrap', '~> 5.2.2'
 gem "bootstrap_form", "~> 5.1"

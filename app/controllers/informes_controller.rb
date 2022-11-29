@@ -4,7 +4,7 @@ class InformesController < ApplicationController
 		if session[:user_id]!=nil
 			@usuario = Usuario.all.find_by(id: session[:user_id])
 		else
-			redirect_to iniciar_sesion_url and return
+			redirect_to mains_show_url and return
 		end
 		@notice = params[:notice]
 		if params[:nroA] != nil	#si esta definido el auto
