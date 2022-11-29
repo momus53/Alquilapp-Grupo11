@@ -5,11 +5,13 @@
 
 <!-- h1 class="container-fluid text-center" > Elija cuanto tiempo quiere alquilar </h1-->
 <div class="container-fluid">
-    <h2 id="valorR"></h2>
-    <label for="customRange3" class="form-label">Eliga la cantidad de tiempo que desea alquilar este vehiculo:</label>
-    <input id="barra" type="range" class="form-range" value="8" min="1" max="96" oninput="slider()">
-    <output> Desliza y actualiza cantidad de </output> HS
-
+    <h2 id="valorR" class="text-center"></h2>
+    <%= bootstrap_form_tag url: '/alquilers/validar' do |f| %>
+        <%= f.range_field :cuartos, hide_label: true, id: "barra", type: "range",value: "1", class: "form-range", min:"1", max:"96", oninput: "slider()" %>
+        <%=f.text_field :nroA, hide_label: true, id: "auto", type: "text", hidden: true%>
+        <div class="text-center">
+            <h2 id=horasTotal> </h2>
+        </div>
     <div class="row  m-2">
         <div class="col card text-bg-dark mb-1 text-center"> 
             <div class="card-body">
@@ -17,41 +19,49 @@
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col">
-            <button type="button" class="btn btn-primary" onclick="contratar()">Contratar</button>
-        </div>
-
-        <div class="col">
-            <a href=<%="/informes?nroA="+@auto.nroA.to_s %> type="button" class="btn btn-warning">Informar</a>
-        </div>
-
-        <div class="col">
-            <button class="btn btn-danger" onclick="irHome()"> Volver</button>
+    <div class="row  m-2">
+        <div class="col card text-bg-success text-center"> 
+            <div class="card-header">
+               <h5>Tu billetera</h5>
+            </div>
+                <div class="card-body">
+                    <h1 id="billetera">$ARS <%=@usuario.monto_actual%></h1>
+                </div>
         </div>
     </div>
+    <div class="row p-4">
+        <%= f.primary "Contratar" ,class: "btn btn-primary btn-lg" %>
+    </div>
+    <%end%>
+    <div class="row ps-3 pe-3 p-1 mt-5">
+        <a id="vi" href="" type="button" class="btn btn-warning">Ver Informes</a>  
+    </div>
+    <div class="row ps-3 pe-3 p-1">
+        <a class="btn btn-danger" href="/"> Cancelar</a>
+    </div>
+    </div>
 </div>
-  
-<script>  
-    let params = new URLSearchParams(document.location.search);
-    let auto = params.get("auto");
-    let numAuto = Number(auto);
-    
-    valorR.innerText="El vehiculo a alquilar es el N°" + auto;
+
+<script>
+    const params2 = new URLSearchParams(document.location.search);
+    let auto_in = params2.get("auto");
+    direccionInformes = "/informes?nroA="+auto_in;
+    vi.href = direccionInformes;
+    document.getElementById("auto").value = auto_in;
+    valorR.innerText="Por cuanto tiempo queres rentar el auto N°" +auto_in+" ?";
+    slider();
     function slider() {
-        barra.nextElementSibling.value = (barra.value/4);
+        horasTotal.innerText = (barra.value/4) + "Hs.";
         muestraPrecio.innerText="$ARS= "+ ((barra.value/4)*1250);
     }
-    function contratar(dineroDisp,loUso){  // Params (Nro auto, horas, usuario, valor)
-        //let monto= <%= @usuarios.first().monto_actual %>;
-        let precio= ((barra.value/4)*1250)
-        let check=chequea(Number(auto), dineroDisp, loUso, precio ); // Num de error
+    function contratar(){  // Params (Nro auto, horas, usuario, valor)
+        let monto= <%= @usuarios.first().monto_actual %>;
+        let check=chequea(Number(auto_in), monto , (barra.value/4) ); // Num de error
         switch (check){
         case 0:
             console.log("El auto no esta ocupado y hay saldo "+location.host);
-            //@usuario.decrement!(:monto_actual , precio)
             let url = new URL(window.location.origin + "/alquilers");
-            url.searchParams.set("auto",auto);
+            url.searchParams.set("auto",auto_in);
             url.searchParams.set("mins",(barra.value/4)*60);
             location.href = url
             return true;
@@ -84,4 +94,8 @@
     function irHome(){
         window.location.href = "/";
     }
+    if (new URLSearchParams(document.location.search).get("notice")!= null){
+        window.alert(new URLSearchParams(document.location.search).get("notice"))
+    }
+
 </script>

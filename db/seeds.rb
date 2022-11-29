@@ -13,18 +13,18 @@ Informe.destroy_all
 #ActiveRecord::Base.connection.execute("ALTER SEQUENCE autos_id_seq RESTART with 1")
 #ActiveRecord::Base.connection.execute("ALTER SEQUENCE usuarios_id_seq RESTART with 1")
 
-auto1 = Auto.create(id:3, nroA: 1, color: "Rojo", patente: "NNN 666" , en_uso: true)
+auto1 = Auto.create(nroA: 1, color: "Rojo", patente: "NNN 666" , en_uso: true)
 auto2 = Auto.create(nroA: 3, color: "Azul", patente: "ALO 544" , en_uso: false)
 auto3 = Auto.create(nroA: 4, color: "Rojo", patente: "ADW 112" , en_uso: false)
 auto4 = Auto.create(nroA: 2, color: "Azul", patente: "LO 487 FR" , en_uso: false)
 auto5 = Auto.create(nroA: 5, color: "Blanco", patente: "AS 065 QW" , en_uso: true)
-auto6 = Auto.create(nroA: 6, color: "Blanco", patente: "RTM 8983AR" , en_uso: false)
+auto6 = Auto.create(nroA: 6, color: "Blanco", patente: "RTM 898 AR" , en_uso: false)
 
-user1 = Usuario.create(nombre: "Alan", apellido: "Pichot", monto_actual: 170.8, nivel: "Supervisor",dni:42312315, email: "alan@pro.com")
-user2 = Usuario.create(nombre: "Sandro", apellido: "Mareco", monto_actual: 1889.0, nivel: "Usuario",dni:40312315, email: "sandrr@proCress.com")
+user1 = Usuario.create(nombre: "Alan", apellido: "Pichot", monto_actual: 2500, nivel: "Supervisor",dni:42312315, email: "alan@pro.com", pwd:'12345')
+user2 = Usuario.create(nombre: "Sandro", apellido: "Mareco", monto_actual: 1889.0, nivel: "Usuario",dni:40312115, email: "san@dro",pwd: "12345")
 user3 = Usuario.create(nombre: "Fernando", apellido: "Peralta", monto_actual: 0, nivel: "Administrador",dni:49312315, email: "frend@proCress.com")
 user4 = Usuario.create(nombre: "Beth", apellido: "Harmon", monto_actual: 0, nivel: "Supervisor",dni:35312315, email: "beti@proCress.com")
-user5 = Usuario.create(nombre: "Tomas", apellido: "Sosa", monto_actual: -89.9, nivel: "Usuario",dni:33312315, email: "tomiton@proCress.com")
+user5 = Usuario.create(nombre: "Tomas", apellido: "Sosa", monto_actual: -89.9, nivel: "Usuario",dni:40853689, email: "tomiton@proCress.com")
 
 inf1 = Informe.create(titulo: "toque en paragolpe", descripcion: "en el paragolpe trasero tiene un golpe, y le falta un pedazo de plastico", parte_involucrada: 9 , validado: false , auto: auto2 , usuario: user2)
 inf2 = Informe.create(titulo: "espejito roto", descripcion: "el espejo derecho esta golpeado y trabado", parte_involucrada: 17 , validado: false , auto: auto2 , usuario: user2)
@@ -62,5 +62,6 @@ parte27 = Parte.create(id:27, nombre:"Rin")
 
 
 
-
-tra1= Travel.create()
+Time.now
+tra1= Travel.create(start: Time.now.advance(hours: -3), ends: Time.now, auto_id: auto6.id, usuario_id: 1)
+tra2= Travel.create(start: Time.now.advance(hours: -6), ends: Time.now.advance(hours: -3), auto_id: auto3.id, usuario_id: 1)

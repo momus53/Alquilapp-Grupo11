@@ -1,79 +1,52 @@
-<h1>Nuevo usuario</h1>
-<!--
-<form id="nuevo">
-    <div class="form-group">
-        <label for=":nombre">Nombre</label>
-        <input type="text" class="form-control" id="nombre" placeholder="nombre">
+<div class="container-fluid">
+    <div class="centrarReloj">
+        <div class="container-md mb-2">
+            <div class="p-3 m-3 row">
+                <span class="h1 col-9">Crear cuenta</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-card-checklist col" viewBox="0 0 16 16">
+                <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"/>
+                <path d="M7 5.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm-1.496-.854a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 1 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0zM7 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm-1.496-.854a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 0 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0z"/>
+                </svg>
+            </div>
+        <div>
+        <% if @error != nil %>
+            <div class="alert alert-danger alert-dismissible fade show container-md mb-3 " > 
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="red" class="bi bi-exclamation-octagon" viewBox="0 0 16 16">
+                <path d="M4.54.146A.5.5 0 0 1 4.893 0h6.214a.5.5 0 0 1 .353.146l4.394 4.394a.5.5 0 0 1 .146.353v6.214a.5.5 0 0 1-.146.353l-4.394 4.394a.5.5 0 0 1-.353.146H4.893a.5.5 0 0 1-.353-.146L.146 11.46A.5.5 0 0 1 0 11.107V4.893a.5.5 0 0 1 .146-.353L4.54.146zM5.1 1 1 5.1v5.8L5.1 15h5.8l4.1-4.1V5.1L10.9 1H5.1z"/>
+                <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
+                </svg>
+                Alerta: <%= @error %>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <% end %>
+        <%= bootstrap_form_for(@usuario) do |f| %>
+            <div class="d-none" >
+                <%= f.text_field :nivel %>
+                <%= f.number_field :monto_actual%>
+            </div>
+                
+            <%= f.text_field :nombre,label: "Nombre",floating: true ,pattern: "[\t A-Za-z]{2,}", required: true %>
+            <%= f.text_field :apellido,label: "Apellido",  floating: true ,pattern: "[\t A-Za-z]{2,}", required: true %>
+            <%= f.email_field :email,label: "Correo electronico", floating: true , required: true%>
+            <%= f.number_field :dni,label: "Nro. de documento", floating: true, min: "1000000", max: "99999999", required: true%>
+            <%= f.password_field :pwd, label: "Contraseña",  floating: true , required: true %>		
+        
+            <div class="d-flex align-items-center flex-column" >
+                <div class="form-check p-3 mb-3">
+                    <input class="form-check-input" type="checkbox" value=false id="invalidCheck" required>
+                    <label class="form-check-label" for="invalidCheck">Acepto los terminos y condiciones</label>
+                        <div class="invalid-feedback">
+                        Debe aceptar los terminos antes de seguir.
+                        </div>
+                </div>
+            </div>	
+            <div class="row">
+                <%= f.submit "Registrarse", class: "btn btn-primary mb-2" %>
+                <button type="button" class="btn btn-secondary" onclick="volver()">Cancelar</button>
+            </div>
+        <% end %>
     </div>
-    <div class="form-group">
-        <label for="apellido">Apellido</label>
-        <input type="text" class="form-control" id="apellido" placeholder="apellido">
-    </div>
-    <div class="form-group">
-        <label for="dni">N° de DNI</label>
-        <input type="number" class="form-control" id="dni" placeholder="Numero DNI">
-    </div>
-    <div class="form-group">
-        <label for="email">Email</label>
-        <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Email">
-    </div>
-    <div class="form-group">
-        <label for="pwd">Contraseña</label>
-        <input type="password" class="form-control" id="contra" placeholder="contraseña">
-    </div>
-    <div class="btn_upload">
-	    <input type="file" id="upload_file" name="">
-			Foto CARNET por ahora nada
-	</div>
-    <div class="form-check">
-        <input type="checkbox" class="form-check-input" id="exampleCheck1">
-        <label class="form-check-label" for="checkterminos">Acepta bases y condiciones</label>
-    </div>
-    <br>
-    <br>
-<button type="submit" class="btn btn-primary">Submit</button>
--->	
-<div class="container-fluid align-content-md-center "  >
-	<% if @error != nil %>
-        <div class="alert alert-danger alert-dismissible fade show container-md mb-3 " > 
-			<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="red" class="bi bi-exclamation-octagon" viewBox="0 0 16 16">
-			<path d="M4.54.146A.5.5 0 0 1 4.893 0h6.214a.5.5 0 0 1 .353.146l4.394 4.394a.5.5 0 0 1 .146.353v6.214a.5.5 0 0 1-.146.353l-4.394 4.394a.5.5 0 0 1-.353.146H4.893a.5.5 0 0 1-.353-.146L.146 11.46A.5.5 0 0 1 0 11.107V4.893a.5.5 0 0 1 .146-.353L4.54.146zM5.1 1 1 5.1v5.8L5.1 15h5.8l4.1-4.1V5.1L10.9 1H5.1z"/>
-			<path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
-			</svg>
-			Alerta: <%= @error %>
-			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-		</div>
-    <% end %>
-    <%= bootstrap_form_for(@usuario, layout: :horizontal,label_errors: true, inline_errors: true ) do |f| %>
-		<div class="d-none" >
-			<%= f.text_field :nivel %>
-			<%= f.number_field :monto_actual%>
-		</div>
-            
-        <%= f.text_field :nombre,  placeholder: "Nombre" ,pattern: "[\t A-Za-z]{2,}", required: true %>
-        <%= f.text_field :apellido,  placeholder: "Apellido " ,pattern: "[\t A-Za-z]{2,}", required: true %>
-        <%= f.email_field :email, placeholder: "Email" , required: true%>
-        <%= f.number_field :dni, placeholder: "Numero de DNI", min: "1000000", max: "99999999", required: true%>
-        <%= f.password_field :pwd,  placeholder: "Contraseña" , required: true %>		
-	
-		<div class="d-flex align-items-center flex-column" >
-			<div class="form-check p-3 mb-3">
-				<input class="form-check-input" type="checkbox" value=false id="invalidCheck" required>
-				<label class="form-check-label" for="invalidCheck">Acepto los terminos y condiciones</label>
-				      <div class="invalid-feedback">
-				      Debe aceptar los terminos antes de seguir.
-				      </div>
-			</div>
-		</div>	
-	    <%= f.submit "Registrarse", class: "btn btn-primary d-flex align-items-center flex-column" %>	
-	  			<!-- boton de cancelar operacion  -->
-	  	  <div class="container text-center p-4">
-			  <button type="button" class="btn btn-secondary" onclick="volver()">Cancelar</button>
-		  </div>
-	  </div>
-    <% end %>
 </div>
-	
 
 <script>
 	function volver(){

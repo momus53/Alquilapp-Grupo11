@@ -56,8 +56,7 @@
                 <div class="row m-3 modal-footer justify-content-center">
                     <!--button class="btn btn-primary" data-bs-target="#escanearQR" data-bs-toggle="modal" onclick="finalizarAlquiler()">Listo</button-->
                     <%= bootstrap_form_tag url: '/alquilers/devolver', class: "row mb-2" do |f| %>
-                    <%= f.text_field :patente,hidden: "true",hide_label: true, value: 'ABC 123' %>
-                    <%= f.text_field :tiempo,hidden: "true",hide_label: true, value: Time.zone.now %>
+                    <%= f.text_field :patente,id: 'patente',hidden: "true",hide_label: true, value: 'ALO 544' %>
                     <%= f.primary "Listo",render_as_button: true%>
                     <% end %>
                 </div>
@@ -113,7 +112,6 @@
         <div class="modal-footer">
             <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
             <%= bootstrap_form_tag url: '/alquilers/extender' do |f|  %>
-            <%= f.text_field :tiempo,hidden: "true",hide_label: true, value: Time.zone.now %>
             <%= f.primary "Extender",render_as_button: true ,onclick:"extenderAlquiler()"%>
             <%end%>
         </div>
@@ -133,21 +131,28 @@
 
         var bil =<%=@usuario.monto_actual%>;
 
-        let params = new URLSearchParams(document.location.search);
-        let auto_in = params.get("auto");
-        let mins_in = params.get("mins");
-        let tmenos = params.get("tmenos");
-        
+        var params = new URLSearchParams(document.location.search);
+        var auto_in = params.get("auto");
+        var mins_in = params.get("mins");
+        var mensaje = params.get("msg");
+
         if(bil >= 0.25*1250){  // si no tiene por lo menos el minimo de plata no aparece el boton de extender
             botonEx.hidden = false;
         }
 
         actualizarRange();
 
-        if(window.location.hash){
-            //todo okey y abro el qr
-            finalizarAlquiler();
+        if(mensaje != null){
+            if(mensaje == "TODO_OK"){
+                //todo okey y abro el qr
+                finalizarAlquiler();
+            }else{
+                window.alert(mensaje);
+            }
         }
+
+
+        
 
         function actualizarRange() {
         horas.innerText = (dezl.value/4)+" hs";
@@ -175,6 +180,7 @@
         function finalizarAlquiler(){
             console.log("LLLLLLLLLOOOOOOOOOOOOOOOOOAAAAAAAAAAAAA");
             //checkeo de mierdas
+                new bootstrap.Modal(document.getElementById("escanearQR")).show();
                 iniciarVideo();
         }
 
@@ -248,18 +254,18 @@
     </script>
 <!--TIMER-->
     <script>
-    const tiempoInicial = mins_in;
-    let tiempo = tiempoInicial * 60;
+    var tiempoInicial = mins_in;
+    var tiempo = tiempoInicial * 60;
 
-    const texto = document.getElementById("textoTiempo");
-    const carta = document.getElementById("cartaTiempo");
-    const countDowmEl = document.getElementById("minutos");
-    let exedido = false;
+    var texto = document.getElementById("textoTiempo");
+    var carta = document.getElementById("cartaTiempo");
+    var countDowmEl = document.getElementById("minutos");
+    var exedido = false;
 
     setInterval(updateCountDown, 1000);
 
     function updateCountDown(){
-        const minutos = Math.floor(tiempo/60);
+        var minutos = Math.floor(tiempo/60);
         let segundos = tiempo % 60;
 
         segundos = segundos < 10 ? "0" + segundos : segundos;

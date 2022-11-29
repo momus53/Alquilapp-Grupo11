@@ -1,6 +1,30 @@
 <%= javascript_include_tag "jsQR.js", "data-turbolinks-track" => true  %>
 <!-- ESTO ES EL BOTON DE NAVEGADOR Y LA BURGER -->
-  <%= render "/mapas/nav" %>
+
+
+  <!-- Modal EscanearQR -->
+    <div class="modal fade" id="escanearQR" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered ">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5">Enfoca el codigo QR del vehiculo</h1>
+            <button id="modal_QR" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body" style="padding: 0">
+            <div id="loadingMessage" hidden="">⌛ Loading video...</div>
+            <canvas id="canvas" class="p-1 border" style="width:100%"></canvas>
+            <div id="output">
+              <div id="outputMessage">No QR code detected.</div>
+                <div hidden=""><b>Data:</b> <span id="outputData"></span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+    <%= render "/mapas/nav" %>
     <!--Boton scanner -->
     <div class="fixed-bottom text-center">
       <button type="button" id="pieModal2" class="btn btn-warning btn-lg m-3" data-bs-toggle="modal" data-bs-target="#escanearQR" onclick="iniciarVideo()">
@@ -76,7 +100,11 @@
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="ocultarBtnElegir(<%=vehiculo.nroA%>)">Volver</button>
-                <button id="<%=vehiculo.nroA %>btn" type="button" class="btn btn-primary" data-bs-dismiss="modal" hidden="true" onclick="redirigirAlquiler(<%=vehiculo.nroA%>)">Elegir</button>
+                <%if session[:user_id]%>
+                  <button id="<%=vehiculo.nroA %>btn" type="button" class="btn btn-primary" data-bs-dismiss="modal" hidden="true" onclick="redirigirAlquiler(<%=vehiculo.nroA%>)">Elegir</button>
+                <%else%>
+                  <button id="<%=vehiculo.nroA %>btnIs" class="btn btn-warning" hidden="false" data-bs-dismiss="modal" onclick="ir_a_iniciar()">Iniciar sesion</button>
+                <%end%>
               </div>
             </div>
           </div>
@@ -96,26 +124,6 @@
     </div>
   </div>
 
-  <!-- Modal EscanearQR -->
-    <div class="modal fade" id="escanearQR" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered ">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h1 class="modal-title fs-5">Enfoca el codigo QR del vehiculo</h1>
-            <button id="modal_QR" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body" style="padding: 0">
-            <div id="loadingMessage" hidden="">⌛ Loading video...</div>
-            <canvas id="canvas" class="p-1 border" style="width:100%"></canvas>
-            <div id="output">
-              <div id="outputMessage">No QR code detected.</div>
-                <div hidden=""><b>Data:</b> <span id="outputData"></span></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
 
     
 <script>
@@ -130,43 +138,48 @@
     
 
     mapboxgl.accessToken = 'pk.eyJ1Ijoiam9ha281MyIsImEiOiJjbGFoZGRwMmswNTN5M3dtdDdxcmJvNjI0In0.HkpGo96gEGKAv6kahrlktQ';
-    var map = new mapboxgl.Map({
-      container: 'map',
-      style: 'mapbox://styles/joako53/clau1m5y5000i14n08ig5ro8y',
-      center: [-57.937291,-34.903586],
-      zoom: 15
-    });
-    
-    var geojson = {
+
+    const geojson = {
       'type': 'FeatureCollection',
       'features': [
           { 
             'type': 'Feature',
             'properties': {'message': '2','iconSize': [40, 40]},
-            'geometry': {'type': 'Point','coordinates': [-57.937000,-34.903585]}
+            'geometry': {'type': 'Point','coordinates': [-57.952880,-34.920823]}
           },
           {
             'type': 'Feature',
             'properties': {'message': '6','iconSize': [40, 40]},
-            'geometry': {'type': 'Point','coordinates': [-57.938100,-34.907500]}
+            'geometry': {'type': 'Point','coordinates': [-57.953084,-34.922151]}
           },
           {
-          'type': 'Feature',
-          'properties': {'message': '4','iconSize': [40, 40]},
-          'geometry': {'type': 'Point','coordinates': [-57.935000,-34.903581]}
+            'type': 'Feature',
+            'properties': {'message': '4','iconSize': [40, 40]},
+            'geometry': {'type': 'Point','coordinates': [-57.956013,-34.920312]}
+          },
+          {
+            'type': 'Feature',
+            'properties': {'message': '3','iconSize': [40, 40]},
+            'geometry': {'type': 'Point','coordinates': [-57.953985,-34.919820]}
           }
         ]
       };
 
-      for (var marker of geojson.features) {
-      // Create a DOM element for each marker.
-        var el = document.createElement('div');
-       // var width = marker.properties.iconSize[0];
-       // var height = marker.properties.iconSize[1];
+      const map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/joako53/clau1m5y5000i14n08ig5ro8y',
+        center: [-57.93764838547738,-34.903459133860004], //facultad de informatica
+        zoom: 15
+      });
+
+      for (const marker of geojson.features) {
+        // Create a DOM element for each marker.
+        const el = document.createElement('div');
+        // var width = marker.properties.iconSize[0];
+        // var height = marker.properties.iconSize[1];
         el.className = 'marker';
-        
         el.addEventListener('click', () => {
-        var modalAuto = new bootstrap.Modal(document.getElementById("ma"+marker.properties.message)).show();
+          var modalAuto = new bootstrap.Modal(document.getElementById("ma"+marker.properties.message)).show();
         });
         
         // Add markers to the map.
@@ -180,8 +193,8 @@
         var marker = new mapboxgl.Marker({
         color: "#FEBD59"
         })
-      .setLngLat([-57.935000,-34.902500])
-      //.setLngLat([pos.coords.longitude,pos.coords.latitude])
+      //.setLngLat([-57.935000,-34.902500])
+      .setLngLat([pos.coords.longitude,pos.coords.latitude])
       .setPopup(new mapboxgl.Popup({ offset: 40 }).setText("Tu ubicacion"))
       .addTo(map);
       }
@@ -215,14 +228,22 @@
     function mostrarAuto(id_auto){
         console.log("ma"+id_auto)
         var myModal = new bootstrap.Modal(document.getElementById("ma"+id_auto));
-        if(document.getElementById(id_auto+"status").innerText == "LIBRE"){
-          document.getElementById(id_auto+"btn").hidden = false;
-        }
+        <%if session[:user_id]%>
+          if(document.getElementById(id_auto+"status").innerText == "LIBRE"){
+            document.getElementById(id_auto+"btn").hidden = false;
+          }
+        <%else%>
+          document.getElementById(id_auto+"btnIs").hidden = false;
+        <%end%>
         myModal.show();
     }
 
     function ocultarBtnElegir(id_auto){
-      document.getElementById(id_auto+"btn").hidden = true;
+      <%if session[:user_id]%>
+        document.getElementById(id_auto+"btn").hidden = true;
+      <%else%>
+        document.getElementById(id_auto+"btnIs").hidden = true;
+      <%end%>
     }
 
     function redirigirAlquiler(id_auto){
@@ -230,6 +251,10 @@
       url.searchParams.set("auto",id_auto);
       url.searchParams.set("usuario",2);
       location.href = url
+    }
+
+    function ir_a_iniciar(){
+      location.href = "/mains/show"
     }
 
     function tick() {
