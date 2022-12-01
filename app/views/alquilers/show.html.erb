@@ -54,6 +54,8 @@
         horasTotal.innerText = (barra.value/4) + "Hs.";
         muestraPrecio.innerText="$ARS= "+ ((barra.value/4)*1250);
     }
+
+    
     function contratar(){  // Params (Nro auto, horas, usuario, valor)
         let monto= <%= @usuarios.first().monto_actual %>;
         let check=chequea(Number(auto_in), monto , (barra.value/4) ); // Num de error

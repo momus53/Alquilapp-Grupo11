@@ -90,12 +90,13 @@
         <div class="modal-header">
             <h5 class="modal-title fs-5" id="staticBackdropLabel">Seleccione el tiempo que desea extender su alquiler:</h5>
         </div>
+        <%= bootstrap_form_tag url: '/alquilers/extender' do |f|  %>
         <div class="modal-body">
             <div class="card-group">
                 <div class="card text-bg-dark">
                     <div class="card-body">
                     <h5 class="card-title">Tiempo a extender</h5>
-                    <input id="dezl" type="range" name="alquiler[rango]" class="form-range" value="1" min="1" max="96" oninput="actualizarRange()">
+                    <%= f.range_field :rango ,hide_label: true, id: "dezl",class:"form-range",value: "1",min: "1",max: "96",oninput:"actualizarRange()" %>
                     <div class="d-flex justify-content-between">
                         <span id="horas" class="card-text h5"></span><span class="h4"> | </span><span id="precio" class="card-text h5"></span>
                     </div>
@@ -111,10 +112,9 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
-            <%= bootstrap_form_tag url: '/alquilers/extender' do |f|  %>
-            <%= f.primary "Extender",render_as_button: true ,onclick:"extenderAlquiler()"%>
-            <%end%>
+            <%= f.primary "Extender",render_as_button: true%>
         </div>
+        <%end%>
         </div>
     </div>
     </div>
@@ -134,7 +134,7 @@
         var params = new URLSearchParams(document.location.search);
         var auto_in = params.get("auto");
         var mins_in = params.get("mins");
-        var mensaje = params.get("msg");
+        var mensaje = params.get("notice");
 
         document.getElementById("patente").value = auto_in;
 
@@ -145,6 +145,7 @@
         actualizarRange();
 
         if(mensaje != null){
+
             if(mensaje == "TODO_OK"){
                 //todo okey y abro el qr
                 finalizarAlquiler();
@@ -152,8 +153,6 @@
                 window.alert(mensaje);
             }
         }
-
-
         
 
         function actualizarRange() {
@@ -161,29 +160,10 @@
         precio.innerText="$ARS "+ ((dezl.value/4)*1250);
         }
 
-        function extenderAlquiler(){
-            bil =<%=@usuario.monto_actual%>;
-
-            if((parseInt(tiempoInicial) + (dezl.value/4)*60) > 1440) {  //1440 = 24hs
-                window.alert("EXEDE LAS 24HS");
-            }else{
-                if(((dezl.value/4)*1250) > bil ){
-                    window.alert("SALDO INSUFICIENTE");
-                }else{
-                    //sumo a tiempo inicial y a tiempo y resto la plata
-                    console.log("ALQUILER EXTENDIDO");
-                }
-            }
-            
-            
-        }
-
 
         function finalizarAlquiler(){
-            console.log("LLLLLLLLLOOOOOOOOOOOOOOOOOAAAAAAAAAAAAA");
-            //checkeo de mierdas
-                new bootstrap.Modal(document.getElementById("escanearQR")).show();
-                iniciarVideo();
+            new bootstrap.Modal(document.getElementById("escanearQR")).show();
+            iniciarVideo();
         }
 
 
@@ -257,7 +237,7 @@
 <!--TIMER-->
     <script>
     var tiempoInicial = mins_in;
-    var tiempo = tiempoInicial * 60;
+    var tiempo = Math. round(tiempoInicial * 60);
 
     var texto = document.getElementById("textoTiempo");
     var carta = document.getElementById("cartaTiempo");

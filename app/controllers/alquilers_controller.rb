@@ -12,11 +12,14 @@ class AlquilersController < ApplicationController
       end
     end
 
-    def index
+    def index  
       auxiliar = params.permit(:auto)
       @auto = Auto.all.find_by(nroA: auxiliar[:auto])
       @usuario = Usuario.all.find_by(id: session[:user_id])
-      @viaje = Travel.create
+      @viaje = Travel.new                     #ESTO QUIZA HAYA QUE SACARLO MAS ADELANTE PORQUE SE HACE EN LA VENTADA DE ALQUILAR
+      @viaje.auto_id = @auto.id
+      @viaje.usuario_id = @usuario.id  
+      @viaje.save
       render
     end
 
@@ -56,8 +59,34 @@ class AlquilersController < ApplicationController
 
     def extender
       @usuario = Usuario.all.find_by(id: session[:user_id])
-      aux = params.permit(:rango)
-      puts aux[:rango]
+      parametros = params.permit(:rango)
+      viajeActual = @usuario.travels.last
+      auto = Auto.all.find_by(id: viajeActual.auto_id)
+      puts parametros[:rango]
+      puts viajeActual
+
+      if (((parametros[:rango].to_f)/4)*1250) < @usuario.monto_actual
+        if(viajeActual.created_at - Time.now.advance(hours: ((parametros[:rango].to_f)/4)) < -86400 ) 
+          puts "LA EXTENSION EXEDE LAS 24HS"
+          tiempo = (900 - (Time.now - viajeActual.created_at)) #viajeActual.contratado = 900
+          tiempo = (tiempo/60).round(2)
+          redirect_to alquilers_path(auto: auto.nroA.to_s,mins: tiempo, notice: "LA EXTENSION EXEDE LAS 24HS") and return
+        else
+          puts "PUEDE EXTENDER"
+          @usuario.increment!(:monto_actual ,-(((parametros[:rango].to_f)/4)*1250).round(2)) #resto la plata
+
+          tiempo_extendido = ((parametros[:rango].to_f)/4)*60*60
+          tiempo = (900 - (Time.now - viajeActual.created_at) + tiempo_extendido) #viajeActual.contratado = 900
+          #ACTUALIZAR viajeActual.contratado
+          tiempo = (tiempo/60).round(2)
+          redirect_to alquilers_path(auto: auto.nroA.to_s,mins: tiempo, notice: "EXTENDIDO") and return
+        end
+      else
+        puts "NO HAY SUFICIENTE DINERO PARA EL TIEMPO ELEGIDO"
+        tiempo = (900 - (Time.now - viajeActual.created_at)) #viajeActual.contratado = 900
+        tiempo = (tiempo/60).round(2)
+        redirect_to alquilers_path(auto: auto.nroA.to_s,mins: tiempo, notice: "NO HAY SUFICIENTE DINERO PARA EL TIEMPO ELEGIDO") and return
+      end
     end
 
 
@@ -89,7 +118,7 @@ class AlquilersController < ApplicationController
           end
         end
       end
-      redirect_to alquilers_path(auto: auto,mins: 60,msg: salida)
+      redirect_to alquilers_path(auto: auto,mins: 60,notice: salida)
     end
 
     def post_api_auto(patente)
