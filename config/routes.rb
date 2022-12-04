@@ -15,6 +15,10 @@ Rails.application.routes.draw do
   get '/descender_usuario', to: 'usuarios#descender', as: 'descender_usuario'
   get '/eliminar_usuario', to: 'usuarios#eliminar', as: 'eliminar_usuario'
 
+  get '/eliminar_auto', to: 'autos#eliminar', as: 'eliminar_auto'
+  post '/editar_auto', to: 'autos#editar', as: 'editar_auto'
+  
+
   delete '/mains/logouts', to: 'logouts#destroy'
   post '/alquilers/update', to: 'alquilers#update'
   post '/alquilers/validar', to: 'alquilers#validar'

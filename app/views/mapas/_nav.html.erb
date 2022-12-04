@@ -54,10 +54,14 @@
               <li class="nav-item">                         <! boton/link ver perfil>
                 <a class="nav-link active" aria-current="page" href="/usuarios/show/edit">Mi Perfil</a>
               </li> 
-                                                            <! boton/link ver lista de usuarios>
+                                                           <! boton/link ver lista de usuarios>
                 <%if @usuario.nivel.eql?("Administrador") or @usuario.nivel.eql?("Supervisor")%>
                   <a class="nav-link active" aria-current="page" href="/usuarios">Lista de usuarios</a>
+                  
+                                                           <! boton/link ver lista de autos>
+                  <a class="nav-link active" aria-current="page" href="/autos">Lista de autos</a>
                 <%end%>
+
               <li class="nav-item">                         <! boton/link ver GIT >
                 <a class="nav-link" href="https://github.com/momus53/Alquilapp-Grupo11">Acerca de nosotros</a>
               </li>

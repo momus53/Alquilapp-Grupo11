@@ -1,1 +1,229 @@
-<h1> lo Auto vites </h1>
+
+
+<% if @usuario!= nil and  @autos!=nil %><! se reciben @ord y @filt que son el orden y filtrado actuales>
+                
+    <%= render "/mapas/nav" %>
+    <div id="espacio-nav" style="height: 60px;"></div>
+
+   <div class="row" style="background-color: #FFC859; "> <! botonera superior filtrar por nivel >
+        <div class="btn-group col-sm-5" role="group">
+            <button id="btnGroupDrop1" type="button" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                <%= "Filtrar por: "+@filt.to_s  %>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1"  style="background-color: #FFC859; ">
+                <a class="col-sm-2 text-center btn btn-outline-primary" style="font-size:medium ;width: 130px; color: #000000;"
+                href=<%="/autos?ordenar="+@ord.to_s%> >
+                    <svg  width="43" height="43" fill=black class="bi bi-car-front" viewBox="0 0 16 16">
+                    <path d="M4 9a1 1 0 1 1-2 0 1 1 0 0 1 2 0Zm10 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0ZM6 8a1 1 0 0 0 0 2h4a1 1 0 1 0 0-2H6ZM4.862 4.276 3.906 6.19a.51.51 0 0 0 .497.731c.91-.073 2.35-.17 3.597-.17 1.247 0 2.688.097 3.597.17a.51.51 0 0 0 .497-.731l-.956-1.913A.5.5 0 0 0 10.691 4H5.309a.5.5 0 0 0-.447.276Z"/>
+                    <path fill-rule="evenodd" d="M2.52 3.515A2.5 2.5 0 0 1 4.82 2h6.362c1 0 1.904.596 2.298 1.515l.792 1.848c.075.175.21.319.38.404.5.25.855.715.965 1.262l.335 1.679c.033.161.049.325.049.49v.413c0 .814-.39 1.543-1 1.997V13.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-1.338c-1.292.048-2.745.088-4 .088s-2.708-.04-4-.088V13.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-1.892c-.61-.454-1-1.183-1-1.997v-.413a2.5 2.5 0 0 1 .049-.49l.335-1.68c.11-.546.465-1.012.964-1.261a.807.807 0 0 0 .381-.404l.792-1.848ZM4.82 3a1.5 1.5 0 0 0-1.379.91l-.792 1.847a1.8 1.8 0 0 1-.853.904.807.807 0 0 0-.43.564L1.03 8.904a1.5 1.5 0 0 0-.03.294v.413c0 .796.62 1.448 1.408 1.484 1.555.07 3.786.155 5.592.155 1.806 0 4.037-.084 5.592-.155A1.479 1.479 0 0 0 15 9.611v-.413c0-.099-.01-.197-.03-.294l-.335-1.68a.807.807 0 0 0-.43-.563 1.807 1.807 0 0 1-.853-.904l-.792-1.848A1.5 1.5 0 0 0 11.18 3H4.82Z"/>
+                    </svg>
+                    Todos
+                </a>
+                <a class="col-sm-2 text-center btn btn-outline-primary" style="font-size:medium ;width: 130px; color: red;"
+                href=<%="/autos?filtro=En_Uso&ordenar="+@ord.to_s%> >
+                    <svg width="40" height="40" fill=red class="bi bi-car-front-fill" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M2.52 3.515A2.5 2.5 0 0 1 4.82 2h6.362c1 0 1.904.596 2.298 1.515l.792 1.848c.075.175.21.319.38.404.5.25.855.715.965 1.262l.335 1.679c.033.161.049.325.049.49v.413c0 .814-.39 1.543-1 1.997V13.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-1.338c-1.292.048-2.745.088-4 .088s-2.708-.04-4-.088V13.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-1.892c-.61-.454-1-1.183-1-1.997v-.413a2.5 2.5 0 0 1 .049-.49l.335-1.68c.11-.546.465-1.012.964-1.261a.807.807 0 0 0 .381-.404l.792-1.848ZM3 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Zm10 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2ZM6 8a1 1 0 0 0 0 2h4a1 1 0 1 0 0-2H6ZM2.906 5.189l.956-1.913A.5.5 0 0 1 4.309 3h7.382a.5.5 0 0 1 .447.276l.956 1.913a.51.51 0 0 1-.497.731c-.91-.073-3.35-.17-4.597-.17-1.247 0-3.688.097-4.597.17a.51.51 0 0 1-.497-.731Z"/>
+                    </svg>
+                    En Uso
+                </a>
+                <a class="col-sm-2 text-center btn btn-outline-primary" style="font-size:medium ;width: 130px; color: #804C11;"
+                href=<%="/autos?filtro=Libres&ordenar="+@ord.to_s%> >
+                    <svg  width="43" height="43" fill="#804C11" class="bi bi-car-front" viewBox="0 0 16 16">
+                    <path d="M4 9a1 1 0 1 1-2 0 1 1 0 0 1 2 0Zm10 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0ZM6 8a1 1 0 0 0 0 2h4a1 1 0 1 0 0-2H6ZM4.862 4.276 3.906 6.19a.51.51 0 0 0 .497.731c.91-.073 2.35-.17 3.597-.17 1.247 0 2.688.097 3.597.17a.51.51 0 0 0 .497-.731l-.956-1.913A.5.5 0 0 0 10.691 4H5.309a.5.5 0 0 0-.447.276Z"/>
+                    <path fill-rule="evenodd" d="M2.52 3.515A2.5 2.5 0 0 1 4.82 2h6.362c1 0 1.904.596 2.298 1.515l.792 1.848c.075.175.21.319.38.404.5.25.855.715.965 1.262l.335 1.679c.033.161.049.325.049.49v.413c0 .814-.39 1.543-1 1.997V13.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-1.338c-1.292.048-2.745.088-4 .088s-2.708-.04-4-.088V13.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-1.892c-.61-.454-1-1.183-1-1.997v-.413a2.5 2.5 0 0 1 .049-.49l.335-1.68c.11-.546.465-1.012.964-1.261a.807.807 0 0 0 .381-.404l.792-1.848ZM4.82 3a1.5 1.5 0 0 0-1.379.91l-.792 1.847a1.8 1.8 0 0 1-.853.904.807.807 0 0 0-.43.564L1.03 8.904a1.5 1.5 0 0 0-.03.294v.413c0 .796.62 1.448 1.408 1.484 1.555.07 3.786.155 5.592.155 1.806 0 4.037-.084 5.592-.155A1.479 1.479 0 0 0 15 9.611v-.413c0-.099-.01-.197-.03-.294l-.335-1.68a.807.807 0 0 0-.43-.563 1.807 1.807 0 0 1-.853-.904l-.792-1.848A1.5 1.5 0 0 0 11.18 3H4.82Z"/>
+                    </svg>
+                    Libres
+                </a>
+            </ul>
+        </div>
+        <div class="btn-group col-sm-5" role="group">    <! botonera superior Ordenar por: >
+            <button id="btnGroupDrop1" type="button" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                <%= "Ordenar por: "+@ord.to_s.capitalize  %>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1"  style="background-color: #FFC859; ">
+                <a class="col-sm-2 text-center btn btn-outline-primary"  style="font-size:medium ; width: 60px; color: #000000;" 
+                href=<%="/autos?ordenar=Nro&filtro="+@filt.to_s%> >
+                    n°
+                </a>
+                <a class="col-sm-2 text-center btn btn-outline-primary"  style="font-size:medium ; width: 100px; color: #000000;" 
+                href=<%="/autos?ordenar=Patente&filtro="+@filt.to_s%> >
+                    Patente
+                </a>
+                <a class="col-sm-2 text-center btn btn-outline-primary"  style="font-size:medium ; width: 130px; color: #000000;" 
+                href=<%="/autos?ordenar=Fecha_creado&filtro="+@filt.to_s%> >
+                    Fecha de Creado
+                </a>
+                <a class="col-sm-2 text-center btn btn-outline-primary"  style="font-size:medium ; width: 140px; color: #000000;" 
+                href=<%="/autos?ordenar=Fecha_editado&filtro="+@filt.to_s%> >
+                    Fecha de Editado
+                </a>
+            </ul>
+        </div>
+    </div>
+
+    <div id="espacio-nav" style="height: 10px;"></div>
+
+    <% if @notice!=params[:notice] %>   <!notificacion de alerta correcta que llega por parametro>
+        <div class="alert alert-success alert-dismissible fade show container-md mb-3 text-center " > 
+            <svg width="20" height="20" fill="green" class="bi bi-check-square-fill" viewBox="0 0 16 16">
+                <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm10.03 4.97a.75.75 0 0 1 .011 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.75.75 0 0 1 1.08-.022z"/>
+            </svg>
+            <em><b><%= params[:notice] %></b></em>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <% end %>
+
+    <% if @autos.empty? %>
+        <h1>no hay Autos en el sistema</h1>
+    <% end %>
+
+    <% @autos.each do |i| %>
+
+        <button class=" p-2 container-fluid " data-bs-toggle="modal" data-bs-target="#t<%=i.id.to_s%>" >
+            <div class="row ">
+                <div class="col-sm" style="font-size:medium ; color: #000000;">
+                    <h5>    <%= "n° "+i.nroA.to_s %> </h5>
+                </div>
+                <div class="col-sm-7 " style="font-weight: bold; "> <! colores usados : #804C11, #FFC773 , #59FF62>
+                    <%if i.en_uso %>
+                        <svg width="40" height="40" fill=red class="bi bi-car-front-fill" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M2.52 3.515A2.5 2.5 0 0 1 4.82 2h6.362c1 0 1.904.596 2.298 1.515l.792 1.848c.075.175.21.319.38.404.5.25.855.715.965 1.262l.335 1.679c.033.161.049.325.049.49v.413c0 .814-.39 1.543-1 1.997V13.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-1.338c-1.292.048-2.745.088-4 .088s-2.708-.04-4-.088V13.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-1.892c-.61-.454-1-1.183-1-1.997v-.413a2.5 2.5 0 0 1 .049-.49l.335-1.68c.11-.546.465-1.012.964-1.261a.807.807 0 0 0 .381-.404l.792-1.848ZM3 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Zm10 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2ZM6 8a1 1 0 0 0 0 2h4a1 1 0 1 0 0-2H6ZM2.906 5.189l.956-1.913A.5.5 0 0 1 4.309 3h7.382a.5.5 0 0 1 .447.276l.956 1.913a.51.51 0 0 1-.497.731c-.91-.073-3.35-.17-4.597-.17-1.247 0-3.688.097-4.597.17a.51.51 0 0 1-.497-.731Z"/>
+                        </svg>  <!svg de auto en uso>
+                    <%else%>
+                        <svg  width="43" height="43" fill="#804C11" class="bi bi-car-front" viewBox="0 0 16 16">
+                        <path d="M4 9a1 1 0 1 1-2 0 1 1 0 0 1 2 0Zm10 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0ZM6 8a1 1 0 0 0 0 2h4a1 1 0 1 0 0-2H6ZM4.862 4.276 3.906 6.19a.51.51 0 0 0 .497.731c.91-.073 2.35-.17 3.597-.17 1.247 0 2.688.097 3.597.17a.51.51 0 0 0 .497-.731l-.956-1.913A.5.5 0 0 0 10.691 4H5.309a.5.5 0 0 0-.447.276Z"/>
+                        <path fill-rule="evenodd" d="M2.52 3.515A2.5 2.5 0 0 1 4.82 2h6.362c1 0 1.904.596 2.298 1.515l.792 1.848c.075.175.21.319.38.404.5.25.855.715.965 1.262l.335 1.679c.033.161.049.325.049.49v.413c0 .814-.39 1.543-1 1.997V13.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-1.338c-1.292.048-2.745.088-4 .088s-2.708-.04-4-.088V13.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-1.892c-.61-.454-1-1.183-1-1.997v-.413a2.5 2.5 0 0 1 .049-.49l.335-1.68c.11-.546.465-1.012.964-1.261a.807.807 0 0 0 .381-.404l.792-1.848ZM4.82 3a1.5 1.5 0 0 0-1.379.91l-.792 1.847a1.8 1.8 0 0 1-.853.904.807.807 0 0 0-.43.564L1.03 8.904a1.5 1.5 0 0 0-.03.294v.413c0 .796.62 1.448 1.408 1.484 1.555.07 3.786.155 5.592.155 1.806 0 4.037-.084 5.592-.155A1.479 1.479 0 0 0 15 9.611v-.413c0-.099-.01-.197-.03-.294l-.335-1.68a.807.807 0 0 0-.43-.563 1.807 1.807 0 0 1-.853-.904l-.792-1.848A1.5 1.5 0 0 0 11.18 3H4.82Z"/>
+                        </svg>  <!svg de auto en libre >
+                    <% end %>
+                    <%= i.patente.to_s; %>       <! patente del auto >
+                    
+                </div>
+                <div class="col-sm-3 text-rigth" style="font-size:medium ; color: #000000;">
+                    <%= "informes: "+i.informes.where(validado: :true).count.to_s+"/"+i.informes.count.to_s + " - viajes: " + i.travels.count.to_s %>
+                </div>
+            </div>
+        </button>
+
+        <div id="espacio-nav" style="height: 15px;"></div>
+
+        <! cuerpo del modal de cada auto >
+        <div class="modal fade" id="t<%=i.id.to_s%>" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h1 class="modal-title fs-5">
+                        <b><%=i.patente %></b>
+                        <% if i.en_uso %>
+                        esta en uso
+                        <% else %>
+                        no esta en uso
+                        <% end %>
+                    </h1>
+                    </div>
+                    <div class="modal-body row container-fluid"> <!cuerpo del modal >
+                        <li> <%="id: "+i.id.to_s%> </li>
+                        <li> <%="color: "+i.color %> </li>
+                        <li> <%="cantidad de viajes: "+i.travels.count.to_s %> </li>
+                        <li> <%="horas de viaje: "+i.travels.count.to_s %> </li>
+                        <li> <%="fecha de incorporacion a la flota : "+i.created_at.strftime( "%d-%m-%Y") %> </li>
+                        <li> <%="cantidad de informes no verificados: "+i.informes.where(validado: :false).count.to_s %> </li>
+                        <li> <%="cantidad de informes verificados: "+i.informes.where(validado: :true).count.to_s %> </li>
+                        <li> <%="cantidad de informes totales: "+i.informes.count.to_s %> </li>
+                    </div>
+                    <div class="modal-footer">
+                        <%if @usuario.nivel.eql?("Administrador")%> <! funcion solo disponible para el Administrador>
+                            <%if not i.en_uso%> <! solo se puede Eliminar un Auto si, no se esta usando >
+                                <a type="button" class="btn btn-outline-danger col-sm-2" data-bs-toggle="modal"
+                                    data-bs-target="#delete<%=i.id.to_s%>">
+                                        <svg width="28" height="28" fill="currentColor" class="bi bi-person-x" viewBox="0 0 16 16"> 
+                                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                        <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                                        </svg>
+                                        Eliminar
+                                </a>
+                            <% end %>
+                            <a type="button" class="btn btn-outline-primary col-sm-2" data-bs-toggle="modal" 
+                                data-bs-target="#edit<%=i.id.to_s%>">
+                                    <svg width="28" height="28" fill="currentColor" class="bi bi-text-left" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M2 12.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z"/>
+                                    </svg> <!svg editar informacion del auto >
+                                    Editar
+                            </a>
+                        <% end %>
+                        <a type="button" class="btn btn-outline-primary col-sm-3"
+                            href=<%="/travels?nroA="+i.id.to_s%>>
+                                <svg width="28" height="28" fill="currentColor" class="bi bi-yelp" viewBox="0 0 16 16">
+                                <path d="m4.188 10.095.736-.17a.824.824 0 0 0 .073-.02.813.813 0 0 0 .453-1.255 1.025 1.025 0 0 0-.3-.258 2.782 2.782 0 0 0-.428-.198l-.808-.295a76.035 76.035 0 0 0-1.364-.493C2.253 7.3 2 7.208 1.783 7.14c-.041-.013-.087-.025-.124-.038a2.143 2.143 0 0 0-.606-.116.723.723 0 0 0-.572.245 1.625 1.625 0 0 0-.105.132 1.555 1.555 0 0 0-.155.309c-.15.443-.225.908-.22 1.376.002.423.013.966.246 1.334a.785.785 0 0 0 .22.24c.166.114.333.129.507.141.26.019.513-.045.764-.103l2.447-.566.003.001Zm8.219-3.911a4.185 4.185 0 0 0-.8-1.14 1.602 1.602 0 0 0-.275-.21 1.591 1.591 0 0 0-.15-.073.723.723 0 0 0-.621.031c-.142.07-.294.182-.496.37-.028.028-.063.06-.094.089-.167.156-.353.35-.574.575-.34.345-.677.691-1.01 1.042l-.598.62a2.79 2.79 0 0 0-.298.365 1 1 0 0 0-.157.364.813.813 0 0 0 .007.301c0 .005.002.009.003.013a.812.812 0 0 0 .945.616.774.774 0 0 0 .074-.014l3.185-.736c.251-.058.506-.112.732-.242.151-.088.295-.175.394-.35a.787.787 0 0 0 .093-.313c.05-.434-.178-.927-.36-1.308ZM6.706 7.523c.23-.29.23-.722.25-1.075.07-1.181.143-2.362.201-3.543.022-.448.07-.89.044-1.34-.022-.372-.025-.799-.26-1.104C6.528-.077 5.644-.033 5.04.05c-.185.025-.37.06-.553.104a7.589 7.589 0 0 0-.543.149c-.58.19-1.393.537-1.53 1.204-.078.377.106.763.249 1.107.173.417.41.792.625 1.185.57 1.036 1.15 2.066 1.728 3.097.172.308.36.697.695.857.022.01.045.018.068.025.15.057.313.068.469.032l.028-.007a.809.809 0 0 0 .377-.226.732.732 0 0 0 .053-.055Zm-.276 3.161a.737.737 0 0 0-.923-.234.976.976 0 0 0-.145.09 1.909 1.909 0 0 0-.346.354c-.026.033-.05.077-.08.104l-.512.705c-.29.395-.577.791-.861 1.193-.185.26-.346.479-.472.673l-.072.11c-.152.235-.238.406-.282.559a.73.73 0 0 0-.03.314c.013.11.05.217.108.312.031.047.064.093.1.138a1.548 1.548 0 0 0 .257.237 4.482 4.482 0 0 0 2.196.76 1.593 1.593 0 0 0 .349-.027 1.57 1.57 0 0 0 .163-.048.797.797 0 0 0 .278-.178.731.731 0 0 0 .17-.266c.059-.147.098-.335.123-.613l.012-.13c.02-.231.03-.502.045-.821.025-.49.044-.98.06-1.469l.033-.87a2.09 2.09 0 0 0-.055-.623.93.93 0 0 0-.117-.27Zm5.783 1.362a2.199 2.199 0 0 0-.498-.378l-.112-.067c-.199-.12-.438-.246-.719-.398-.43-.236-.86-.466-1.295-.695l-.767-.407c-.04-.012-.08-.04-.118-.059a1.908 1.908 0 0 0-.466-.166.993.993 0 0 0-.17-.018.738.738 0 0 0-.725.616.946.946 0 0 0 .01.293c.038.204.13.406.224.583l.41.768c.228.434.459.864.696 1.294.152.28.28.52.398.719.023.037.048.077.068.112.145.239.261.39.379.497a.73.73 0 0 0 .596.201 1.55 1.55 0 0 0 .168-.029 1.584 1.584 0 0 0 .325-.129 4.06 4.06 0 0 0 .855-.64c.306-.3.577-.63.788-1.006.03-.053.055-.109.076-.165a1.58 1.58 0 0 0 .051-.161c.013-.056.022-.111.029-.168a.792.792 0 0 0-.038-.327.73.73 0 0 0-.165-.27Z"/>
+                                </svg>  <!svg de ver listado de viajes>
+                                Ver Viajes
+                        </a>
+
+                        <a type="button" class="btn btn-outline-primary col-sm-3"
+                            href=<%="/informes?nroA="+i.nroA.to_s%>>
+                                <svg width="28" height="28" fill="currentColor" class="bi bi-info-square" viewBox="0 0 16 16">
+                                <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+                                <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+                                </svg>  <! svg de ver listado de informes>
+                                Ver Informes</a>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Volver</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!modal confirmacion editar>
+        <div class="modal" id="edit<%=i.id.to_s%>" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">¿Quiere editar el auto <b><%=i.patente%></b> ?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body row container-fluid"> <!cuerpo del modal >
+                    <%= bootstrap_form_tag url: '/editar_auto/', class: "row mb-2" do |f| %>
+                    <%= f.number_field :id,id: 'id',hidden: "true",hide_label: true, value: i.id %>
+                    <%= f.number_field :nroA,id: 'Nro',hide_label: true, value: i.nroA %>
+                    <%= f.text_field :patente,id: 'patente',hide_label: true, value: i.patente %>
+                    <%= f.select :color, [["rojo","rojo"], ["blanco","blanco"], ["azul","azul"]],id: 'color',hide_label: true, value: i.color %>
+                    <%= f.primary "Guardar",render_as_button: true%>
+                    <% end %>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <a type="button" class="btn btn-primary" 
+                >Guardar</a>
+            </div>
+            </div>
+        </div>
+        </div>
+
+        <!modal confirmacion eliminar>
+        <div class="modal" id="delete<%=i.id.to_s%>" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">¿Quiere Eliminar el auto <b><%=i.patente%></b> ?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">NO</button>
+                <a type="button" class="btn btn-danger" href=<%="/eliminar_auto?auto_id="+i.id.to_s%>
+                >SI</a>
+            </div>
+            </div>
+        </div>
+        </div>
+
+
+    <%end%> <! @autos.each>
+
+    <div class="fixed-bottom text-center " style="background-color: #FEBD59; height: 50px;">
+        <a type="button" class="btn " style="background-color:#73634B; color:#FFFFFF;" 
+            href="/" >Home</a>
+        <%if @usuario.nivel.eql?("Administrador")%> <! funcion solo disponible para el Administrador>
+            <a type="button" class="btn " style="background-color:#73634B; color:#FFFFFF;"
+                href="/autos/new" > Cargar Auto</a>
+        <% end %>
+    </div>
+
+<% end %>

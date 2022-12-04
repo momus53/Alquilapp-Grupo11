@@ -1,0 +1,14 @@
+agregue ver lista de usuarios al nav_bar
+cree ver lista de autos
+    agregue boton modal para ver listado de informes
+    agregue boton modal para ver listado de viajes*
+    agregue boton modal para editar el auto
+    agregue boton modal para eliminar auto
+    agregue ingresar nuevo auto
+    agregue los botones de confirmacion a las operaciones de Usuarios
+
+en Lista de Usuarios cambie los botones de lugar
+eliminar usuario como administrador verifica si tiene viaje activo
+
+comentadrios:
+- dento de los detalles del auto, la "cantidad de horas de viajes" no esta conectado
