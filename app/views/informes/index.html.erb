@@ -208,7 +208,7 @@
 
   <div class="fixed-bottom text-center " style="background-color: #FEBD59; height: 50px;">
     <a type="button" class="btn " style="background-color:#73634B; color:#FFFFFF;"
-        href=<%="/alquilers/show?auto="+@auto.nroA.to_s %> >Alquilar: <%=@auto.patente%></a>
+        onclick="volver()" %>Volver</a>
     <a type="button" class="btn " style="background-color:#73634B; color:#FFFFFF;" 
           href="/" >Home</a>
     <a type="button" class="btn " style="background-color:#73634B; color:#FFFFFF;"
@@ -225,3 +225,9 @@
     parte <%=@partes %><br>
 
   <%end  #final del if paramets %>
+
+<script>
+	function volver(){
+		window.history.back(1);
+	}
+</script>

@@ -40,6 +40,23 @@ class AutosController < ApplicationController
 		end
     end
 
+    def viajes
+        if session[:user_id]!=nil #tiene que estar loggeado
+            @usuario = Usuario.all.find( session[:user_id])
+            if @usuario.nivel.eql?("Administrador") #tiene que ser administrador loggeado
+                if params[:auto_id] != nil#se necesita el id del auto
+                    @viajes=Travel.all
+                    @viajes=@viajes.where(auto_id: params[:auto_id])
+                else
+                    redirect_to action: "index", notice: "Faltan Parametros"  and return
+                end
+            else
+                redirect_to root_url and return   #si el usuario no tiene el nivel necesario lo redirijo al mapa
+            end
+        else
+            redirect_to mains_show_url and return   #si no tiene secion iniciada redirigo a iniciar secion
+        end
+    end
 
     #se llama desde el archivo de vista en /app/views/autos/index.html.erb
     #metodo (post) para editar un auto
