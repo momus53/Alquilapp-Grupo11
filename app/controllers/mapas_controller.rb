@@ -10,6 +10,12 @@ class MapasController < ApplicationController
 			@usuario = nil
 		end
         @autos = Auto.all
+        @utlimo_viaje = @usuario.travels.last
+        aux = params.permit(:notice)
+        if(aux[:notice] == "viaje_terminado")
+            cerrar_viaje()
+        end
+
        # arr = Array.new(@autos.where(en_uso: false).length * 3)
 
         #@autos.where(en_uso: false).each do |a|
@@ -23,6 +29,13 @@ class MapasController < ApplicationController
         #@autosLibres = arr
     end
 
+    def cerrar_viaje
+        puts "AAAAAAAAAAAAAAAAAAAAA"
+        @usuario = Usuario.all.find_by(id: session[:user_id])
+        viaje = @usuario.travels.last
+        viaje.ends = Time.now
+        viaje.save
+    end
 
     def post_api_auto(patente)
         auth = {

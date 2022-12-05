@@ -17,7 +17,7 @@ class AlquilersController < ApplicationController
       @auto = Auto.all.find_by(nroA: auxiliar[:auto])
       @usuario = Usuario.all.find_by(id: session[:user_id])
       @viaje = Travel.new                     #ESTO QUIZA HAYA QUE SACARLO MAS ADELANTE PORQUE SE HACE EN LA VENTADA DE ALQUILAR
-      @viaje.auto_id = @auto.id
+      @viaje.auto_id = @auto.id               #VUELA TODO ESTO VUELA SACALO TODO
       @viaje.usuario_id = @usuario.id  
       @viaje.save
       render
@@ -37,15 +37,15 @@ class AlquilersController < ApplicationController
         if (@usuario.travels.find_by(auto_id: aux2.id))
           if((@usuario.travels.find_by(auto_id: aux2.id).created_at.advance(hours: 3)) > Time.now)
             puts 'lo uso hace poco'
-            redirect_to alquiler_path(auto: aux[:nroA].to_s, id:'show', notice: "Lo uso hace menos de 3 Horas") and return
+            redirect_to alquiler_path(auto: aux[:nroA].to_s, id:'show', notice: "Lo uso hace menos de 3 Horas")
           end 
         end
         puts 'puede alquilar'
             @usuario.increment!(:monto_actual , -total)
-            redirect_to action: 'index', auto: aux[:nroA].to_s, mins: ((aux[:cuartos].to_f)/4)*60 and return
+            redirect_to action: 'index', auto: aux[:nroA].to_s, mins: ((aux[:cuartos].to_f)/4)*60
       else
         puts 'No hay dinero'
-        redirect_to alquiler_path(auto: aux[:nroA].to_s, id:'show', notice: "No Hay Dinero suficiente") and return
+        redirect_to alquiler_path(auto: aux[:nroA].to_s, id:'show', notice: "No Hay Dinero suficiente")
       end
 
     end
@@ -91,10 +91,12 @@ class AlquilersController < ApplicationController
 
 
 
-    def check_auto
-      aux = params.permit(:patente,:auto,:mins)
+    def check_auto #checkea si se puede cerrar el alquiler
+      @usuario = Usuario.all.find_by(id: session[:user_id])
+      aux = params.permit(:patente,:auto)
       res = post_api_auto(aux[:patente])
-      auto = Auto.all.find_by(patente: aux[:patente]).nroA
+      auto = aux[:patente]
+      viajeActual = @usuario.travels.last
 
       if res.parsed_response.key?("result") and res.parsed_response["result"] == "err_timeout"
         puts("TIMEOUT")
@@ -118,7 +120,9 @@ class AlquilersController < ApplicationController
           end
         end
       end
-      redirect_to alquilers_path(auto: auto,mins: 60,notice: salida)
+      tiempo = (900 - (Time.now - viajeActual.created_at)) #viajeActual.contratado = 900
+      tiempo = (tiempo/60).round(2)
+      redirect_to alquilers_path(auto: auto,mins: tiempo, notice: salida)
     end
 
     def post_api_auto(patente)

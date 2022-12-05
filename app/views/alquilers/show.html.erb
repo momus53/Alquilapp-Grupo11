@@ -43,8 +43,8 @@
 </div>
 
 <script>
-    const params2 = new URLSearchParams(document.location.search);
-    let auto_in = params2.get("auto");
+    var params2 = new URLSearchParams(document.location.search);
+    var auto_in = params2.get("auto");
     direccionInformes = "/informes?nroA="+auto_in;
     vi.href = direccionInformes;
     document.getElementById("auto").value = auto_in;
@@ -57,7 +57,7 @@
 
     
     function contratar(){  // Params (Nro auto, horas, usuario, valor)
-        let monto= <%= @usuarios.first().monto_actual %>;
+        let monto= 1;
         let check=chequea(Number(auto_in), monto , (barra.value/4) ); // Num de error
         switch (check){
         case 0:

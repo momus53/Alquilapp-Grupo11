@@ -57,6 +57,7 @@
                     <!--button class="btn btn-primary" data-bs-target="#escanearQR" data-bs-toggle="modal" onclick="finalizarAlquiler()">Listo</button-->
                     <%= bootstrap_form_tag url: '/alquilers/devolver', class: "row mb-2" do |f| %>
                     <%= f.text_field :patente,id: 'patente',hidden: "true",hide_label: true, value: 'ALO 544' %>
+                    <%= f.number_field :tex,id: 'tex',hidden: "true",hide_label: true, value: 0%>
                     <%= f.primary "Listo",render_as_button: true%>
                     <% end %>
                 </div>
@@ -216,7 +217,9 @@
 
                 if(code.data === "Numero_De_Auto:"+auto_in){
                     check_num = true;
-                    location.href = "/"
+                    //cerrar el viaje y redirigir algo asi como alquilers/cerraviaje
+                    //y que ese redirija al mapa con un notice de imprimir el mensaje
+                    location.href = "/?notice=viaje_terminado";
                 }  
                 if(!check_num){
                     alertaQR.hidden = false;
@@ -242,6 +245,7 @@
     var texto = document.getElementById("textoTiempo");
     var carta = document.getElementById("cartaTiempo");
     var countDowmEl = document.getElementById("minutos");
+    var campo_ex = document.getElementById("tex");
     var exedido = false;
 
     setInterval(updateCountDown, 1000);
@@ -265,6 +269,10 @@
 
         if(exedido){
             tiempo++;
+            campo_ex.value = tiempo;
         }
+
+
+
     }
 </script>
