@@ -16,7 +16,6 @@ class AlquilersController < ApplicationController
       auxiliar = params.permit(:auto)
       @auto = Auto.all.find_by(nroA: auxiliar[:auto])
       @usuario = Usuario.all.find_by(id: session[:user_id])
-      @viaje = Travel.create
       render
     end
 
@@ -37,8 +36,20 @@ class AlquilersController < ApplicationController
             redirect_to alquiler_path(auto: aux[:nroA].to_s, id:'show', notice: "Lo uso hace menos de 3 Horas") and return
           end 
         end
-        puts 'puede alquilar'
+            puts 'puede alquilar'
+            @viajero = Travel.new
+            @viajero.start=Time.now
+            @viajero.contratado= aux[:cuartos].to_i
+            @viajero.auto_id=aux2.id
+            @viajero.usuario_id=@usuario.id
+            if @viajero.save
+              puts "SE GUARDO"
+            else
+              puts "no me guarde"
+            end
             @usuario.increment!(:monto_actual , -total)
+            puts @viajero.start
+            puts @viajero.contratado
             redirect_to action: 'index', auto: aux[:nroA].to_s, mins: ((aux[:cuartos].to_f)/4)*60 and return
       else
         puts 'No hay dinero'
