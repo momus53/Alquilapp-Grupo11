@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_11_27_153318) do
+ActiveRecord::Schema[7.0].define(version: 2022_12_05_203750) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -71,9 +71,9 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_27_153318) do
   create_table "travels", force: :cascade do |t|
     t.time "start"
     t.time "ends"
-    t.time "exedido"
-    t.time "contratado"
-    t.time "multado"
+    t.integer "exedido"
+    t.integer "contratado"
+    t.integer "multado"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "auto_id"
