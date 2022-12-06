@@ -217,9 +217,9 @@
 
                 if(code.data === "Numero_De_Auto:"+auto_in){
                     check_num = true;
-                    //cerrar el viaje y redirigir algo asi como alquilers/cerraviaje
-                    //y que ese redirija al mapa con un notice de imprimir el mensaje
-                    location.href = "/?notice=viaje_terminado";
+                    url = "/?notice=viaje_terminado&tex="+tex;
+                    console.log(url);
+                    location.href = url;
                 }  
                 if(!check_num){
                     alertaQR.hidden = false;
@@ -245,7 +245,7 @@
     var texto = document.getElementById("textoTiempo");
     var carta = document.getElementById("cartaTiempo");
     var countDowmEl = document.getElementById("minutos");
-    var campo_ex = document.getElementById("tex");
+    var tex = 0;
     var exedido = false;
 
     setInterval(updateCountDown, 1000);
@@ -269,7 +269,7 @@
 
         if(exedido){
             tiempo++;
-            campo_ex.value = tiempo;
+            tex = tiempo;
         }
 
 
