@@ -17,6 +17,7 @@ Rails.application.routes.draw do
 
   get '/eliminar_auto', to: 'autos#eliminar', as: 'eliminar_auto'
   post '/editar_auto', to: 'autos#editar', as: 'editar_auto'
+  post '/multar', to: 'autos#multar', as: 'multar'
   get '/viajes', to: 'autos#viajes', as: 'viajes' #listado de viajes por auto
 
   delete '/mains/logouts', to: 'logouts#destroy'

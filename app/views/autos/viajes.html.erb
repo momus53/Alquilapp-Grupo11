@@ -55,23 +55,53 @@
                     </div>
                     <div class="modal-body row container-fluid"> <!cuerpo del modal >
                         <li> <%="id: "+i.id.to_s%> </li>
-                        <li> <%="auto nro: "+i.auto.id.to_s %> </li>
-                        <li> <%="auto patente: "+i.auto.patente %> </li>
-                        <li> <%="usuario nro: "+i.usuario.id.to_s %> </li>
-                        <li> <%="Usuario Nombre: "+i.usuario.nombre.capitalize + ", "+i.usuario.apellido.capitalize %> </li>
-
-                        <li> <%="cantidad de horas contratadas: "+i.id.to_s %> </li>
-                        <li> <%="cantidad de horas utilizadas: "+i.id.to_s %> </li>
+                        <li> <%="auto ( nro: "+i.auto.nroA.to_s + ";  patente: "+i.auto.patente+" )"%> </li>
+                        <li> <%="usuario ( id: "+i.usuario.id.to_s+ "; nombre: " +i.usuario.nombre.capitalize + ", "+i.usuario.apellido.capitalize+" )"%> </li>
+                        <li> <%=i.contratado!=nil ? "tiempo contratadado: "+(i.contratado*15).to_s+"minutos" : "pa' no se contrato tiempo"%> </li>
+                        <li> <%=i.exedido!=nil ? "tiempo extendido: "+(i.exedido*15).to_s+"minutos" : "no se extendio el tiempo"%> </li>
+                        <li> <%=i.multado!=nil ? "tiempo excedido: "+(i.multado*15).to_s+" min" : "no se excedio tiempo de uso"%> </li>
                         <li> <%="fecha de inicio del viaje : "+i.created_at.strftime( "%d-%m-%Y") %> </li>
                     </div>
                     <div class="modal-footer">
-                        
+                            <a type="button" class="btn btn-outline-primary col-sm-2" data-bs-toggle="modal" 
+                                data-bs-target="#multar<%=i.id.to_s%>">
+                                    <svg width="28" height="28" fill="currentColor" class="bi bi-text-left" viewBox="0 0 16 16">
+                                    <path d="M12.136.326A1.5 1.5 0 0 1 14 1.78V3h.5A1.5 1.5 0 0 1 16 4.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 13.5v-9a1.5 1.5 0 0 1 1.432-1.499L12.136.326zM5.562 3H13V1.78a.5.5 0 0 0-.621-.484L5.562 3zM1.5 4a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-13z"/>
+                                    </svg> <!svg editar informacion del auto >
+                                    Multar
+                            </a>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Volver</button>
                     </div>
                 </div>
             </div>
         </div>
 
+
+        <div class="modal" id="multar<%=i.id.to_s%>" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">¿Quiere Multar el usuario <b><%=i.usuario.nombre+", "+i.usuario.apellido%></b>, por el viaje <b><%=i.id.to_s%></b>, con el auto <b><%=i.auto.patente%></b> ?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body row container-fluid"> <!cuerpo del modal >
+                <%= bootstrap_form_tag url: '/multar/', class: "row mb-2" do |f| %>
+                <%= f.number_field :travel_id,id: 'travel_id',hidden: "true",hide_label: true, value: i.id %>
+                <%= f.number_field :usuario_id,id: 'usuario_id',hidden: "true",hide_label: true, value: i.usuario.id %>
+                <%= f.number_field :auto_id,id: 'auto_id',hidden: "true",hide_label: true, value: i.auto.id %>
+                <h4>Costo de la Multa</h4>
+                <%= f.number_field :costo_multa,id: 'costo_multa',hide_label: true, value: 2000 %>
+                <h4>Descripcion de la Multa</h4>
+                <%= f.text_field :descripcion,id: 'descripcion',hide_label: true %>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <%= f.primary "Guardar",render_as_button: true%>
+                <% end %>
+            </div>
+            </div>
+        </div>
+        </div>
 
     <% end %><! fin del @viajes.each >
 

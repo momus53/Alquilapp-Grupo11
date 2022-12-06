@@ -40,6 +40,32 @@ class AutosController < ApplicationController
 		end
     end
 
+
+    #accion tipo POST ; le descuenta x monto a un usuario; envia un main informativo;
+    #llamado desde /app/views/autos/viajes.html.erb
+    def multar
+        if session[:user_id]!=nil #tiene que estar loggeado
+            @usuario = Usuario.all.find( session[:user_id])
+            if @usuario.nivel.eql?("Administrador") #tiene que ser administrador loggeado
+                if params[:travel_id] != nil and params[:usuario_id] != nil and params[:auto_id] != nil and params[:costo_multa] != nil and params[:descripcion] != nil #se necesita el id del auto
+                    @us=Usuario.find(params[:usuario_id])
+                    @us.monto_actual += -params[:costo_multa].to_f
+                    @us.save
+                    redirect_to action: "index", notice: "FALTA IMPLEMENTAR EL MENSAJE MAIL"  and return
+                else
+                    redirect_to action: "index", notice: "Faltan Parametros"  and return
+                end
+            else
+                redirect_to root_url and return   #si el usuario no tiene el nivel necesario lo redirijo al mapa
+            end
+        else
+            redirect_to mains_show_url and return   #si no tiene secion iniciada redirigo a iniciar secion
+        end
+    end
+
+
+    #vista de la lista de viajes asociados a un auto espesifico
+    #implementado en /app/views/autos/viajes.html.erb
     def viajes
         if session[:user_id]!=nil #tiene que estar loggeado
             @usuario = Usuario.all.find( session[:user_id])

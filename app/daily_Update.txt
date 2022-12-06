@@ -1,7 +1,9 @@
+
+-- Nico -- 3/12/2022
 agregue ver lista de usuarios al nav_bar
 cree ver lista de autos
     agregue boton modal para ver listado de informes
-    agregue boton modal para ver listado de viajes*
+    agregue boton modal para ver listado de viajes
     agregue boton modal para editar el auto
     agregue boton modal para eliminar auto
     agregue ingresar nuevo auto
@@ -10,5 +12,13 @@ cree ver lista de autos
 en Lista de Usuarios cambie los botones de lugar
 eliminar usuario como administrador verifica si tiene viaje activo
 
-comentadrios:
-- dento de los detalles del auto, la "cantidad de horas de viajes" no esta conectado
+
+-- Nico -- 6/12/2022
+agrego migraciones nuevas
+corrigo datos de migraciones
+agrego datos en seed( mi usuario personal y algunos viajes para probar las vistas )
+agregue boton de multar en listado de viajes
+
+nota:  
+    - falta implementar el mensaje por mail
+

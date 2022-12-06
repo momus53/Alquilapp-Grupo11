@@ -123,8 +123,14 @@
                     <div class="modal-body row container-fluid"> <!cuerpo del modal >
                         <li> <%="id: "+i.id.to_s%> </li>
                         <li> <%="color: "+i.color %> </li>
-                        <li> <%="cantidad de viajes: "+i.travels.count.to_s %> </li>
-                        <li> <%="horas de viaje: "+i.travels.count.to_s %> </li>
+                        <li> <%="cantidad de viajes: "+i.travels.count.to_s%> </li>
+                            <% tiempo=0 %>
+                            <% i.travels.each do |v|%>
+                            <% tiempo+=v.contratado.to_i %>
+                            <% tiempo+=v.exedido.to_i %>
+                            <% tiempo+=v.multado.to_i %>
+                            <% end %>
+                        <li> <%="tiempo de viaje total: "+(tiempo*15).to_s+"minutos" %> </li>
                         <li> <%="fecha de incorporacion a la flota : "+i.created_at.strftime( "%d-%m-%Y") %> </li>
                         <li> <%="cantidad de informes no verificados: "+i.informes.where(validado: :false).count.to_s %> </li>
                         <li> <%="cantidad de informes verificados: "+i.informes.where(validado: :true).count.to_s %> </li>
