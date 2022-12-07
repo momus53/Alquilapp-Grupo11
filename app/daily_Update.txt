@@ -22,3 +22,9 @@ agregue boton de multar en listado de viajes
 nota:  
     - falta implementar el mensaje por mail
 
+-- Nico -- 7/12/2022
+arreglo visual.
+    -desborde de lista de Autos, Usuarios e Informes
+genero notificacion cuando se crean 2autos con el mismo nroA
+-solucion bugg: eliminar auto, cuando tiene viajes, depend destroy con Travel
+

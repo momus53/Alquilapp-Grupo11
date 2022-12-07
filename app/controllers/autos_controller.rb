@@ -152,7 +152,11 @@ class AutosController < ApplicationController
         @auto.en_uso=false
 
         if @auto.save
-            redirect_to action: "index", notice: "Auto Creado CORRECTAMENTE"  and return
+            if Auto.where(nroA: @auto.nroA).count == 1
+                redirect_to action: "index", notice: "Auto Creado CORRECTAMENTE"  and return
+            else
+                redirect_to action: "index", notice: "Auto Creado CORRECTAMENTE",alert: "Hay "+Auto.where(nroA: @auto.nroA).count.to_s+" Autos con el mismo numero: "+@auto.nroA.to_s+".Esto puede generar problemas en el sistema." and return
+            end
         else
             @notice_error = @auto.errors.objects.first.full_message
             redirect_to action: "new", error: @notice_error and return

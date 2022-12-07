@@ -166,9 +166,9 @@
                                         <% if i.nivel.eql?("Usuario") %>
                                             <%="dinero disponible: $"+i.monto_actual.to_s%> <br>
                                             <% if i.travels.count > 0 and i.travels.last.ends==nil %> 
-                                                - tiene un Viaje activo<br>
+                                                Tiene un Viaje activo<br>
                                             <%else%>
-                                                - no tiene viajes activos<br>
+                                                No tiene viajes activos<br>
                                             <%end%>
                                             <%="cantidad de viajes:"+i.travels.count.to_s %> <br>
                                         <%end%>
@@ -266,6 +266,8 @@
             </div>
 
         <% end %> <!final del each de usuarios>
+        
+        <div id="espacio-nav" style="height: 10px;"></div>
 <% else %>
   <h1>
     ERROR DE PARAMETROS
