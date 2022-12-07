@@ -4,9 +4,9 @@ class MapasController < ApplicationController
 
 
     def show
+        @autos = Auto.all
         if session[:user_id] != nil
 			@usuario = Usuario.all.find_by(id: session[:user_id])
-            @autos = Auto.all
             aux = params.permit(:notice,:tex)
             if(aux[:notice] == "viaje_terminado")
                 @ultimo_viaje = @usuario.travels.last
