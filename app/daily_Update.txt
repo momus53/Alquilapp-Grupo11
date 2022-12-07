@@ -26,5 +26,11 @@ nota:
 arreglo visual.
     -desborde de lista de Autos, Usuarios e Informes
 genero notificacion cuando se crean 2autos con el mismo nroA
+generador de QR api, en ver informacion de auto 
 -solucion bugg: eliminar auto, cuando tiene viajes, depend destroy con Travel
+
+-- Nico -- 7/12/2022
+arreglo boton de volver 
+    - ( en la barra inferior de informes, y viajes )
+-> Merge General!!
 

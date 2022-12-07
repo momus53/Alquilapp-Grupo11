@@ -4,12 +4,19 @@ class MapasController < ApplicationController
 
 
     def show
-        if session[:user_id]!=nil
+        @autos = Auto.all
+        if session[:user_id] != nil
 			@usuario = Usuario.all.find_by(id: session[:user_id])
+            aux = params.permit(:notice,:tex)
+            if(aux[:notice] == "viaje_terminado")
+                @ultimo_viaje = @usuario.travels.last
+                cerrar_viaje(aux[:tex])
+            end
 		else
 			@usuario = nil
 		end
-        @autos = Auto.all
+
+
        # arr = Array.new(@autos.where(en_uso: false).length * 3)
 
         #@autos.where(en_uso: false).each do |a|
@@ -23,6 +30,13 @@ class MapasController < ApplicationController
         #@autosLibres = arr
     end
 
+    def cerrar_viaje(tex)
+        @usuario = Usuario.all.find_by(id: session[:user_id])
+        viaje = @usuario.travels.last
+        viaje.ends = Time.now
+        viaje.exedido = tex
+        viaje.save
+    end
 
     def post_api_auto(patente)
         auth = {
