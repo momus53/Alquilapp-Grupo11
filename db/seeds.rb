@@ -20,11 +20,12 @@ auto4 = Auto.create(nroA: 2, color: "Azul", patente: "LO 487 FR" , en_uso: false
 auto5 = Auto.create(nroA: 5, color: "Blanco", patente: "AS 065 QW" , en_uso: true)
 auto6 = Auto.create(nroA: 6, color: "Blanco", patente: "RTM 898 AR" , en_uso: false)
 
-user1 = Usuario.create(nombre: "Alan", apellido: "Pichot", monto_actual: 2500, nivel: "Supervisor",dni:42312315, email: "alan@pro.com", pwd:'12345')
-user2 = Usuario.create(nombre: "Sandro", apellido: "Mareco", monto_actual: 1889.0, nivel: "Usuario",dni:40312115, email: "san@dro",pwd: "12345")
-user3 = Usuario.create(nombre: "Fernando", apellido: "Peralta", monto_actual: 0, nivel: "Administrador",dni:49312315, email: "frend@proCress.com")
-user4 = Usuario.create(nombre: "Beth", apellido: "Harmon", monto_actual: 0, nivel: "Supervisor",dni:35312315, email: "beti@proCress.com")
-user5 = Usuario.create(nombre: "Tomas", apellido: "Sosa", monto_actual: -89.9, nivel: "Usuario",dni:40853689, email: "tomiton@proCress.com")
+user1 = Usuario.create(nombre: "Alan", apellido: "Pichot", monto_actual: 2500, nivel: "Administrador",dni:42312315, email: "alan@pro.com", pwd:'12345',fecha_nacimiento: DateTime.new(1992, 1, 19, 22, 35, 0))
+user2 = Usuario.create(nombre: "Sandro", apellido: "Mareco", monto_actual: 1889.0, nivel: "Usuario",dni:40312115, email: "san@dro",pwd: "12345",fecha_nacimiento: DateTime.new(1995, 2, 19, 22, 35, 0))
+user3 = Usuario.create(nombre: "Fernando", apellido: "Peralta", monto_actual: 0, nivel: "Administrador",dni:49312315, email: "frend@proCress.com",pwd: "12345",fecha_nacimiento: DateTime.new(1988, 8, 8, 22, 35, 0))
+user4 = Usuario.create(nombre: "Beth", apellido: "Harmon", monto_actual: 15000, nivel: "Supervisor",dni:35312315, email: "beti@proCress.com",pwd: "12345",fecha_nacimiento: DateTime.new(1990, 7, 14, 22, 35, 0))
+user5 = Usuario.create(nombre: "Tomas", apellido: "Sosa", monto_actual: -89.9, nivel: "Usuario",dni:40853689, email: "tomiton@proCress.com",pwd: "12345",fecha_nacimiento: DateTime.new(1992, 11, 25, 22, 35, 0))
+user6 = Usuario.create(nombre: "Nicolas", apellido: "Pacheco", monto_actual: 23000, nivel: "Administrador",dni:40624578, email: "nicopacheco1997@gmail.com",pwd: "1234",fecha_nacimiento: DateTime.new(1997, 8, 6, 20, 15, 11))
 
 inf1 = Informe.create(titulo: "toque en paragolpe", descripcion: "en el paragolpe trasero tiene un golpe, y le falta un pedazo de plastico", parte_involucrada: 9 , validado: false , auto: auto2 , usuario: user2)
 inf2 = Informe.create(titulo: "espejito roto", descripcion: "el espejo derecho esta golpeado y trabado", parte_involucrada: 17 , validado: false , auto: auto2 , usuario: user2)
@@ -63,5 +64,9 @@ parte27 = Parte.create(id:27, nombre:"Rin")
 
 
 Time.now
-tra1= Travel.create(start: Time.now.advance(hours: -3), ends: Time.now, auto_id: auto6.id, usuario_id: 1)
-tra2= Travel.create(start: Time.now.advance(hours: -6), ends: Time.now.advance(hours: -3), auto_id: auto3.id, usuario_id: 1)
+tra1= Travel.create(start: Time.now.advance(hours: -3), ends: Time.now,contratado: 4,exedido: nil,multado:nil, auto_id: auto6.id, usuario_id: 1)
+tra2= Travel.create(start: Time.now.advance(hours: -6), ends: Time.now.advance(hours: -3),contratado: 5,exedido: 2,multado: 1, auto_id: auto3.id, usuario_id: 1)
+tra3= Travel.create(start: Time.now.advance(hours: -1), ends: Time.now, contratado: 4,exedido: nil,multado:nil, auto_id: auto4.id, usuario_id: user6.id)
+tra4= Travel.create(start: Time.now, ends: nil, contratado: 2,exedido: nil,multado:nil, auto_id: auto2.id, usuario_id: user6.id)
+tra5= Travel.create(start: Time.now.advance(hours: -7), ends: Time.now.advance(hours: -6), contratado: 5,exedido: 1,multado:1, auto_id: auto2.id, usuario_id: user3.id)
+

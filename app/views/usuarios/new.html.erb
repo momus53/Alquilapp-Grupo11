@@ -1,36 +1,52 @@
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Expletus+Sans:ital,wght@1,600&display=swap" rel="stylesheet">
+
+ <!-- barra de navegacion vacia con logo -->
+    <div class=" row justify-content-center" style="background-color: #FEBD59;">
+            <div class="col-2 ">
+                <svg width="45" height="45" fill="#73634B" class="bi bi-car-front-fill" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M2.52 3.515A2.5 2.5 0 0 1 4.82 2h6.362c1 0 1.904.596 2.298 1.515l.792 1.848c.075.175.21.319.38.404.5.25.855.715.965 1.262l.335 1.679c.033.161.049.325.049.49v.413c0 .814-.39 1.543-1 1.997V13.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-1.338c-1.292.048-2.745.088-4 .088s-2.708-.04-4-.088V13.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-1.892c-.61-.454-1-1.183-1-1.997v-.413a2.5 2.5 0 0 1 .049-.49l.335-1.68c.11-.546.465-1.012.964-1.261a.807.807 0 0 0 .381-.404l.792-1.848ZM3 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Zm10 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2ZM6 8a1 1 0 0 0 0 2h4a1 1 0 1 0 0-2H6ZM2.906 5.189l.956-1.913A.5.5 0 0 1 4.309 3h7.382a.5.5 0 0 1 .447.276l.956 1.913a.51.51 0 0 1-.497.731c-.91-.073-3.35-.17-4.597-.17-1.247 0-3.688.097-4.597.17a.51.51 0 0 1-.497-.731Z"/>
+                </svg   >  <!-- SVG imagen auto -->
+                <span style="font-family: 'Expletus Sans', cursive; font-size: 30px;">Alquilapp</span>
+            </div>
+    </div>
+
+
+
 <div class="container-fluid">
     <div class="centrarReloj">
         <div class="container-md mb-2">
             <div class="p-3 m-3 row">
-                <span class="h1 col-9">Crear cuenta</span>
-                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-card-checklist col" viewBox="0 0 16 16">
+                <span class="h1 col-9">Crear Cuenta</span>
+                <svg width="40" height="40" fill="currentColor" class="bi bi-card-checklist col" viewBox="0 0 16 16">
                 <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"/>
                 <path d="M7 5.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm-1.496-.854a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 1 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0zM7 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm-1.496-.854a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 0 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0z"/>
                 </svg>
             </div>
         <div>
-        <% if @error != nil %>
+        <% if params[:error] != nil %>
             <div class="alert alert-danger alert-dismissible fade show container-md mb-3 " > 
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="red" class="bi bi-exclamation-octagon" viewBox="0 0 16 16">
+                <svg width="20" height="20" fill="red" class="bi bi-exclamation-octagon" viewBox="0 0 16 16">
                 <path d="M4.54.146A.5.5 0 0 1 4.893 0h6.214a.5.5 0 0 1 .353.146l4.394 4.394a.5.5 0 0 1 .146.353v6.214a.5.5 0 0 1-.146.353l-4.394 4.394a.5.5 0 0 1-.353.146H4.893a.5.5 0 0 1-.353-.146L.146 11.46A.5.5 0 0 1 0 11.107V4.893a.5.5 0 0 1 .146-.353L4.54.146zM5.1 1 1 5.1v5.8L5.1 15h5.8l4.1-4.1V5.1L10.9 1H5.1z"/>
                 <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
                 </svg>
-                Alerta: <%= @error %>
+                <%= params[:error] %>
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         <% end %>
+
         <%= bootstrap_form_for(@usuario) do |f| %>
-            <div class="d-none" >
-                <%= f.text_field :nivel %>
-                <%= f.number_field :monto_actual%>
-            </div>
                 
             <%= f.text_field :nombre,label: "Nombre",floating: true ,pattern: "[\t A-Za-z]{2,}", required: true %>
             <%= f.text_field :apellido,label: "Apellido",  floating: true ,pattern: "[\t A-Za-z]{2,}", required: true %>
             <%= f.email_field :email,label: "Correo electronico", floating: true , required: true%>
             <%= f.number_field :dni,label: "Nro. de documento", floating: true, min: "1000000", max: "99999999", required: true%>
             <%= f.password_field :pwd, label: "Contraseña",  floating: true , required: true %>		
-        
+            <%= f.password_field :nivel, label: "repita su Contraseña",  floating: true , required: true %>
+            <%= f.date_field :fecha_nacimiento, label: "ingrese su fecha de nacimiento",  floating: true , required: true %>		
+
             <div class="d-flex align-items-center flex-column" >
                 <div class="form-check p-3 mb-3">
                     <input class="form-check-input" type="checkbox" value=false id="invalidCheck" required>
@@ -42,7 +58,7 @@
             </div>	
             <div class="row">
                 <%= f.submit "Registrarse", class: "btn btn-primary mb-2" %>
-                <button type="button" class="btn btn-secondary" onclick="volver()">Cancelar</button>
+                <a type="button" class="btn btn-secondary" href="/mains/show">Cancelar</a>
             </div>
         <% end %>
     </div>

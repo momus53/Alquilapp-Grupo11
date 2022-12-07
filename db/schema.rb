@@ -92,6 +92,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_05_203750) do
     t.string "email"
     t.integer "dni"
     t.string "pwd"
+    t.datetime "fecha_nacimiento"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"

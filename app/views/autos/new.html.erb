@@ -1,0 +1,47 @@
+
+<% if @usuario!= nil and @auto!=nil and @usuario.nivel=="Administrador" %>
+
+    <%= render "/mapas/nav" %>
+    <div id="espacio-nav" style="height: 60px;"></div>
+    <div class="container-fluid">
+        <div class="container-md mb-2">
+            <div class="p-3 m-3 row">
+                <span class="h1 col-9">Cargar Auto</span>
+                <svg width="40" height="40" fill="currentColor" class="bi bi-card-checklist col" viewBox="0 0 16 16">
+                <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"/>
+                <path d="M7 5.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm-1.496-.854a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 1 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0zM7 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm-1.496-.854a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 0 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0z"/>
+                </svg>
+            </div>
+        <div>
+        <div class="d-flex align-items-center flex-column">
+            <%= bootstrap_form_for(@auto, label_errors: true, inline_errors: true ) do |f| %>
+
+                            <! area de texto para la patente/matricula  >
+                <%= f.text_field :patente,label: "Patente" ,floating: true,  required: true %>
+                            <! selector de color>
+                <%= f.select :color, [["rojo","rojo"], ["blanco","blanco"], ["azul","azul"]],{ label: "Seleccione el color", wrapper: { class: 'has-warning', data: { foo: 'bar' } } }, required: true%>
+                <div id="espacio-entre-color-nroA" style="height: 25px;"></div>
+                            <! area de ingreso de numeros, para el numero de auto>
+                <%= f.number_field :nroA,label: "Nro. de Auto", floating: true, max: "9999", required: true%>
+	
+                <div class="container text-center p-4 flex-column">
+                        <! boton de cancelar operacion>                        
+                    <button type="button" class="btn btn-secondary" onclick="volver()">Cancelar</button>
+                        <! boton enviar formulario >
+                    <%= f.submit "Cargar Auto", class: "btn btn-outline-primary " %>
+
+                </div>
+            <% end %>
+        </div>        
+    </div>
+
+<% else %>
+<h1> debe iniciar secion <h1>
+<% end %>
+
+
+<script>
+	function volver(){
+		window.history.back(1);
+	}
+</script>

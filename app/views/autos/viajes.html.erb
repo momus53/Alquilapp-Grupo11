@@ -1,0 +1,124 @@
+
+
+<% if @usuario!= nil and  @viajes!=nil %>
+                
+    <%= render "/mapas/nav" %>
+    <div id="espacio-nav" style="height: 60px;"></div>
+    <% if @viajes.empty? %>
+        <h1>el auto <%=params[:auto_id]%> no tiene viajes</h1>
+    <% end %>
+
+    <% @viajes.each do |i| %>
+
+        <button class=" p-2 container-fluid " data-bs-toggle="modal" data-bs-target="#t<%=i.id.to_s%>" >
+            <div class="row ">
+                <div class="col-sm" style="font-size:medium ; color: #000000;">
+                    <h5>    <%= "id: "+i.id.to_s %> </h5>
+                </div>
+                <div class="col-sm-7 " style="font-weight: bold; "> <! colores usados : #804C11, #FFC773 , #59FF62>
+                    <%if i.ends==nil %>
+                        <svg width="40" height="40" fill=red class="bi bi-car-front-fill" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M2.52 3.515A2.5 2.5 0 0 1 4.82 2h6.362c1 0 1.904.596 2.298 1.515l.792 1.848c.075.175.21.319.38.404.5.25.855.715.965 1.262l.335 1.679c.033.161.049.325.049.49v.413c0 .814-.39 1.543-1 1.997V13.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-1.338c-1.292.048-2.745.088-4 .088s-2.708-.04-4-.088V13.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-1.892c-.61-.454-1-1.183-1-1.997v-.413a2.5 2.5 0 0 1 .049-.49l.335-1.68c.11-.546.465-1.012.964-1.261a.807.807 0 0 0 .381-.404l.792-1.848ZM3 10a1 1 0 1 0 0-2 1 1 0 0 0 0 2Zm10 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2ZM6 8a1 1 0 0 0 0 2h4a1 1 0 1 0 0-2H6ZM2.906 5.189l.956-1.913A.5.5 0 0 1 4.309 3h7.382a.5.5 0 0 1 .447.276l.956 1.913a.51.51 0 0 1-.497.731c-.91-.073-3.35-.17-4.597-.17-1.247 0-3.688.097-4.597.17a.51.51 0 0 1-.497-.731Z"/>
+                        </svg>  <!svg de auto en uso>
+                    <%else%>
+                        <svg  width="43" height="43" fill="#804C11" class="bi bi-car-front" viewBox="0 0 16 16">
+                        <path d="M4 9a1 1 0 1 1-2 0 1 1 0 0 1 2 0Zm10 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0ZM6 8a1 1 0 0 0 0 2h4a1 1 0 1 0 0-2H6ZM4.862 4.276 3.906 6.19a.51.51 0 0 0 .497.731c.91-.073 2.35-.17 3.597-.17 1.247 0 2.688.097 3.597.17a.51.51 0 0 0 .497-.731l-.956-1.913A.5.5 0 0 0 10.691 4H5.309a.5.5 0 0 0-.447.276Z"/>
+                        <path fill-rule="evenodd" d="M2.52 3.515A2.5 2.5 0 0 1 4.82 2h6.362c1 0 1.904.596 2.298 1.515l.792 1.848c.075.175.21.319.38.404.5.25.855.715.965 1.262l.335 1.679c.033.161.049.325.049.49v.413c0 .814-.39 1.543-1 1.997V13.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-1.338c-1.292.048-2.745.088-4 .088s-2.708-.04-4-.088V13.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-1.892c-.61-.454-1-1.183-1-1.997v-.413a2.5 2.5 0 0 1 .049-.49l.335-1.68c.11-.546.465-1.012.964-1.261a.807.807 0 0 0 .381-.404l.792-1.848ZM4.82 3a1.5 1.5 0 0 0-1.379.91l-.792 1.847a1.8 1.8 0 0 1-.853.904.807.807 0 0 0-.43.564L1.03 8.904a1.5 1.5 0 0 0-.03.294v.413c0 .796.62 1.448 1.408 1.484 1.555.07 3.786.155 5.592.155 1.806 0 4.037-.084 5.592-.155A1.479 1.479 0 0 0 15 9.611v-.413c0-.099-.01-.197-.03-.294l-.335-1.68a.807.807 0 0 0-.43-.563 1.807 1.807 0 0 1-.853-.904l-.792-1.848A1.5 1.5 0 0 0 11.18 3H4.82Z"/>
+                        </svg>  <!svg de auto en libre >
+                    <% end %>
+                    <%= i.auto.patente.to_s + " - "+i.usuario.nombre.to_s %>
+                </div>
+                <div class="col-sm-3 text-rigth" style="font-size:medium ; color: #000000;">
+                    <%if i.ends==nil %>
+                        <b>En Uso</b>
+                    <%else%>
+                        <b>Completado</b>
+                    <% end %>
+                </div>
+            </div>
+        </button>
+
+                <! cuerpo del modal de cada auto >
+        <div class="modal fade" id="t<%=i.id.to_s%>" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h1 class="modal-title fs-5">
+                        viaje
+                        <b><%=i.id %></b>
+                        <% if i.ends==nil %>
+                        esta activo
+                        <% else %>
+                        finalizo
+                        <% end %>
+                    </h1>
+                    </div>
+                    <div class="modal-body row container-fluid"> <!cuerpo del modal >
+                        <li> <%="id: "+i.id.to_s%> </li>
+                        <li> <%="auto ( nro: "+i.auto.nroA.to_s + ";  patente: "+i.auto.patente+" )"%> </li>
+                        <li> <%="usuario ( id: "+i.usuario.id.to_s+ "; nombre: " +i.usuario.nombre.capitalize + ", "+i.usuario.apellido.capitalize+" )"%> </li>
+                        <li> <%=i.contratado!=nil ? "tiempo contratadado: "+(i.contratado*15).to_s+"minutos" : "pa' no se contrato tiempo"%> </li>
+                        <li> <%=i.exedido!=nil ? "tiempo extendido: "+(i.exedido*15).to_s+"minutos" : "no se extendio el tiempo"%> </li>
+                        <li> <%=i.multado!=nil ? "tiempo excedido: "+(i.multado*15).to_s+" min" : "no se excedio tiempo de uso"%> </li>
+                        <li> <%="fecha de inicio del viaje : "+i.created_at.strftime( "%d-%m-%Y") %> </li>
+                    </div>
+                    <div class="modal-footer">
+                            <a type="button" class="btn btn-outline-primary col-sm-2" data-bs-toggle="modal" 
+                                data-bs-target="#multar<%=i.id.to_s%>">
+                                    <svg width="28" height="28" fill="currentColor" class="bi bi-text-left" viewBox="0 0 16 16">
+                                    <path d="M12.136.326A1.5 1.5 0 0 1 14 1.78V3h.5A1.5 1.5 0 0 1 16 4.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 13.5v-9a1.5 1.5 0 0 1 1.432-1.499L12.136.326zM5.562 3H13V1.78a.5.5 0 0 0-.621-.484L5.562 3zM1.5 4a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-13z"/>
+                                    </svg> <!svg editar informacion del auto >
+                                    Multar
+                            </a>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Volver</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="modal" id="multar<%=i.id.to_s%>" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">¿Quiere Multar el usuario <b><%=i.usuario.nombre+", "+i.usuario.apellido%></b>, por el viaje <b><%=i.id.to_s%></b>, con el auto <b><%=i.auto.patente%></b> ?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body row container-fluid"> <!cuerpo del modal >
+                <%= bootstrap_form_tag url: '/multar/', class: "row mb-2" do |f| %>
+                <%= f.number_field :travel_id,id: 'travel_id',hidden: "true",hide_label: true, value: i.id %>
+                <%= f.number_field :usuario_id,id: 'usuario_id',hidden: "true",hide_label: true, value: i.usuario.id %>
+                <%= f.number_field :auto_id,id: 'auto_id',hidden: "true",hide_label: true, value: i.auto.id %>
+                <h4>Costo de la Multa</h4>
+                <%= f.number_field :costo_multa,id: 'costo_multa',hide_label: true, value: 2000 %>
+                <h4>Descripcion de la Multa</h4>
+                <%= f.text_field :descripcion,id: 'descripcion',hide_label: true %>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <%= f.primary "Guardar",render_as_button: true%>
+                <% end %>
+            </div>
+            </div>
+        </div>
+        </div>
+
+    <% end %><! fin del @viajes.each >
+
+    <div class="fixed-bottom text-center " style="background-color: #FEBD59; height: 50px;">
+        <a type="button" class="btn " style="background-color:#73634B; color:#FFFFFF;"
+            onclick="volver()" > volver</a>
+        <a type="button" class="btn " style="background-color:#73634B; color:#FFFFFF;" 
+            href="/" >Home</a>
+
+    </div>
+
+<% else %>
+
+<% end %>
+
+<script>
+	function volver(){
+		window.history.back(1);
+	}
+</script>
