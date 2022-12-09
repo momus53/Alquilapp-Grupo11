@@ -51,6 +51,20 @@ class AutosController < ApplicationController
                     @us=Usuario.find(params[:usuario_id])
                     @us.monto_actual += -params[:costo_multa].to_f
                     @us.save
+require 'mailtrap'
+mail = Mailtrap::Sending::Mail.new(
+    from: { email: 'administracion.alquilapp@alquilapp.com', name: 'Mailtrap Test' },
+    to: [
+        { email: 'test@email.com' }
+    ],
+    subject: 'You are awesome!',
+    text: "Congrats for sending test email with Mailtrap!"
+    )
+    
+# create client and send
+client = Mailtrap::Sending::Client.new(api_key: 'e29530388167288042a9360a01070f56')
+client.send(mail)
+
                     redirect_to action: "index", notice: "FALTA IMPLEMENTAR EL MENSAJE MAIL"  and return
                 else
                     redirect_to action: "index", notice: "Faltan Parametros"  and return
@@ -97,7 +111,9 @@ class AutosController < ApplicationController
                     @aut.color=params[:color]
                     @aut.patente=params[:patente]
                     @aut.save
-                    redirect_to action: "index", notice: "se Edito correctamente el auto "+@aut_patente  and return
+                    alerta1= ( Auto.where(nroA: @aut.nroA).count == 1 )? nil : "Hay "+Auto.where(nroA: @aut.nroA).count.to_s+" Autos con el mismo numero: "+@aut.nroA.to_s+".Esto puede generar problemas en el sistema."
+                    alerta2= ( Auto.where(patente: @aut.patente).count == 1 )? nil : "Hay "+Auto.where(patente: @aut.patente).count.to_s+" Autos con la misma patente: "+@aut.patente.to_s+".Esto puede generar problemas en el sistema."
+                    redirect_to action: "index", notice: "se Edito correctamente el auto "+@aut_patente , alert: alerta1, alert2: alerta2 and return
                 else
                     redirect_to action: "index", notice: "Faltan Parametros"  and return
                 end
@@ -152,11 +168,9 @@ class AutosController < ApplicationController
         @auto.en_uso=false
 
         if @auto.save
-            if Auto.where(nroA: @auto.nroA).count == 1
-                redirect_to action: "index", notice: "Auto Creado CORRECTAMENTE"  and return
-            else
-                redirect_to action: "index", notice: "Auto Creado CORRECTAMENTE",alert: "Hay "+Auto.where(nroA: @auto.nroA).count.to_s+" Autos con el mismo numero: "+@auto.nroA.to_s+".Esto puede generar problemas en el sistema." and return
-            end
+            noticia="Auto Creado CORRECTAMENTE"
+
+            redirect_to action: "index", notice: noticia, alert: alerta1, alert2: alerta2  and return
         else
             @notice_error = @auto.errors.objects.first.full_message
             redirect_to action: "new", error: @notice_error and return

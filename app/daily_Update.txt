@@ -34,3 +34,6 @@ arreglo boton de volver
     - ( en la barra inferior de informes, y viajes )
 -> Merge General!!
 
+-- Nico -- 9/12/2022
+enviar mail con mailtrap.io
+agrego alerta si se crean(o editan) hay varios autos con la misma patente, o el mismo nroA

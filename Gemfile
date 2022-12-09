@@ -6,8 +6,11 @@ ruby "3.1.2"
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.0.4"
 
-# xddd EL HIRB
+# El HIRB
 gem "hirb"
+
+# gema para enviar mails
+gem 'mailtrap', '~> 1.1', '>= 1.1.1'
 
 
 #bootstrap
