@@ -9,8 +9,8 @@ class MapasController < ApplicationController
 			@usuario = Usuario.all.find_by(id: session[:user_id])
             aux = params.permit(:notice,:tex)
             if(aux[:notice] == "viaje_terminado")
-                @ultimo_viaje = @usuario.travels.last
                 cerrar_viaje(aux[:tex])
+                @ultimo_viaje = @usuario.travels.last
             end
 		else
 			@usuario = nil
@@ -33,9 +33,12 @@ class MapasController < ApplicationController
     def cerrar_viaje(tex)
         @usuario = Usuario.all.find_by(id: session[:user_id])
         viaje = @usuario.travels.last
+        auto = viaje.auto
+        auto.en_uso = false
+        auto.save
         viaje.ends = Time.now
         viaje.exedido = tex
-        cobro = tex.to_f/60/60/4*2000
+        cobro = tex.to_f/60/60/4*5000
         @usuario.increment!(:monto_actual , -cobro)
         viaje.save
     end

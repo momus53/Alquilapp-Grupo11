@@ -266,9 +266,8 @@
     }
 
     function redirigirAlquiler(id_auto){
-      let url = new URL(location.href+"alquilers/show");
+      let url = new URL(location.origin + "/alquilers/show");
       url.searchParams.set("auto",id_auto);
-      url.searchParams.set("usuario",2);
       location.href = url
     }
 

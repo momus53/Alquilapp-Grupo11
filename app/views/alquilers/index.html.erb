@@ -141,7 +141,7 @@
 
         document.getElementById("patente").value = auto_in;
 
-        if(bil >= 0.25*1250){  // si no tiene por lo menos el minimo de plata no aparece el boton de extender
+        if(bil >= 0.25*2500){  // si no tiene por lo menos el minimo de plata no aparece el boton de extender
             botonEx.hidden = false;
         }
 
@@ -171,7 +171,7 @@
 
         function actualizarRange() {
         horas.innerText = (dezl.value/4)+" hs";
-        precio.innerText="$ARS "+ ((dezl.value/4)*1250);
+        precio.innerText="$ARS "+ ((dezl.value/4)*2500);
         }
 
 
@@ -264,6 +264,7 @@
 
     if(tex_in > 0){
         exedido = true;
+        botonEx.hidden = true;
         texto.innerText = "Tiempo exedido:";
         carta.className = "card text-bg-danger";
         tiempo = tex_in;
@@ -287,6 +288,7 @@
         if(tiempo == -1){
             texto.innerText = "Tiempo exedido:"
             carta.className = "card text-bg-danger"
+            botonEx.hidden = true;
             exedido = true;
         }
 

@@ -45,7 +45,7 @@
             <%= f.number_field :dni,label: "Nro. de documento", floating: true, min: "1000000", max: "99999999", required: true%>
             <%= f.password_field :pwd, label: "Contraseña",  floating: true , required: true %>		
             <%= f.password_field :nivel, label: "repita su Contraseña",  floating: true , required: true %>
-            <%= f.date_field :fecha_nacimiento, label: "ingrese su fecha de nacimiento",  floating: true , required: true %>		
+            <%= f.date_field :fecha_nacimiento, label: "ingrese su fecha de nacimiento",max: "2004-12-11 16:35:05.2108421 -0300",  floating: true , required: true %>		
 
             <div class="d-flex align-items-center flex-column" >
                 <div class="form-check p-3 mb-3">

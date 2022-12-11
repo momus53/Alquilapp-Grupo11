@@ -31,12 +31,14 @@ class AlquilersController < ApplicationController
       total= (((aux[:cuartos].to_f)/4)*1250)
       if (total<=@usuario.monto_actual)
         if (@usuario.travels.find_by(auto_id: aux2.id))
-          if((@usuario.travels.find_by(auto_id: aux2.id).created_at.advance(hours: 3)) > Time.now)
+          if((@usuario.travels.where(auto_id: aux2.id).last.updated_at.advance(hours: 3)) > Time.now)
             puts 'lo uso hace poco'
             redirect_to alquiler_path(auto: aux[:nroA].to_s, id:'show', notice: "Lo uso hace menos de 3 Horas") and return
           end 
         end
             puts 'puede alquilar'
+            aux2.en_uso = true
+            aux2.save
             @viajero = Travel.new
             @viajero.start=Time.now
             @viajero.contratado= aux[:cuartos].to_i
@@ -71,10 +73,10 @@ class AlquilersController < ApplicationController
       viajeActual = @usuario.travels.last
       auto = Auto.all.find_by(id: viajeActual.auto_id)
 
-      if (((parametros[:rango].to_i)/4)*1250) < @usuario.monto_actual
+      if (((parametros[:rango].to_i)/4)*2500) < @usuario.monto_actual
         if((viajeActual.contratado + parametros[:rango].to_i) >= 96) 
           puts "LA EXTENSION EXEDE LAS 24HS"
-          tiempo = ((viajeActual.contratado.to_i/4)*60*60 - (Time.now - viajeActual.created_at)) 
+          tiempo = ((viajeActual.contratado.to_f/4)*60*60 - (Time.now - viajeActual.created_at)) 
           tiempo = (tiempo/60).round(2)
           redirect_to alquilers_path(auto: auto.nroA.to_s,mins: tiempo, notice: "LA EXTENSION EXEDE LAS 24HS") and return
         else
@@ -84,7 +86,7 @@ class AlquilersController < ApplicationController
           tiempo_extendido = ((parametros[:rango].to_i)/4)*60*60
           tiempo = ((viajeActual.contratado.to_f/4)*60*60 - (Time.now - viajeActual.created_at) + tiempo_extendido)
           tiempo = (tiempo/60).round(2)
-          total = ((parametros[:rango].to_f/4)*1250)
+          total = ((parametros[:rango].to_f/4)*2500)
          
           @usuario.increment!(:monto_actual , -total) #resto la plata
           redirect_to alquilers_path(auto: auto.nroA.to_s,mins: tiempo, notice: "EXTENDIDO") and return

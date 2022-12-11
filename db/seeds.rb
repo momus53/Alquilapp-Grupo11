@@ -64,9 +64,9 @@ parte27 = Parte.create(id:27, nombre:"Rin")
 
 
 Time.now
-tra1= Travel.create(start: Time.now.advance(hours: -3), ends: Time.now,contratado: 4,exedido: nil,multado:nil, auto_id: auto6.id, usuario_id: 1)
+tra1= Travel.create(start: Time.now.advance(hours: -3), ends: Time.now,contratado: 4,exedido: 0,multado:nil, auto_id: auto6.id, usuario_id: 1)
 tra2= Travel.create(start: Time.now.advance(hours: -6), ends: Time.now.advance(hours: -3),contratado: 5,exedido: 2,multado: 1, auto_id: auto3.id, usuario_id: 1)
 tra3= Travel.create(start: Time.now.advance(hours: -1), ends: Time.now, contratado: 4,exedido: nil,multado:nil, auto_id: auto4.id, usuario_id: user6.id)
-tra4= Travel.create(start: Time.now, ends: nil, contratado: 2,exedido: nil,multado:nil, auto_id: auto2.id, usuario_id: user6.id)
+tra4= Travel.create(start: Time.now.advance(hours: -8), ends: Time.now.advance(hours: -9), contratado: 2,exedido: 0,multado:nil, auto_id: auto2.id, usuario_id: user6.id)
 tra5= Travel.create(start: Time.now.advance(hours: -7), ends: Time.now.advance(hours: -6), contratado: 5,exedido: 1,multado:1, auto_id: auto2.id, usuario_id: user3.id)
 
