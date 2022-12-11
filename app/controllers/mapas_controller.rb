@@ -35,6 +35,8 @@ class MapasController < ApplicationController
         viaje = @usuario.travels.last
         viaje.ends = Time.now
         viaje.exedido = tex
+        cobro = tex.to_f/60/60/4*2000
+        @usuario.increment!(:monto_actual , -cobro)
         viaje.save
     end
 

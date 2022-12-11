@@ -64,9 +64,14 @@
             </div>
             <div class="col">
               <%if @ultimo_viaje != nil%>
-              Por <%=@ultimo_viaje.contratado%> Hs.
+              Por <%=(((@ultimo_viaje.updated_at - @ultimo_viaje.created_at)/60)/60).round(2)%> Hs.
               <%end%>
             </div>
+            <%if @ultimo_viaje != nil%>
+            <div class="col">
+              y te exediste <%=(@ultimo_viaje.exedido.to_f/60/60/4).round(2)%> Hs.
+            </div>
+            <%end%>
           </div>
         </div>
         <div class="row p-3 m-2">

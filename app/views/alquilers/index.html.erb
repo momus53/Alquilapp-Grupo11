@@ -136,6 +136,8 @@
         var auto_in = params.get("auto");
         var mins_in = params.get("mins");
         var mensaje = params.get("notice");
+        var tex_in = params.get("tex");
+
 
         document.getElementById("patente").value = auto_in;
 
@@ -150,10 +152,19 @@
                 //todo okey y abro el qr
                 finalizarAlquiler();
             }else{
-                window.alert(mensaje);
+                if(!window.location.hash){
+                    window.alert(mensaje);
+                    recarga();
+                }  
             }
         }
         
+        function recarga() {
+            if(!window.location.hash) {
+                window.location = window.location + '#loaded';
+                window.location.reload();
+            }
+        }
 
 
         
@@ -219,7 +230,7 @@
 
                 if(code.data === "Numero_De_Auto:"+auto_in){
                     check_num = true;
-                    url = "/?notice=viaje_terminado&tex="+tex;
+                    url = "/?notice=viaje_terminado&tex="+tex_in;
                     console.log(url);
                     location.href = url;
                 }  
@@ -242,13 +253,23 @@
 <!--TIMER-->
     <script>
     var tiempoInicial = mins_in;
-    var tiempo = Math. round(tiempoInicial * 60);
+    var tiempo = Math.round(tiempoInicial * 60);
+    var exedido = false;
 
+    var texi = document.getElementById("tex");
     var texto = document.getElementById("textoTiempo");
     var carta = document.getElementById("cartaTiempo");
     var countDowmEl = document.getElementById("minutos");
-    var tex = 0;
-    var exedido = false;
+
+
+    if(tex_in > 0){
+        exedido = true;
+        texto.innerText = "Tiempo exedido:";
+        carta.className = "card text-bg-danger";
+        tiempo = tex_in;
+    }
+    
+    
 
     setInterval(updateCountDown, 1000);
 
@@ -271,10 +292,8 @@
 
         if(exedido){
             tiempo++;
-            tex = tiempo;
+            texi.value = tiempo + 1;
         }
-
-
-
     }
+
 </script>

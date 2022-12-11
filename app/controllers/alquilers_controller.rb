@@ -24,7 +24,7 @@ class AlquilersController < ApplicationController
       render :edit
     end
 
-    def validar
+    def validar #Se fija si el auto puede contratarse por el usuario
       @usuario = Usuario.all.find_by(id: session[:user_id])
       aux = params.permit(:cuartos,:nroA)
       aux2 = Auto.all.find_by(nroA: aux[:nroA])
@@ -61,7 +61,7 @@ class AlquilersController < ApplicationController
       puts '-----------------------------------------------------------'
         @usuario = Usuario.all.find_by(id: session[:user_id])
         aux = params.permit(:cuartos)
-        total= (((aux[:cuartos].to_i)/4)*1250)
+        total= (((aux[:cuartos].to_f)/4)*1250)
         @usuario.increment!(:monto_actual , -total)
     end
 
@@ -70,28 +70,28 @@ class AlquilersController < ApplicationController
       parametros = params.permit(:rango)
       viajeActual = @usuario.travels.last
       auto = Auto.all.find_by(id: viajeActual.auto_id)
-      puts parametros[:rango]
-      puts viajeActual
 
       if (((parametros[:rango].to_i)/4)*1250) < @usuario.monto_actual
-        if(viajeActual.created_at - Time.now.advance(hours: ((parametros[:rango].to_i)/4)) < -86400 ) 
+        if((viajeActual.contratado + parametros[:rango].to_i) >= 96) 
           puts "LA EXTENSION EXEDE LAS 24HS"
           tiempo = ((viajeActual.contratado.to_i/4)*60*60 - (Time.now - viajeActual.created_at)) 
           tiempo = (tiempo/60).round(2)
           redirect_to alquilers_path(auto: auto.nroA.to_s,mins: tiempo, notice: "LA EXTENSION EXEDE LAS 24HS") and return
         else
           puts "PUEDE EXTENDER"
-          tiempo_extendido = ((parametros[:rango].to_i)/4)*60*60
-          tiempo = ((viajeActual.contratado.to_i/4)*60*60 - (Time.now - viajeActual.created_at) + tiempo_extendido)
           viajeActual.contratado = viajeActual.contratado + parametros[:rango].to_i #ACTUALIZAR viajeActual.contratado
           viajeActual.save
+          tiempo_extendido = ((parametros[:rango].to_i)/4)*60*60
+          tiempo = ((viajeActual.contratado.to_f/4)*60*60 - (Time.now - viajeActual.created_at) + tiempo_extendido)
           tiempo = (tiempo/60).round(2)
-          @usuario.increment!(:monto_actual ,-(((parametros[:rango].to_i)/4)*1250).round(2)) #resto la plata
+          total = ((parametros[:rango].to_f/4)*1250)
+         
+          @usuario.increment!(:monto_actual , -total) #resto la plata
           redirect_to alquilers_path(auto: auto.nroA.to_s,mins: tiempo, notice: "EXTENDIDO") and return
         end
       else
         puts "NO HAY SUFICIENTE DINERO PARA EL TIEMPO ELEGIDO"
-        tiempo = ((viajeActual.contratado.to_i/4)*60*60 - (Time.now - viajeActual.created_at)) 
+        tiempo = ((viajeActual.contratado.to_f/4)*60*60 - (Time.now - viajeActual.created_at)) 
         tiempo = (tiempo/60).round(2)
         redirect_to alquilers_path(auto: auto.nroA.to_s,mins: tiempo, notice: "NO HAY SUFICIENTE DINERO PARA EL TIEMPO ELEGIDO") and return
       end
@@ -99,9 +99,9 @@ class AlquilersController < ApplicationController
 
 
 
-    def check_auto #checkea si se puede cerrar el alquiler
+    def check_auto #checkea si se puede cerrar el alquiler(DEVOLVER)
       @usuario = Usuario.all.find_by(id: session[:user_id])
-      aux = params.permit(:patente,:auto)
+      aux = params.permit(:patente,:auto,:tex)
       res = post_api_auto(aux[:patente])
       auto = aux[:patente]
       viajeActual = @usuario.travels.last
@@ -130,7 +130,7 @@ class AlquilersController < ApplicationController
       end
       tiempo = ((viajeActual.contratado.to_f/4)*60*60 - (Time.now - viajeActual.created_at))
       tiempo = (tiempo/60).round(2)
-      redirect_to alquilers_path(auto: auto,mins: tiempo, notice: salida)
+      redirect_to alquilers_path(auto: auto,mins: tiempo, notice: salida,tex: aux[:tex]) and return
     end
 
     def post_api_auto(patente)
