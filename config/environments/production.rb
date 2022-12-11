@@ -82,6 +82,16 @@ Rails.application.configure do
   # require "syslog/logger"
   # config.logger = ActiveSupport::TaggedLogging.new(Syslog::Logger.new "app-name")
 
+config.action_mailer.delivery_method = :smtp
+config.action_mailer.smtp_settings = {
+  :user_name => '7f746da2964f32',
+  :password => '40a98a3df27a3f',
+  :address => 'smtp.mailtrap.io',
+  :domain => 'smtp.mailtrap.io',
+  :port => '2525',
+  :authentication => :cram_md5
+}
+
   if ENV["RAILS_LOG_TO_STDOUT"].present?
     logger           = ActiveSupport::Logger.new(STDOUT)
     logger.formatter = config.log_formatter

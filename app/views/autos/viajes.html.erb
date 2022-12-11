@@ -1,7 +1,7 @@
 
 
 <% if @usuario!= nil and  @viajes!=nil %>
-<div class="container fluid">               
+                
     <%= render "/mapas/nav" %>
     <div id="espacio-nav" style="height: 60px;"></div>
     <% if @viajes.empty? %>
@@ -106,11 +106,13 @@
     <% end %><! fin del @viajes.each >
 
     <div class="fixed-bottom text-center " style="background-color: #FEBD59; height: 50px;">
-        <a type="button" class="btn " style="background-color:#73634B; color:#FFFFFF;" href="/autos" > volver</a>
-        <a type="button" class="btn " style="background-color:#73634B; color:#FFFFFF;" href="/" >Home</a>
+        <a type="button" class="btn " style="background-color:#73634B; color:#FFFFFF;"
+            onclick="volver()" > volver</a>
+        <a type="button" class="btn " style="background-color:#73634B; color:#FFFFFF;" 
+            href="/" >Home</a>
 
     </div>
-<div>
+
 <% else %>
 
 <% end %>

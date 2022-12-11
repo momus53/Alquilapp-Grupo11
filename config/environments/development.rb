@@ -59,18 +59,20 @@ Rails.application.configure do
   # Suppress logger output for asset requests.
   config.assets.quiet = true
 
+
+config.action_mailer.delivery_method = :smtp
+config.action_mailer.smtp_settings = {
+  :user_name => '7f746da2964f32',
+  :password => '40a98a3df27a3f',
+  :address => 'smtp.mailtrap.io',
+  :domain => 'smtp.mailtrap.io',
+  :port => '2525',
+  :authentication => :cram_md5
+}
+
+
   # Raises error for missing translations.
   # config.i18n.raise_on_missing_translations = true
-
-  config.action_mailer.delivery_method = :mailtrap
-  config.action_mailer.mailtrap_settings = {
-    :user_name => '7f746da2964f32',
-    :password => '40a98a3df27a3f',
-    :address => 'smtp.mailtrap.io',
-    :domain => 'smtp.mailtrap.io',
-    :port => '2525',
-    :authentication => :cram_md5
-  }
 
   # Annotate rendered view with file names.
   # config.action_view.annotate_rendered_view_with_filenames = true

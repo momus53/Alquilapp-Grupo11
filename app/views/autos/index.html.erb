@@ -1,7 +1,7 @@
 
 
 <% if @usuario!= nil and  @autos!=nil %><! se reciben @ord y @filt que son el orden y filtrado actuales>
-<div class="container fluid">               
+                
     <%= render "/mapas/nav" %>
     <div id="espacio-nav" style="height: 60px;"></div>
 
@@ -80,18 +80,6 @@
                 <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
             </svg>
             <em> <b><%= params[:alert] %></b> </em>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    <% end %>
-
-        <!-- 2da alterta  con boton de cerrar-->
-    <% if params[:alert2]!=nil %> 
-        <div class="alert alert-danger alert-dismissible fade show container-md mb-3 text-center" > 
-            <svg width="22" height="22" fill="red" class="bi bi-exclamation-octagon" viewBox="0 0 16 16">
-                <path d="M4.54.146A.5.5 0 0 1 4.893 0h6.214a.5.5 0 0 1 .353.146l4.394 4.394a.5.5 0 0 1 .146.353v6.214a.5.5 0 0 1-.146.353l-4.394 4.394a.5.5 0 0 1-.353.146H4.893a.5.5 0 0 1-.353-.146L.146 11.46A.5.5 0 0 1 0 11.107V4.893a.5.5 0 0 1 .146-.353L4.54.146zM5.1 1 1 5.1v5.8L5.1 15h5.8l4.1-4.1V5.1L10.9 1H5.1z"/>
-                <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
-            </svg>
-            <em> <b><%= params[:alert2] %></b> </em>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     <% end %>
@@ -195,7 +183,7 @@
                                 <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
                                 </svg>  <! svg de ver listado de informes>
                                 Ver Informes</a>
-                        <a type="button" class="btn btn-outline-primary col-sm-2" data-bs-toggle="modal"
+                        <!--a type="button" class="btn btn-outline-primary col-sm-2" data-bs-toggle="modal"
                             data-bs-target="#QR<%=i.id.to_s%>">
                                 <svg width="30" height="30" fill="currentColor" class="qr code-qr" viewBox="0 0 16 16">
                                     <path d="M2 2h2v2H2V2Z"/>
@@ -205,7 +193,7 @@
                                     <path d="M7 12h1v3h4v1H7v-4Zm9 2v2h-3v-1h2v-1h1Z"/>
                                 </svg>  <!svg de ver QR>
                                 Ver QR
-                        </a>
+                        </a-->
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Volver</button>
                     </div>
                 </div>
@@ -282,5 +270,5 @@
                 href="/autos/new" > Cargar Auto</a>
         <% end %>
     </div>
-<div>
+
 <% end %>

@@ -13,17 +13,19 @@
           <%= f.email_field :email, floating: true, label: "Correo electronico", required: true%>
           <%= f.password_field :pwd, floating: true, label: "Contraseña", required: true %>		
           <%= f.submit "Iniciar Sesion", class: "btn btn-primary" %>	
-      <% end %>
-    </div> 
-    <div class="mt-5">
-      Es tu primera vez acá?
+        <div class="mt-5">
+          Es tu primera vez acá?
+        </div>
+        <div class="container row m-2">
+            <a type="button" class="btn btn-success" href="/usuarios/new">Registrarse</a>
+        </div>
+        <div class="container row m-2">
+            <a type="button" class="btn btn-warning" href="/">Omitir</a>
+        </div>
+
+          <% end %>
     </div>
-    <div class="container row m-2">
-        <a type="button" class="btn btn-success" href="/usuarios/new">Registrarse</a>
-    </div>
-    <div class="container row m-2">
-        <a type="button" class="btn btn-warning" href="/">Omitir</a>
-    </div>
+    
   </div>
 </div>
 

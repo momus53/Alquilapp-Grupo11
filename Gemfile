@@ -9,9 +9,8 @@ gem "rails", "~> 7.0.4"
 # El HIRB
 gem "hirb"
 
-# gema para enviar mails
+# MailTrap.io
 gem 'mailtrap', '~> 1.1', '>= 1.1.1'
-
 
 #bootstrap
 gem 'bootstrap', '~> 5.2.2'

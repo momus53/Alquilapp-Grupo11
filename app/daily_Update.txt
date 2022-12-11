@@ -26,14 +26,16 @@ nota:
 arreglo visual.
     -desborde de lista de Autos, Usuarios e Informes
 genero notificacion cuando se crean 2autos con el mismo nroA
-generador de QR api, en ver informacion de auto 
 -solucion bugg: eliminar auto, cuando tiene viajes, depend destroy con Travel
 
--- Nico -- 7/12/2022
-arreglo boton de volver 
-    - ( en la barra inferior de informes, y viajes )
--> Merge General!!
+-- Nico -- 10-12-2022
+no se pueden crear ni editar Autos con la Patente repetida
+deshabitilo el boton de VER-QR
+ahora tambien se puede multar como Supervisor
 
--- Nico -- 9/12/2022
-enviar mail con mailtrap.io
-agrego alerta si se crean(o editan) hay varios autos con la misma patente, o el mismo nroA
+
+
+https://alquilapp.is.k-pb.com.ar/grupo11/ui/#!/0?socketid=f-BVNrPj0ig7zayXAAC7
+            :username => "g11",
+            :password => "apb9du"
+

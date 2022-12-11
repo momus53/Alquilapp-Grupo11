@@ -19,4 +19,5 @@ module Alquilapp
     config.time_zone = "Buenos Aires"
     # config.eager_load_paths << Rails.root.join("extras")
   end
+  
 end
