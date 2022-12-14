@@ -32,7 +32,7 @@ genero notificacion cuando se crean 2autos con el mismo nroA
 no se pueden crear ni editar Autos con la Patente repetida
 deshabitilo el boton de VER-QR
 ahora tambien se puede multar como Supervisor
-
+crequeo de envio correscto del mail ,¿ donde??
 
 
 https://alquilapp.is.k-pb.com.ar/grupo11/ui/#!/0?socketid=f-BVNrPj0ig7zayXAAC7

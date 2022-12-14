@@ -13,11 +13,11 @@ Informe.destroy_all
 #ActiveRecord::Base.connection.execute("ALTER SEQUENCE autos_id_seq RESTART with 1")
 #ActiveRecord::Base.connection.execute("ALTER SEQUENCE usuarios_id_seq RESTART with 1")
 
-auto1 = Auto.create(nroA: 1, color: "Rojo", patente: "NNN 666" , en_uso: true)
+auto1 = Auto.create(nroA: 1, color: "Rojo", patente: "NNN 666" , en_uso: false)
 auto2 = Auto.create(nroA: 3, color: "Azul", patente: "ALO 544" , en_uso: false)
 auto3 = Auto.create(nroA: 4, color: "Rojo", patente: "ADW 112" , en_uso: false)
 auto4 = Auto.create(nroA: 2, color: "Azul", patente: "LO 487 FR" , en_uso: false)
-auto5 = Auto.create(nroA: 5, color: "Blanco", patente: "AS 065 QW" , en_uso: true)
+auto5 = Auto.create(nroA: 5, color: "Blanco", patente: "AS 065 QW" , en_uso: false)
 auto6 = Auto.create(nroA: 6, color: "Blanco", patente: "RTM 898 AR" , en_uso: false)
 
 user1 = Usuario.create(nombre: "Alan", apellido: "Pichot", monto_actual: 2500, nivel: "Administrador",dni:42312315, email: "alan@pro.com", pwd:'12345',fecha_nacimiento: DateTime.new(1992, 1, 19, 22, 35, 0))
@@ -64,9 +64,9 @@ parte27 = Parte.create(id:27, nombre:"Rin")
 
 
 Time.now
-tra1= Travel.create(start: Time.now.advance(hours: -3), ends: Time.now,contratado: 4,exedido: nil,multado:nil, auto_id: auto6.id, usuario_id: 1)
+tra1= Travel.create(start: Time.now.advance(hours: -3), ends: Time.now,contratado: 4,exedido: 0,multado:nil, auto_id: auto6.id, usuario_id: 1)
 tra2= Travel.create(start: Time.now.advance(hours: -6), ends: Time.now.advance(hours: -3),contratado: 5,exedido: 2,multado: 1, auto_id: auto3.id, usuario_id: 1)
 tra3= Travel.create(start: Time.now.advance(hours: -1), ends: Time.now, contratado: 4,exedido: nil,multado:nil, auto_id: auto4.id, usuario_id: user6.id)
-tra4= Travel.create(start: Time.now, ends: nil, contratado: 2,exedido: nil,multado:nil, auto_id: auto2.id, usuario_id: user6.id)
+tra4= Travel.create(start: Time.now.advance(hours: -8), ends: Time.now.advance(hours: -9), contratado: 2,exedido: 0,multado:nil, auto_id: auto2.id, usuario_id: user6.id)
 tra5= Travel.create(start: Time.now.advance(hours: -7), ends: Time.now.advance(hours: -6), contratado: 5,exedido: 1,multado:1, auto_id: auto2.id, usuario_id: user3.id)
 

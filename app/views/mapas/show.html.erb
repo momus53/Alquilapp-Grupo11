@@ -38,31 +38,50 @@
         </svg>
       </button>
     </div>
-  <div class="modal" tabindex="-1" role="dialog">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <p>Usuario registrado</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+
+  <div id='map' style='height: 80em;'></div>
+
+  <!-- MODAL MENSAJE-->
+  <div class="modal fade " id="noti" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="row justify-content-md-center ">
+            <div class="col-md-auto">
+              <img src="https://cdn.discordapp.com/attachments/1008876096059613304/1012719394327109632/Logo_3.png" width="25%" height="100%">
+            </div>
+          </div>
+          <div class="row">
+            <h5>Gracias por viajar con nosotros!</h5>
+          </div>
+            
+          <div class="row">
+            <div class="col">
+              Usaste el auto:
+              <%if @ultimo_viaje != nil%>
+              <%=Auto.find(@ultimo_viaje.auto_id).nroA%>
+              <%end%>
+            </div>
+            <div class="col">
+              <%if @ultimo_viaje != nil%>
+              Por <%=(((@ultimo_viaje.updated_at - @ultimo_viaje.created_at)/60)/60).round(2)%> Hs.
+              <%end%>
+            </div>
+            <%if @ultimo_viaje != nil%>
+            <div class="col">
+              y te exediste <%=(@ultimo_viaje.exedido.to_f/60/60).round(3)%> Hs.
+            </div>
+            <%end%>
+          </div>
+        </div>
+        <div class="row p-3 m-2">
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal">OK</button>
+        </div>
       </div>
     </div>
   </div>
-</div>
- <script>
-    console.log("Hola pana")
-    if (new URLSearchParams(document.location.search).get("notice") != null){
-      window.alert("Usuario Creado")
-    }
-  </script>
-  <div id='map' style='height: 80em;'></div>
+
+  
 
 
   <br>
@@ -127,6 +146,7 @@
 
     
 <script>
+
     var video = document.createElement("video");
     var canvasElement = document.getElementById("canvas");
     var canvas = canvasElement.getContext("2d");
@@ -136,7 +156,6 @@
     var outputData = document.getElementById("outputData");
     var check_num = false;
     
-
     mapboxgl.accessToken = 'pk.eyJ1Ijoiam9ha281MyIsImEiOiJjbGFoZGRwMmswNTN5M3dtdDdxcmJvNjI0In0.HkpGo96gEGKAv6kahrlktQ';
 
     const geojson = {
@@ -146,6 +165,16 @@
             'type': 'Feature',
             'properties': {'message': '2','iconSize': [40, 40]},
             'geometry': {'type': 'Point','coordinates': [-57.952880,-34.920823]}
+          },
+          { 
+            'type': 'Feature',
+            'properties': {'message': '1','iconSize': [40, 40]},
+            'geometry': {'type': 'Point','coordinates': [-57.957721, -34.923140]}
+          },
+          { 
+            'type': 'Feature',
+            'properties': {'message': '5','iconSize': [40, 40]},
+            'geometry': {'type': 'Point','coordinates': [-57.954497 ,-34.923637]}
           },
           {
             'type': 'Feature',
@@ -247,9 +276,8 @@
     }
 
     function redirigirAlquiler(id_auto){
-      let url = new URL(location.href+"alquilers/show");
+      let url = new URL(location.origin + "/alquilers/show");
       url.searchParams.set("auto",id_auto);
-      url.searchParams.set("usuario",2);
       location.href = url
     }
 
@@ -303,4 +331,20 @@
         requestAnimationFrame(tick);
       }
     }
+
+      notice = new URLSearchParams(document.location.search).get("notice")
+      if (notice != null){
+        console.log(notice);
+        if(notice == "viaje_terminado"){
+          document.onreadystatechange = function () {
+            var modalV = new bootstrap.Modal(document.getElementById("noti"));
+            modalV.show();
+          };
+        }else{
+          window.alert("Usuario Creado")
+        }
+
+      }
+
+
   </script>
